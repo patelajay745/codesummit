@@ -67,9 +67,6 @@ export const registerUser = asyncHandler(async (req: Request, res: Response) => 
 export const getLogin = asyncHandler(async (req: Request, res: Response) => {
     const { email, password } = req.body
 
-    console.log(email)
-    console.log(password)
-
     const user = await db.user.findUnique({
         where: {
             email

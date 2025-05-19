@@ -8,7 +8,7 @@ const app: Express = express()
 
 app.use(
     cors({
-        origin: "http://localhost:5173",
+        origin: ["http://localhost:5173", "https://codesummit.ca"],
         credentials: true,
     })
 );
@@ -37,6 +37,6 @@ app.use("/api/v1/execute-code", executionRoutes)
 app.use("/api/v1/submission", submissionRoutes)
 app.use("/api/v1/playlist", playlistRoutes)
 
-// app.use(errorHandler)
+app.use(errorHandler)
 
 export default app
