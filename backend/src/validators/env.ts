@@ -1,23 +1,28 @@
-import { z } from "zod"
+import * as yup from "yup"
 
-const envSchema = z.object({
-    PORT: z.string().optional(),
-    BASEURL: z.string().min(1, { message: "Base is required" }),
-    NODE_ENV: z.string().min(1, { message: "NODE_ENV is required" }).optional(),
-    JWT_SECRET: z.string().min(1, { message: "JWT_SECRET is required" }),
-    JUDGE0_API_URL: z.string().min(1, { message: "JUDGE0_API_URL is required" }),
-    JUDGE0_AUTH: z.string().min(1, { message: "JUDGE0_AUTH is required" }),
-    // DB_TYPE: z.string().min(1, { message: "DB_TYPE is required" }),
-    // MONGO_URI: z.string().min(1, { message: "MONGO_URI is required" })
+const envSchema = yup.object({
+    PORT: yup.string().optional(),
+    DATABASE_URL: yup.string().min(1, { message: "DATABASE_URL is required" }),
+    BASEURL: yup.string().min(1, { message: "Base is required" }),
+    NODE_ENV: yup.string().min(1, { message: "NODE_ENV is required" }).optional(),
+    JWT_SECRET: yup.string().min(1, { message: "JWT_SECRET is required" }),
+    JUDGE0_API_URL: yup.string().min(1, { message: "JUDGE0_API_URL is required" }),
+    JUDGE0_AUTH: yup.string().min(1, { message: "JUDGE0_AUTH is required" }),
 })
+
 function createENV(env: NodeJS.ProcessEnv) {
-    const validationResult = envSchema.safeParse(env)
-
-    if (!validationResult.success) {
-        throw new Error(validationResult.error.message)
+    try {
+        const validatedEnv = envSchema.validateSync(process.env, {
+            abortEarly: false,
+            stripUnknown: true,
+        })
+        return validatedEnv
+    } catch (error) {
+        if (error instanceof yup.ValidationError) {
+            throw new Error(error.errors.join(", "))
+        }
+        throw error
     }
-
-    return validationResult.data
 }
 
 export const env = createENV(process.env)

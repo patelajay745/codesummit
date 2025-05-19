@@ -1,4 +1,4 @@
-import { env } from "@/validators/env"
+import { env } from "../validators/env"
 import axios from "axios"
 
 export interface TestcasesTypes {
@@ -112,6 +112,6 @@ export const getLanguageName = (language_id: number) => {
     }
 
     type LanguageId = keyof typeof LanguageName;
-    
+
     return LanguageName[language_id as LanguageId] || "Unknown"
 }

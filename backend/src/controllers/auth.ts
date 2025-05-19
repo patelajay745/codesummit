@@ -1,18 +1,18 @@
-import { db } from "@/libs/db";
-import { ApiError } from "@/utils/apiError";
-import { asyncHandler } from "@/utils/asyncHandler";
+import { db } from "../libs/db";
+import { ApiError } from "../utils/apiError";
+import { asyncHandler } from "../utils/asyncHandler";
 import { CookieOptions, Request, Response } from "express";
 import bcrypt from "bcryptjs"
-import { User, UserRole } from "@/generated/prisma";
 import jwt from "jsonwebtoken"
-import { env } from "@/validators/env";
-import { ApiResponse } from "@/utils/apiResponse";
+import { env } from "../validators/env";
+import { ApiResponse } from "../utils/apiResponse";
+import { User, UserRole } from "@prisma/client";
 
 const generateToken = (user: User) => {
     return jwt.sign(
         {
             id: user.id
-        }, env.JWT_SECRET,
+        }, env.JWT_SECRET!,
         {
             expiresIn: "7d"
         }
@@ -66,6 +66,9 @@ export const registerUser = asyncHandler(async (req: Request, res: Response) => 
 
 export const getLogin = asyncHandler(async (req: Request, res: Response) => {
     const { email, password } = req.body
+
+    console.log(email)
+    console.log(password)
 
     const user = await db.user.findUnique({
         where: {

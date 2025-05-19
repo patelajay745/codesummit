@@ -1,9 +1,8 @@
-import { Problem } from "@/generated/prisma";
-import { db } from "@/libs/db";
-import { getJudge0LanguageId, poolBatchResults, Submissions, submitBatch, TestcasesTypes } from "@/libs/helper";
-import { ApiError } from "@/utils/apiError";
-import { ApiResponse } from "@/utils/apiResponse";
-import { asyncHandler } from "@/utils/asyncHandler";
+import { db } from "../libs/db";
+import { getJudge0LanguageId, poolBatchResults, Submissions, submitBatch, TestcasesTypes } from "../libs/helper";
+import { ApiError } from "../utils/apiError";
+import { ApiResponse } from "../utils/apiResponse";
+import { asyncHandler } from "../utils/asyncHandler";
 import { Request, Response } from "express";
 
 const checkRefrenceSolution = async (referenceSolution: Object, testcases: TestcasesTypes[]) => {
@@ -42,7 +41,7 @@ export const createProblem = asyncHandler(async (req: Request, res: Response) =>
 
     const { title, description, difficulty, tags, examples, constraints, testcases, codeSnippets, referenceSolution } = req.body
 
-    checkRefrenceSolution(referenceSolution, testcases)
+    await checkRefrenceSolution(referenceSolution, testcases)
 
     const newProblem = await db.problem.create({
         data: {
@@ -94,7 +93,7 @@ export const updateProblem = asyncHandler(async (req: Request, res: Response) =>
             throw new ApiError(400, "Please provide both referenceSolution and testcases");
         }
 
-        checkRefrenceSolution(referenceSolution, testcases);
+        await checkRefrenceSolution(referenceSolution, testcases);
     }
 
     const updatedProblem = await db.problem.updateManyAndReturn({

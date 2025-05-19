@@ -1,10 +1,9 @@
-import { db } from "@/libs/db";
-import { getLanguageName, poolBatchResults, Submissions, submitBatch } from "@/libs/helper";
-import { ApiError } from "@/utils/apiError";
-import { ApiResponse } from "@/utils/apiResponse";
-import { asyncHandler } from "@/utils/asyncHandler";
+import { db } from "../libs/db";
+import { getLanguageName, poolBatchResults, Submissions, submitBatch } from "../libs/helper";
+import { ApiError } from "../utils/apiError";
+import { ApiResponse } from "../utils/apiResponse";
+import { asyncHandler } from "../utils/asyncHandler";
 import { Request, Response } from "express";
-import { string } from "zod";
 
 export const executeCode = asyncHandler(async (req: Request, res: Response) => {
     let { source_code, language_id, stdin, expected_outputs, problemId } = req.body

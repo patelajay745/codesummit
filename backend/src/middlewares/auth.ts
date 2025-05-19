@@ -1,8 +1,9 @@
-import { UserRole } from "@/generated/prisma";
-import { db } from "@/libs/db";
-import { ApiError } from "@/utils/apiError";
-import { asyncHandler } from "@/utils/asyncHandler";
-import { env } from "@/validators/env";
+
+import { UserRole } from "@prisma/client";
+import { db } from "../libs/db";
+import { ApiError } from "../utils/apiError";
+import { asyncHandler } from "../utils/asyncHandler";
+import { env } from "../validators/env";
 import { NextFunction, Request, Response } from "express";
 import jwt from "jsonwebtoken"
 
@@ -16,7 +17,7 @@ export const isAuth = asyncHandler(async (req: Request, res: Response, next: Nex
 
     if (!token) throw new ApiError(403, "UnAuthorized Token")
 
-    const decoded = jwt.verify(token, env.JWT_SECRET) as decodedType
+    const decoded = jwt.verify(token, env.JWT_SECRET!) as decodedType
 
     const user = await db.user.findFirst({
         where: {

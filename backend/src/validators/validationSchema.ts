@@ -10,11 +10,13 @@ export const loginSchema = yup.object({
     email: yup.string().email("Invalid Email").required("email is required"), password: yup.string().required("Password is required"),
 })
 
-enum Difficulty {
-    EASY = "EASY",
-    MEDIUM = "MEDIUM",
-    HARD = "HARD"
-}
+export const Difficulty = {
+    EASY: "EASY",
+    MEDIUM: "MEDIUM",
+    HARD: "HARD",
+} as const;
+
+export type Difficulty = (typeof Difficulty)[keyof typeof Difficulty];
 
 export const createProblemSchema = yup.object({
     title: yup.string().required("Title is required"),

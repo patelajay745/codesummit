@@ -1,7 +1,7 @@
-import { AddToPlaylist, createPlaylist, deletePlaylist, deleteProblemFromPlaylist, getAllPlaylist, getAPlaylist, updatePlaylist } from "@/controllers/playlist";
-import { isAuth } from "@/middlewares/auth";
-import { validate } from "@/middlewares/validator";
-import { createPlaylistSchema, updatePlaylistSchema } from "@/validators/validationSchema";
+import { AddToPlaylist, createPlaylist, deletePlaylist, deleteProblemFromPlaylist, getAllPlaylist, getAPlaylist, updatePlaylist } from "../controllers/playlist";
+import { isAuth } from "../middlewares/auth";
+import { validate } from "../middlewares/validator";
+import { createPlaylistSchema, updatePlaylistSchema } from "../validators/validationSchema";
 import { Router } from "express";
 
 export const router = Router()

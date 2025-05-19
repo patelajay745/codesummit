@@ -3,6 +3,8 @@
     "target": "ES2016",
     "module": "commonjs",
     "outDir": "./dist",
+    // "allowImportingTsExtensions": true,
+    "noEmit": false,
     "resolveJsonModule": true,
     "typeRoots": ["./src/types", "./node_modules/@types"],
     "moduleResolution": "node",

@@ -1,7 +1,7 @@
-import { createProblem, getAllProblem, getAproblem, updateProblem, deleteProblem, getSolvedProblem } from "@/controllers/problem";
-import { isAdmin, isAuth } from "@/middlewares/auth";
-import { validate } from "@/middlewares/validator";
-import { createProblemSchema } from "@/validators/validationSchema";
+import { createProblem, getAllProblem, getAproblem, updateProblem, deleteProblem, getSolvedProblem } from "../controllers/problem";
+import { isAdmin, isAuth } from "../middlewares/auth";
+import { validate } from "../middlewares/validator";
+import { createProblemSchema } from "../validators/validationSchema";
 import { Router } from "express";
 
 export const router = Router()

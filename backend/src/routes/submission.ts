@@ -1,5 +1,5 @@
-import { getAllSubmission, getAllTheSubmissionsForProblem, getSubmissionById } from "@/controllers/submission";
-import { isAuth } from "@/middlewares/auth";
+import { getAllSubmission, getAllTheSubmissionsForProblem, getSubmissionById } from "../controllers/submission";
+import { isAuth } from "../middlewares/auth";
 import { Router } from "express";
 
 export const router = Router()

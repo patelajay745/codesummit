@@ -1,7 +1,7 @@
-import { db } from "@/libs/db";
-import { ApiError } from "@/utils/apiError";
-import { ApiResponse } from "@/utils/apiResponse";
-import { asyncHandler } from "@/utils/asyncHandler";
+import { db } from "../libs/db";
+import { ApiError } from "../utils/apiError";
+import { ApiResponse } from "../utils/apiResponse";
+import { asyncHandler } from "../utils/asyncHandler";
 import { Response, Request } from "express";
 
 export const getAllSubmission = asyncHandler(async (req: Request, res: Response) => {

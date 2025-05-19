@@ -1,4 +1,4 @@
-import { ApiError } from "@/utils/apiError";
+import { ApiError } from "../utils/apiError";
 import rateLimit from "express-rate-limit";
 
 export const limitter = (limit: number, minute: number) => rateLimit({

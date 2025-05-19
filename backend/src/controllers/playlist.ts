@@ -1,7 +1,7 @@
-import { db } from "@/libs/db";
-import { ApiError } from "@/utils/apiError";
-import { ApiResponse } from "@/utils/apiResponse";
-import { asyncHandler } from "@/utils/asyncHandler";
+import { db } from "../libs/db";
+import { ApiError } from "../utils/apiError";
+import { ApiResponse } from "../utils/apiResponse";
+import { asyncHandler } from "../utils/asyncHandler";
 import { Request, Response } from "express";
 
 export const createPlaylist = asyncHandler(async (req: Request, res: Response) => {

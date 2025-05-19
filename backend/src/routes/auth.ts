@@ -1,8 +1,8 @@
-import { getLogin, getLogout, getUser, registerUser } from "@/controllers/auth";
-import { limitter } from "@/libs/rate-limiter";
-import { isAuth } from "@/middlewares/auth";
-import { validate } from "@/middlewares/validator";
-import { loginSchema, newUserSchema } from "@/validators/validationSchema";
+import { getLogin, getLogout, getUser, registerUser } from "../controllers/auth";
+import { limitter } from "../libs/rate-limiter";
+import { isAuth } from "../middlewares/auth";
+import { validate } from "../middlewares/validator";
+import { loginSchema, newUserSchema } from "../validators/validationSchema";
 import { Router } from "express";
 
 export const router = Router()
