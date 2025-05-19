@@ -3,6 +3,13 @@ import Logo from "./Logo";
 import ModeToggle from "./ModeToggle";
 
 const Navbar = () => {
+  const activeLinkProps = {
+    className: "text-myblue font-semibold",
+  };
+
+  const inactiveLinkProps = {
+    className: "text-gray-500",
+  };
   return (
     <div className="w-full flex items-center flex-col !bg-none sm:px-0 px-5">
       <div className="container pt-6 flex items-center justify-between tracking-wider font-['Inter']">
@@ -12,15 +19,15 @@ const Navbar = () => {
         <nav className="flex flex-rowflex flex-wrap items-center justify-between gap-4 sm:text-2xl">
           <Link
             to="/"
-            activeProps={{ className: "text-myblue font-semibold" }}
-            inactiveProps={{ className: "text-gray-500" }}
+            activeProps={activeLinkProps}
+            inactiveProps={inactiveLinkProps}
           >
             <div>Home</div>
           </Link>
           <Link
             to="/singin"
-            activeProps={{ className: "text-myblue font-semibold" }}
-            inactiveProps={{ className: "text-gray-500" }}
+            activeProps={activeLinkProps}
+            inactiveProps={inactiveLinkProps}
           >
             <div>Login</div>
           </Link>

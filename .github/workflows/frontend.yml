@@ -41,7 +41,7 @@ jobs:
 
       - name: Deploy to cloud run
         run: |
-          gcloud run deploy second-brain-fe \
+          gcloud run deploy code-summit-fe \
             --image us-central1-docker.pkg.dev/${{ vars.GCP_PROJECT_ID }}/${{ vars.GCR_REPO_NAME }}/frontend:latest \
             --platform managed \
             --port=80 \
