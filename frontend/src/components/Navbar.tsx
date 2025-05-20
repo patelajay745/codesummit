@@ -28,6 +28,10 @@ const Navbar = () => {
       name: "Login",
       link: "/singin",
     },
+    {
+      name: "SignUp",
+      link: "/signup",
+    },
   ];
 
   return (
