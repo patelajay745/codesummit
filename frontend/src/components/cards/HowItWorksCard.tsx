@@ -8,7 +8,7 @@ interface props {
 
 const HowItWorksCard: FC<props> = ({ stepNumber, title, description }) => {
   return (
-    <div className="flex flex-col items-center gap-4">
+    <div className="flex flex-col items-center gap-4  w-full">
       <div className="w-20 h-20  flex items-center justify-center rounded-full bg-brand/80 text-white border-1 border-text-secondary text-2xl font-extrabold">
         {stepNumber}
       </div>
