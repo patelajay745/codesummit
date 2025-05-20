@@ -83,7 +83,7 @@ function SignInForm() {
       <div className="flex w-full space-x-1  justify-center items-center text-muted-foreground ">
         <div>Don't Have an account?</div>
 
-        <Link to="/signup" className="text-blue-500 underline">
+        <Link to="/signup" className="text-logoblue underline">
           SignUp
         </Link>
       </div>

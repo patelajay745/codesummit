@@ -24,7 +24,6 @@ const SignUpForm = () => {
   } = useForm<FormDataTypes>({ resolver: zodResolver(signUpSchema) });
 
   const onSubmit = async (data: FormDataTypes) => {
-    console.log("clicked");
     console.log(data);
   };
 
@@ -140,7 +139,7 @@ const SignUpForm = () => {
       <div className="flex w-full space-x-1  justify-center items-center text-muted-foreground ">
         <div> Have an account?</div>
 
-        <Link to="/singin" className="text-blue-500 underline">
+        <Link to="/singin" className="text-logoblue underline">
           Login
         </Link>
       </div>

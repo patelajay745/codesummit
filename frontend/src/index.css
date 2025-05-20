@@ -5,9 +5,9 @@
 @plugin "daisyui";
 
 @theme {
-  --color-logoblue: rgba(34, 130, 204, 1);
-  --color-mygray: rgba(76, 70, 70, 1);
-  --color-bgblue: rgba(24, 100, 159, 0.27);
+  --color-brand: rgba(34, 130, 204, 1);        
+  --color-text-secondary: rgba(76, 70, 70, 1);     
+  --color-bg-accent: rgba(24, 100, 159, 0.27); 
 }
 
 @theme inline {
