@@ -1,10 +1,11 @@
+import HowItWorksCard from "@/components/cards/HowItWorksCard";
 import LandinPageCard from "@/components/cards/LandinPageCard";
 import { Button } from "@/components/ui/button";
 
 const Home = () => {
   return (
     <div className="flex  min-h-screen w-full px-4 pb-5">
-      <div className="flex flex-col container mx-auto">
+      <div className="flex flex-col container mx-auto ">
         <div className="flex flex-col space-y-6 items-center justify-center text-center py-16">
           <h1 className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl text-brand font-extrabold max-w-3xl">
             Master Data Structure & Algorithms
@@ -29,7 +30,7 @@ const Home = () => {
           </div>
         </div>
 
-        <div className="flex flex-col gap-10 items-center justify-center text-center">
+        <div className="flex flex-col gap-10 items-center justify-center text-center  sm:py-10 py-5">
           <h1 className="sm:text-4xl font-bold tracking-tight text-2xl">
             Why Choose CodeSummit?
           </h1>
@@ -46,6 +47,35 @@ const Home = () => {
             <LandinPageCard
               title="Practical Examples"
               description="Learn algorithms with real-world examples that demonstrate practical applications."
+            />
+          </div>
+        </div>
+
+        <div className="flex flex-col gap-10 items-center justify-center text-center sm:py-10 py-5">
+          <h1 className="sm:text-4xl font-bold tracking-tight text-2xl">
+            How It Works?
+          </h1>
+
+          <div className="w-full flex sm:flex-wrap flex-wrap justify-between gap-3 sm:gap-0">
+            <HowItWorksCard
+              stepNumber="1"
+              title="Create Account"
+              description="Sign up for free and create your developer profile"
+            />
+            <HowItWorksCard
+              stepNumber="2"
+              title="Choose Topics"
+              description="Select from various DSA topics to practice"
+            />
+            <HowItWorksCard
+              stepNumber="3"
+              title="Solve Problems"
+              description="Work through problems of increasing difficulty"
+            />
+            <HowItWorksCard
+              stepNumber="4"
+              title="Track Progress"
+              description="Monitor your improvement and learning journey"
             />
           </div>
         </div>
