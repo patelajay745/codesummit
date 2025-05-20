@@ -1,12 +1,14 @@
+import { Button } from "@/components/ui/button";
 import Input from "@/components/ui/input";
 import { signInSchema } from "@/schemas";
+import { useAuthStore } from "@/stores/useAuthStore";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Link } from "@tanstack/react-router";
-import { Eye, EyeOff } from "lucide-react";
+import { Eye, EyeOff, Loader2 } from "lucide-react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 
-interface FormDataTypes {
+export interface loginFormDataTypes {
   email: string;
   password: string;
 }
@@ -14,15 +16,17 @@ interface FormDataTypes {
 function SignInForm() {
   const [showPassword, setPassword] = useState(false);
 
+  const { isLoggingIn, signIn } = useAuthStore();
+
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<FormDataTypes>({ resolver: zodResolver(signInSchema) });
+  } = useForm<loginFormDataTypes>({ resolver: zodResolver(signInSchema) });
 
-  const onSubmit = async (data: FormDataTypes) => {
-    console.log("clicked");
+  const onSubmit = async (data: loginFormDataTypes) => {
     console.log(data);
+    await signIn(data);
   };
   return (
     <div className="flex flex-col w-full space-y-5 dark:bg-text-secondary/20 bg-background/50 p-4 rounded-2xl shadow-xl border-1 border-muted-foreground/40 dark:border-muted-foreground/20">
@@ -73,11 +77,18 @@ function SignInForm() {
           )}
         </div>
 
-        <input
-          type="submit"
-          value="SignIn"
+        <Button
+          disabled={isLoggingIn}
           className="bg-brand dark:text-foreground text-background mt-4 py-3 rounded-lg text-lg font-light font-['Inter'] w-full hover:bg-brand/80 cursor-pointer"
-        />
+        >
+          {isLoggingIn ? (
+            <>
+              <Loader2 className="animate-spine h-5 w-5">Loading...</Loader2>
+            </>
+          ) : (
+            "SignIn"
+          )}
+        </Button>
       </form>
       <div className="flex w-full space-x-1  justify-center items-center text-muted-foreground ">
         <div>Don't Have an account?</div>

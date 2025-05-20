@@ -3,10 +3,12 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { signUpSchema } from "@/schemas";
 import { Link } from "@tanstack/react-router";
-import { Eye, EyeOff } from "lucide-react";
+import { Eye, EyeOff, Loader2 } from "lucide-react";
 import Input from "@/components/ui/input";
+import { useAuthStore } from "@/stores/useAuthStore";
+import { Button } from "@/components/ui/button";
 
-interface FormDataTypes {
+export interface FormDataTypes {
   name: string;
   email: string;
   password: string;
@@ -17,15 +19,16 @@ const SignUpForm = () => {
   const [showPassword, setPassword] = useState(false);
   const [showConfirmPassword, setConfirmPassword] = useState(false);
 
+  const { isSignInUp, signUp } = useAuthStore();
+
   const {
     register,
     handleSubmit,
-    watch,
     formState: { errors },
   } = useForm<FormDataTypes>({ resolver: zodResolver(signUpSchema) });
 
   const onSubmit = async (data: FormDataTypes) => {
-    console.log(data);
+    await signUp(data);
   };
 
   return (
@@ -98,14 +101,7 @@ const SignUpForm = () => {
 
           <div className="relative">
             <Input
-              {...register("confirm_password", {
-                required: true,
-                validate: (val: string) => {
-                  if (watch("password") != val) {
-                    return "Your passwords do no match";
-                  }
-                },
-              })}
+              {...register("confirm_password")}
               type={showConfirmPassword ? "text" : "password"}
               placeholder="••••••••"
             />
@@ -129,11 +125,18 @@ const SignUpForm = () => {
           )}
         </div>
 
-        <input
-          type="submit"
-          value="Sign Up"
+        <Button
           className="bg-brand dark:text-foreground text-background mt-4 py-3 rounded-lg text-lg font-light font-['Inter'] w-full hover:bg-brand/80 cursor-pointer"
-        />
+          disabled={isSignInUp}
+        >
+          {isSignInUp ? (
+            <>
+              <Loader2 className="animate-spine h-5 w-5">Loading...</Loader2>
+            </>
+          ) : (
+            "Sign Up"
+          )}
+        </Button>
       </form>
       <div className="flex w-full space-x-1  justify-center items-center text-muted-foreground ">
         <div> Have an account?</div>

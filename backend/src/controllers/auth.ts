@@ -83,7 +83,15 @@ export const getLogin = asyncHandler(async (req: Request, res: Response) => {
 
     res.cookie("tokens", token, cookieOption)
 
-    res.status(200).json(new ApiResponse(200, "User logged in successfully"))
+    res.status(200).json(new ApiResponse(200, "User logged in successfully", {
+        user: {
+            id: user.id,
+            name: user.name,
+            email: user.email,
+            role: user.role,
+            image: user.image
+        }
+    }))
 
 })
 
