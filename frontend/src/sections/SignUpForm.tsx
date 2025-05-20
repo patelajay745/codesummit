@@ -29,7 +29,7 @@ const SignUpForm = () => {
   };
 
   return (
-    <div className="flex flex-col w-full space-y-5 ">
+    <div className="flex flex-col w-full space-y-5 dark:bg-mygray/20 bg-background/50 p-4 rounded-2xl shadow-xl">
       <div className="flex w-full flex-col justify-center items-center ">
         <img src="./logo.png" alt="Logo" width={50} height={50} />
         <div className="sm:text-2xl font-extrabold tracking-wider font-['Inter']">
