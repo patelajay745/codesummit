@@ -24,7 +24,7 @@ const SignUp = () => {
         </div>
 
         {/* Form Section */}
-        <div className="w-full lg:w-1/2 flex items-center justify-center   px-4 sm:px-6 lg:px-20 ">
+        <div className="w-full lg:w-1/2 flex items-center justify-center   px-4 sm:px-6 lg:px-20 h-full">
           <SignUpForm />
         </div>
       </div>

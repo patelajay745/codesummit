@@ -45,6 +45,7 @@ const Navbar = () => {
             <nav className="hidden md:flex flex-rowflex flex-wrap items-center justify-between gap-4 sm:text-2xl">
               {MenuItems.map((menu) => (
                 <Link
+                  key={menu.name}
                   to={menu.link}
                   activeProps={activeLinkProps}
                   inactiveProps={inactiveLinkProps}
@@ -81,6 +82,7 @@ const Navbar = () => {
           <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3 dark:bg-gray-800 bg-mygray/20">
             {MenuItems.map((menu) => (
               <Link
+                key={menu.name}
                 to={menu.link}
                 activeProps={activeLinkProps}
                 inactiveProps={inactiveLinkProps}
