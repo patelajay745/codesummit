@@ -38,7 +38,7 @@ function SignInForm() {
             {...register("email")}
             type="text"
             placeholder="Enter your Email"
-            className="w-full rounded-lg px-4 py-3 dark:bg-mygray bg-mygray/20"
+            className="w-full rounded-lg px-4 py-3 dark:bg-mygray bg-mygray/20 border-muted-foreground/40 border-1"
           />
           {errors.email && (
             <p className="text-red-500 text-sm mt-1">{errors.email.message}</p>
@@ -51,7 +51,7 @@ function SignInForm() {
             <input
               type={showPassword ? "text" : "password"}
               {...register("password")}
-              className="w-full rounded-lg px-4 py-3 dark:bg-mygray bg-mygray/20"
+              className="w-full rounded-lg px-4 py-3 dark:bg-mygray bg-mygray/20 border-muted-foreground/40 border-1"
               placeholder="••••••••"
             />
             <button
@@ -77,13 +77,13 @@ function SignInForm() {
         <input
           type="submit"
           value="SignIn"
-          className="bg-logoblue dark:text-foreground text-background mt-4 py-3 rounded-lg text-lg font-light font-['Inter'] w-full hover:bg-logoblue/80 cursor-pointer"
+          className="bg-brand dark:text-foreground text-background mt-4 py-3 rounded-lg text-lg font-light font-['Inter'] w-full hover:bg-brand/80 cursor-pointer"
         />
       </form>
       <div className="flex w-full space-x-1  justify-center items-center text-muted-foreground ">
         <div>Don't Have an account?</div>
 
-        <Link to="/signup" className="text-logoblue underline">
+        <Link to="/signup" className="text-brand underline">
           SignUp
         </Link>
       </div>

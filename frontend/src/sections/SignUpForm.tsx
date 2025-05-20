@@ -42,7 +42,7 @@ const SignUpForm = () => {
             {...register("name")}
             type="text"
             placeholder="Enter your Name"
-            className="w-full rounded-lg px-4 py-3 dark:bg-mygray bg-mygray/20"
+            className="w-full rounded-lg px-4 py-3 dark:bg-mygray bg-mygray/20 border-muted-foreground/40 border-1"
           />
           {errors.name && (
             <p className="text-red-500 text-sm mt-1">{errors.name.message}</p>
@@ -55,7 +55,7 @@ const SignUpForm = () => {
             {...register("email")}
             type="text"
             placeholder="Enter your Email"
-            className="w-full rounded-lg px-4 py-3 dark:bg-mygray bg-mygray/20"
+            className="w-full rounded-lg px-4 py-3 dark:bg-mygray bg-mygray/20 border-muted-foreground/40 border-1"
           />
           {errors.email && (
             <p className="text-red-500 text-sm mt-1">{errors.email.message}</p>
@@ -68,7 +68,7 @@ const SignUpForm = () => {
             <input
               type={showPassword ? "text" : "password"}
               {...register("password")}
-              className="w-full rounded-lg px-4 py-3 dark:bg-mygray bg-mygray/20"
+              className="w-full rounded-lg px-4 py-3 dark:bg-mygray bg-mygray/20 border-muted-foreground/40 border-1"
               placeholder="••••••••"
             />
             <button
@@ -108,7 +108,7 @@ const SignUpForm = () => {
               })}
               type={showConfirmPassword ? "text" : "password"}
               placeholder="Confirm Password"
-              className="w-full rounded-lg px-4 py-3 dark:bg-mygray bg-mygray/20"
+              className="w-full rounded-lg px-4 py-3 dark:bg-mygray bg-mygray/20 border-muted-foreground/40 border-1"
             />
             <button
               type="button"
@@ -133,13 +133,13 @@ const SignUpForm = () => {
         <input
           type="submit"
           value="Sign Up"
-          className="bg-logoblue dark:text-foreground text-background mt-4 py-3 rounded-lg text-lg font-light font-['Inter'] w-full hover:bg-logoblue/80 cursor-pointer"
+          className="bg-brand dark:text-foreground text-background mt-4 py-3 rounded-lg text-lg font-light font-['Inter'] w-full hover:bg-brand/80 cursor-pointer"
         />
       </form>
       <div className="flex w-full space-x-1  justify-center items-center text-muted-foreground ">
         <div> Have an account?</div>
 
-        <Link to="/singin" className="text-logoblue underline">
+        <Link to="/singin" className="text-brand underline">
           Login
         </Link>
       </div>

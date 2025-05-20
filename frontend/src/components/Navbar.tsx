@@ -12,7 +12,7 @@ const Navbar = () => {
   };
 
   const activeLinkProps = {
-    className: "text-myblue font-semibold",
+    className: "text-brand font-semibold",
   };
 
   const inactiveLinkProps = {
