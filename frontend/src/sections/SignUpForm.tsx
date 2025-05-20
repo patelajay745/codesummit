@@ -4,6 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { signUpSchema } from "@/schemas";
 import { Link } from "@tanstack/react-router";
 import { Eye, EyeOff } from "lucide-react";
+import Input from "@/components/ui/input";
 
 interface FormDataTypes {
   name: string;
@@ -28,7 +29,7 @@ const SignUpForm = () => {
   };
 
   return (
-    <div className="flex flex-col w-full space-y-5 dark:bg-mygray/20 bg-background/50 p-4 rounded-2xl shadow-xl">
+    <div className="flex flex-col w-full space-y-5 dark:bg-text-secondary/20 bg-background/50 p-4 rounded-2xl shadow-xl border-1 border-muted-foreground/40 dark:border-muted-foreground/20">
       <div className="flex w-full flex-col justify-center items-center ">
         <img src="./logo.png" alt="Logo" width={50} height={50} />
         <div className="sm:text-2xl font-extrabold tracking-wider font-['Inter']">
@@ -38,12 +39,13 @@ const SignUpForm = () => {
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
         <div className="flex flex-col gap-0.5 ">
           <label className="w-full text-foreground/70 px-2">Name</label>
-          <input
+
+          <Input
             {...register("name")}
             type="text"
             placeholder="Enter your Name"
-            className="w-full rounded-lg px-4 py-3 dark:bg-mygray bg-mygray/20 border-muted-foreground/40 border-1"
           />
+
           {errors.name && (
             <p className="text-red-500 text-sm mt-1">{errors.name.message}</p>
           )}
@@ -51,11 +53,10 @@ const SignUpForm = () => {
 
         <div className="flex flex-col gap-0.5 ">
           <label className="w-full text-foreground/70 px-2">Email</label>
-          <input
+          <Input
             {...register("email")}
             type="text"
             placeholder="Enter your Email"
-            className="w-full rounded-lg px-4 py-3 dark:bg-mygray bg-mygray/20 border-muted-foreground/40 border-1"
           />
           {errors.email && (
             <p className="text-red-500 text-sm mt-1">{errors.email.message}</p>
@@ -65,10 +66,9 @@ const SignUpForm = () => {
         <div className="flex flex-col gap-0.5 ">
           <label className="w-full text-foreground/70 px-2">Password</label>
           <div className="relative">
-            <input
+            <Input
               type={showPassword ? "text" : "password"}
               {...register("password")}
-              className="w-full rounded-lg px-4 py-3 dark:bg-mygray bg-mygray/20 border-muted-foreground/40 border-1"
               placeholder="••••••••"
             />
             <button
@@ -97,7 +97,7 @@ const SignUpForm = () => {
           </label>
 
           <div className="relative">
-            <input
+            <Input
               {...register("confirm_password", {
                 required: true,
                 validate: (val: string) => {
@@ -107,8 +107,7 @@ const SignUpForm = () => {
                 },
               })}
               type={showConfirmPassword ? "text" : "password"}
-              placeholder="Confirm Password"
-              className="w-full rounded-lg px-4 py-3 dark:bg-mygray bg-mygray/20 border-muted-foreground/40 border-1"
+              placeholder="••••••••"
             />
             <button
               type="button"

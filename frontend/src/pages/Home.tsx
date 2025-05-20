@@ -1,8 +1,9 @@
+import LandinPageCard from "@/components/cards/LandinPageCard";
 import { Button } from "@/components/ui/button";
 
 const Home = () => {
   return (
-    <div className="flex  min-h-screen w-full px-4">
+    <div className="flex  min-h-screen w-full px-4 pb-5">
       <div className="flex flex-col container mx-auto">
         <div className="flex flex-col space-y-6 items-center justify-center text-center py-16">
           <h1 className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl text-brand font-extrabold max-w-3xl">
@@ -25,6 +26,27 @@ const Home = () => {
             >
               I Already Have an Account
             </Button>
+          </div>
+        </div>
+
+        <div className="flex flex-col gap-10 items-center justify-center text-center">
+          <h1 className="sm:text-4xl font-bold tracking-tight text-2xl">
+            Why Choose CodeSummit?
+          </h1>
+
+          <div className="w-full flex sm:flex-wrap flex-wrap justify-between gap-3 sm:gap-0">
+            <LandinPageCard
+              title="Beginner Friendly"
+              description="Curated problems specifically designed for newcomers to DSA concepts."
+            />
+            <LandinPageCard
+              title="Step-by-Step Learning"
+              description="Curated problems specifically designed for newcomers to DSA concepts."
+            />
+            <LandinPageCard
+              title="Practical Examples"
+              description="Learn algorithms with real-world examples that demonstrate practical applications."
+            />
           </div>
         </div>
       </div>
