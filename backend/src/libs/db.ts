@@ -10,3 +10,4 @@ const globalForPrisma = globalThis
 export const db: PrismaClient = globalForPrisma.prisma || new PrismaClient()
 
 if (env.NODE_ENV !== "production") globalForPrisma.prisma = db
+

@@ -3,12 +3,13 @@ import cookieParser from "cookie-parser";
 import swaggerUi from "swagger-ui-express";
 import * as swaggerDocument from "./swagger-output.json"
 import cors from "cors";
+import { env } from "./validators/env";
 
 const app: Express = express()
 
 app.use(
     cors({
-        origin: ["http://localhost:5173", "https://codesummit.ca"],
+        origin: env.NODE_ENV === "production" ? env.CORS_ORIGIN : ["http://localhost:5173", "https://codesummit.ca"],
         credentials: true,
     })
 );
