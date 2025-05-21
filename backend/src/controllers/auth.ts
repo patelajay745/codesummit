@@ -21,7 +21,7 @@ const generateToken = (user: User) => {
 
 const cookieOption: CookieOptions = {
     httpOnly: true,
-    sameSite: "strict",
+    sameSite: "none",
     secure: env.NODE_ENV !== "development",
     maxAge: 1000 * 60 * 60 * 24 * 7
 }
