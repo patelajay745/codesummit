@@ -47,4 +47,4 @@ jobs:
             --port=80 \
             --region us-central1 \
             --allow-unauthenticated \
-            --set-env-vars "VITE_BACKEND_BASE_URL=${{secrets.VITE_BACKEND_URL}}"
+            --set-env-vars "VITE_BACKEND_BASE_URL=${{secrets.VITE_BACKEND_URL}},NODE_ENV=${{secrets.NODE_ENV}}"
