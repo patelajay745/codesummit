@@ -18,6 +18,8 @@ const Navbar = () => {
 
   const { authUser } = useAuthStore();
 
+  console.log(authUser);
+
   const toggleMenu = () => {
     setIsOpen(!isOpen);
   };
@@ -86,7 +88,11 @@ const Navbar = () => {
                     />
 
                     <DropdownMenuItem>Profile</DropdownMenuItem>
-                    <DropdownMenuItem>Billing</DropdownMenuItem>
+
+                    {authUser.role === "ADMIN" && (
+                      <DropdownMenuItem>Add Problem</DropdownMenuItem>
+                    )}
+
                     <DropdownMenuItem>Team</DropdownMenuItem>
                     <DropdownMenuSeparator />
                     <DropdownMenuItem>

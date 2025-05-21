@@ -108,7 +108,8 @@ export const getUser = asyncHandler(async (req: Request, res: Response) => {
             id: req.user!.id,
             name: req.user!.name,
             email: req.user!.email,
-            image: req.user!.image
+            image: req.user!.image,
+            role: req.user!.role,
 
         }
     }))

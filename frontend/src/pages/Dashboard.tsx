@@ -257,13 +257,15 @@ const Dashboard = () => {
 
   return (
     <div className="h-screen flex justify-center">
-      <div className=" h-full container flex flex-col  py-24">
+      <div className=" h-full container flex flex-col  py-24 px-4 sm:px-0">
         <div className="flex flex-col w-full items-center gap-2">
-          <h1 className="text-6xl font-extrabold tracking-wider">
+          <h1 className="xl:text-6xl font-extrabold tracking-wider text-wrap xl:text-nowrap text-4xl">
             <span>{firstHalf}</span>
             <span className="text-brand">{secondHalf}</span>
           </h1>
-          <h2 className="text-muted-foreground text-2xl tracking-wide">{slogans[randomNumber].subText}</h2>
+          <h2 className="text-muted-foreground xl:text-2xl text-wrap xl:text-nowrap  tracking-wide text-center">
+            {slogans[randomNumber].subText}
+          </h2>
         </div>
       </div>
     </div>
