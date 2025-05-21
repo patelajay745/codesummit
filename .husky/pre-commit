@@ -1,2 +1,6 @@
 cd frontend
 yarn build
+
+cd ..
+cd backend
+yarn build

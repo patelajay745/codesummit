@@ -1,7 +1,8 @@
+import Dashboard from "@/pages/Dashboard";
 import { createFileRoute, redirect } from "@tanstack/react-router";
 
 function RouteComponent() {
-  return <></>;
+  return <Dashboard />;
 }
 
 export const Route = createFileRoute("/dashboard")({

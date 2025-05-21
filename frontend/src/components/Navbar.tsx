@@ -2,8 +2,16 @@ import { Link } from "@tanstack/react-router";
 import Logo from "./Logo";
 import ModeToggle from "./ModeToggle";
 import { useState } from "react";
-import { Menu, X } from "lucide-react";
+import { Menu, User, X } from "lucide-react";
 import { useAuthStore } from "@/stores/useAuthStore";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuHeader,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "./ui/dropdown-menu";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -49,7 +57,7 @@ const Navbar = () => {
           <Link to="/">
             <Logo />
           </Link>
-          <div className="flex items-center">
+          <div className="flex items-center gap-4">
             <nav className="hidden md:flex flex-rowflex flex-wrap items-center justify-between gap-4 sm:text-2xl">
               {MenuItems.map((menu) => (
                 <Link
@@ -63,10 +71,36 @@ const Navbar = () => {
               ))}
 
               {authUser && (
+                <DropdownMenu>
+                  <DropdownMenuTrigger>
+                    <img
+                      className="h-10 rounded-full"
+                      src={authUser.image || "user.png"}
+                    />
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent className="w-20">
+                    <DropdownMenuHeader
+                      title={authUser.name}
+                      description={authUser.email}
+                      icon={<User />}
+                    />
+
+                    <DropdownMenuItem>Profile</DropdownMenuItem>
+                    <DropdownMenuItem>Billing</DropdownMenuItem>
+                    <DropdownMenuItem>Team</DropdownMenuItem>
+                    <DropdownMenuSeparator />
+                    <DropdownMenuItem>
+                      <Link to="/logout">Logout</Link>
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              )}
+
+              {/* {authUser && (
                 <Link to="/logout" inactiveProps={inactiveLinkProps}>
                   Logout
                 </Link>
-              )}
+              )} */}
             </nav>
             <div className="flex items-center">
               <ModeToggle />
