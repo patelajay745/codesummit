@@ -36,7 +36,7 @@ jobs:
           PROJECT_ID: ${{ vars.GCP_PROJECT_ID }}
           GCR_REPO_NAME: ${{ vars.GCR_REPO_NAME }}
         run: |-
-          docker build --build-arg VITE_BACKEND_BASE_URL=${{ secrets.VITE_BACKEND_URL }} -t us-central1-docker.pkg.dev/$PROJECT_ID/$GCR_REPO_NAME/$IMAGE_NAME:latest -f frontend/Dockerfile frontend/.
+          docker build --build-arg VITE_BACKEND_URL=${{ secrets.VITE_BACKEND_URL }} -t us-central1-docker.pkg.dev/$PROJECT_ID/$GCR_REPO_NAME/$IMAGE_NAME:latest -f frontend/Dockerfile frontend/.
           docker push us-central1-docker.pkg.dev/$PROJECT_ID/$GCR_REPO_NAME/$IMAGE_NAME:latest
 
       - name: Deploy to cloud run
