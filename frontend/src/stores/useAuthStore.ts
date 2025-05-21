@@ -59,6 +59,8 @@ export const useAuthStore = create<AuthStore>((set) => ({
     },
 
     signIn: async (data: loginFormDataTypes) => {
+
+        console.log("node_env", import.meta.env.VITE_NODE_ENV)
         set({ isLoggingIn: true })
         try {
             const res = await api.post("/auth/login", data)
