@@ -13,7 +13,7 @@ const HowItWorksCard: FC<props> = ({ stepNumber, title, description }) => {
         {stepNumber}
       </div>
       <div className="flex flex-col gap-1">
-        <div className="font-bold">{title}</div>
+        <div className="font-bold text-text-secondary dark:text-foreground/80">{title}</div>
         <div className="text-muted-foreground">{description}</div>
       </div>
     </div>

@@ -33,10 +33,8 @@ export const useAuthStore = create<AuthStore>((set) => ({
         set({ isCheckingAuth: true })
         try {
             const res = await api.get("/auth/")
-            console.log("checkauth response", res.data)
             set({ authUser: res.data.data.user })
         } catch (error) {
-            // console.log("Error checking auth", error)
             set({ authUser: null })
         } finally {
             set({ isCheckingAuth: false })
@@ -45,13 +43,14 @@ export const useAuthStore = create<AuthStore>((set) => ({
 
     signUp: async (data: User) => {
         set({ isSignInUp: true })
+        let res
         try {
-            const res = await api.post("/auth/", data)
-            console.log("register response", res.data)
+            res = await api.post("/auth/", data)
             set({ authUser: res.data.data.user })
             toast.success('Account has been created successFully')
         } catch (error) {
-            console.log("Error checking auth", error)
+            console.log(error)
+            console.log(typeof error)
             toast.error('Error while signUp')
         } finally {
             set({ isSignInUp: false })
@@ -60,20 +59,18 @@ export const useAuthStore = create<AuthStore>((set) => ({
 
     signIn: async (data: loginFormDataTypes) => {
 
-        console.log("node_env", import.meta.env.PROD)
-        console.log("VITE_BACKEND_URL", import.meta.env.VITE_BACKEND_URL)
         set({ isLoggingIn: true })
         try {
             const res = await api.post("/auth/login", data)
-            console.log("login response", res.data)
             set({ authUser: res.data.data.user })
-            toast.success('LoggedIn successFully')
+            toast.success('Login successful.')
+
         } catch (error) {
-            console.log("Error checking auth", error)
             toast.error('Error while login')
         } finally {
             set({ isLoggingIn: false })
         }
+
     },
 
     logOut: async () => {
@@ -81,9 +78,8 @@ export const useAuthStore = create<AuthStore>((set) => ({
         try {
             await api.post("/auth/logout")
             set({ authUser: null })
-            toast.success('Logged out successFully')
+            toast.success('Logout successFully')
         } catch (error) {
-            console.log("Error while logout", error)
             toast.error('Error while logout')
         } finally {
             set({ isLoggingIn: false })

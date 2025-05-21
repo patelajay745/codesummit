@@ -3,7 +3,7 @@ import Input from "@/components/ui/input";
 import { signInSchema } from "@/schemas";
 import { useAuthStore } from "@/stores/useAuthStore";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Link } from "@tanstack/react-router";
+import { Link, useNavigate } from "@tanstack/react-router";
 import { Eye, EyeOff, Loader2 } from "lucide-react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
@@ -25,8 +25,9 @@ function SignInForm() {
   } = useForm<loginFormDataTypes>({ resolver: zodResolver(signInSchema) });
 
   const onSubmit = async (data: loginFormDataTypes) => {
-    console.log(data);
-    await signIn(data);
+    try {
+      signIn(data);
+    } catch (error) {}
   };
   return (
     <div className="flex flex-col w-full space-y-5 dark:bg-text-secondary/20 bg-background/50 p-4 rounded-2xl shadow-xl border-1 border-muted-foreground/40 dark:border-muted-foreground/20">
@@ -83,7 +84,7 @@ function SignInForm() {
         >
           {isLoggingIn ? (
             <>
-              <Loader2 className="animate-spine h-5 w-5">Loading...</Loader2>
+              <Loader2 className="animate-spin h-5 w-5">Loading...</Loader2>
             </>
           ) : (
             "SignIn"

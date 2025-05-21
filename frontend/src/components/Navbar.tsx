@@ -3,9 +3,12 @@ import Logo from "./Logo";
 import ModeToggle from "./ModeToggle";
 import { useState } from "react";
 import { Menu, X } from "lucide-react";
+import { useAuthStore } from "@/stores/useAuthStore";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
+
+  const { authUser } = useAuthStore();
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
@@ -24,14 +27,19 @@ const Navbar = () => {
       name: "Home",
       link: "/",
     },
-    {
-      name: "Login",
-      link: "/singin",
-    },
-    {
-      name: "SignUp",
-      link: "/signup",
-    },
+    ...(authUser
+      ? [
+          {
+            name: "DashBoard",
+            link: "/dashboard",
+          },
+        ]
+      : [
+          {
+            name: "Login",
+            link: "/singin",
+          },
+        ]),
   ];
 
   return (
@@ -53,6 +61,12 @@ const Navbar = () => {
                   <div>{menu.name}</div>
                 </Link>
               ))}
+
+              {authUser && (
+                <Link to="/logout" inactiveProps={inactiveLinkProps}>
+                  Logout
+                </Link>
+              )}
             </nav>
             <div className="flex items-center">
               <ModeToggle />
@@ -92,6 +106,14 @@ const Navbar = () => {
                 </div>
               </Link>
             ))}
+
+            {authUser && (
+              <Link to="/logout">
+                <div className="block px-3 py-2 rounded-md text-base font-medium hover:bg-gray-700">
+                  Logout
+                </div>
+              </Link>
+            )}
           </div>
         </div>
       )}

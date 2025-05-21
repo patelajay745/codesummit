@@ -13,6 +13,7 @@
 import { Route as rootRoute } from './routes/__root'
 import { Route as SinginImport } from './routes/singin'
 import { Route as SignupImport } from './routes/signup'
+import { Route as LogoutImport } from './routes/logout'
 import { Route as DashboardImport } from './routes/dashboard'
 import { Route as IndexImport } from './routes/index'
 
@@ -27,6 +28,12 @@ const SinginRoute = SinginImport.update({
 const SignupRoute = SignupImport.update({
   id: '/signup',
   path: '/signup',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const LogoutRoute = LogoutImport.update({
+  id: '/logout',
+  path: '/logout',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -60,6 +67,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DashboardImport
       parentRoute: typeof rootRoute
     }
+    '/logout': {
+      id: '/logout'
+      path: '/logout'
+      fullPath: '/logout'
+      preLoaderRoute: typeof LogoutImport
+      parentRoute: typeof rootRoute
+    }
     '/signup': {
       id: '/signup'
       path: '/signup'
@@ -82,6 +96,7 @@ declare module '@tanstack/react-router' {
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/dashboard': typeof DashboardRoute
+  '/logout': typeof LogoutRoute
   '/signup': typeof SignupRoute
   '/singin': typeof SinginRoute
 }
@@ -89,6 +104,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/dashboard': typeof DashboardRoute
+  '/logout': typeof LogoutRoute
   '/signup': typeof SignupRoute
   '/singin': typeof SinginRoute
 }
@@ -97,22 +113,24 @@ export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexRoute
   '/dashboard': typeof DashboardRoute
+  '/logout': typeof LogoutRoute
   '/signup': typeof SignupRoute
   '/singin': typeof SinginRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/dashboard' | '/signup' | '/singin'
+  fullPaths: '/' | '/dashboard' | '/logout' | '/signup' | '/singin'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/dashboard' | '/signup' | '/singin'
-  id: '__root__' | '/' | '/dashboard' | '/signup' | '/singin'
+  to: '/' | '/dashboard' | '/logout' | '/signup' | '/singin'
+  id: '__root__' | '/' | '/dashboard' | '/logout' | '/signup' | '/singin'
   fileRoutesById: FileRoutesById
 }
 
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   DashboardRoute: typeof DashboardRoute
+  LogoutRoute: typeof LogoutRoute
   SignupRoute: typeof SignupRoute
   SinginRoute: typeof SinginRoute
 }
@@ -120,6 +138,7 @@ export interface RootRouteChildren {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   DashboardRoute: DashboardRoute,
+  LogoutRoute: LogoutRoute,
   SignupRoute: SignupRoute,
   SinginRoute: SinginRoute,
 }
@@ -136,6 +155,7 @@ export const routeTree = rootRoute
       "children": [
         "/",
         "/dashboard",
+        "/logout",
         "/signup",
         "/singin"
       ]
@@ -145,6 +165,9 @@ export const routeTree = rootRoute
     },
     "/dashboard": {
       "filePath": "dashboard.tsx"
+    },
+    "/logout": {
+      "filePath": "logout.tsx"
     },
     "/signup": {
       "filePath": "signup.tsx"

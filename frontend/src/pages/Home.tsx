@@ -11,10 +11,10 @@ const Home = () => {
       <div className="flex  min-h-screen w-full px-4 pb-5">
         <div className="flex flex-col container mx-auto  ">
           <div className="flex flex-col space-y-6 items-center justify-center text-center py-16">
-            <h1 className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl text-brand font-extrabold max-w-3xl">
+            <h1 className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl text-brand font-extrabold max-w-2/3">
               Master Data Structure & Algorithms
             </h1>
-            <h3 className="text-base sm:text-lg md:text-xl lg:text-2xl text-foreground/60 tracking-wide max-w-5xl">
+            <h3 className="text-base sm:text-lg md:text-xl lg:text-2xl text-foreground/60 tracking-wide xl:max-w-5xl max-w-3/4">
               The perfect platform for new developers to learn, practice, and
               excel in DSA problems. Build your coding skills from the ground
               up.
@@ -31,7 +31,7 @@ const Home = () => {
               <Link to="/singin">
                 <Button
                   size={"lg"}
-                  className="bg-foreground w-full sm:w-auto px-8 py-2 text-lg hover:scale-105 transition delay-150 duration-300 ease-in-out cursor-pointer"
+                  className="dark:bg-foreground bg-text-secondary w-full sm:w-auto px-8 py-2 text-lg hover:scale-105 transition delay-150 duration-300 ease-in-out cursor-pointer"
                 >
                   I Already Have an Account
                 </Button>
@@ -44,7 +44,7 @@ const Home = () => {
               Why Choose CodeSummit?
             </h1>
 
-            <div className="w-full flex sm:flex-wrap flex-wrap justify-between gap-3 sm:gap-0">
+            <div className="w-full flex gap-5 flex-wrap xl:justify-between justify-center">
               <LandinPageCard
                 title="Beginner Friendly"
                 description="Curated problems specifically designed for newcomers to DSA concepts."

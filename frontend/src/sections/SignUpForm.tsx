@@ -131,7 +131,7 @@ const SignUpForm = () => {
         >
           {isSignInUp ? (
             <>
-              <Loader2 className="animate-spine h-5 w-5">Loading...</Loader2>
+              <Loader2 className="animate-spin h-5 w-5">Loading...</Loader2>
             </>
           ) : (
             "Sign Up"

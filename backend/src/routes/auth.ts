@@ -11,5 +11,5 @@ const loginlimiter = limitter(5, 15)
 
 router.post("/", loginlimiter, validate(newUserSchema), registerUser)
 router.get("/", isAuth, getUser)
-router.post("/login", loginlimiter, validate(loginSchema), getLogin)
+router.post("/login", validate(loginSchema), getLogin)
 router.post("/logout", isAuth, getLogout)
