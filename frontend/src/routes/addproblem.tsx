@@ -1,11 +1,6 @@
-import Dashboard from "@/pages/Dashboard";
 import { createFileRoute, redirect } from "@tanstack/react-router";
 
-function RouteComponent() {
-  return <Dashboard />;
-}
-
-export const Route = createFileRoute("/dashboard")({
+export const Route = createFileRoute("/addproblem")({
   beforeLoad: ({ context }) => {
     if (!context.auth) {
       throw redirect({
@@ -15,3 +10,7 @@ export const Route = createFileRoute("/dashboard")({
   },
   component: RouteComponent,
 });
+
+function RouteComponent() {
+  return <div>Hello "/addproblem"!</div>;
+}

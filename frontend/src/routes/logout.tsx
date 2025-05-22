@@ -3,13 +3,10 @@ import { createFileRoute, redirect, useNavigate } from "@tanstack/react-router";
 import { useEffect } from "react";
 
 export const Route = createFileRoute("/logout")({
-  beforeLoad: ({ context, location }) => {
+  beforeLoad: ({ context }) => {
     if (!context.auth) {
       throw redirect({
         to: "/",
-        search: {
-          redirect: location.href,
-        },
       });
     }
   },

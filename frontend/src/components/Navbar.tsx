@@ -90,7 +90,10 @@ const Navbar = () => {
                     <DropdownMenuItem>Profile</DropdownMenuItem>
 
                     {authUser.role === "ADMIN" && (
-                      <DropdownMenuItem>Add Problem</DropdownMenuItem>
+                      <DropdownMenuItem>
+                        {" "}
+                        <Link to="/addproblem">Add Problem</Link>
+                      </DropdownMenuItem>
                     )}
 
                     <DropdownMenuItem>Team</DropdownMenuItem>
