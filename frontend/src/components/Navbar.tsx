@@ -18,8 +18,6 @@ const Navbar = () => {
 
   const { authUser } = useAuthStore();
 
-  console.log(authUser);
-
   const toggleMenu = () => {
     setIsOpen(!isOpen);
   };

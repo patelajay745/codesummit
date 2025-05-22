@@ -1,3 +1,4 @@
+import AddProblem from "@/pages/AddProblem";
 import { createFileRoute, redirect } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/addproblem")({
@@ -8,9 +9,5 @@ export const Route = createFileRoute("/addproblem")({
       });
     }
   },
-  component: RouteComponent,
+  component: AddProblem,
 });
-
-function RouteComponent() {
-  return <div>Hello "/addproblem"!</div>;
-}
