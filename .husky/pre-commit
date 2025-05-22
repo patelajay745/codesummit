@@ -1,6 +1,8 @@
 cd frontend
+yarn install
 yarn build
 
 cd ..
 cd backend
+yarn install
 yarn build
