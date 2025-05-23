@@ -3,9 +3,9 @@ import { createFileRoute, redirect } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/addproblem")({
   beforeLoad: ({ context }) => {
-    if (!context.auth) {
+    if (context.auth?.role !== "ADMIN") {
       throw redirect({
-        to: "/singin",
+        to: "/dashboard",
       });
     }
   },

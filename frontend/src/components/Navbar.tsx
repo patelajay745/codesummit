@@ -16,6 +16,8 @@ import {
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
 
+  const [openDropDown, setOpenDropDown] = useState(false);
+
   const { authUser } = useAuthStore();
 
   const toggleMenu = () => {
@@ -71,7 +73,10 @@ const Navbar = () => {
               ))}
 
               {authUser && (
-                <DropdownMenu>
+                <DropdownMenu
+                  open={openDropDown}
+                  onOpenChange={setOpenDropDown}
+                >
                   <DropdownMenuTrigger>
                     <img
                       className="h-10 rounded-full"
@@ -88,8 +93,7 @@ const Navbar = () => {
                     <DropdownMenuItem>Profile</DropdownMenuItem>
 
                     {authUser.role === "ADMIN" && (
-                      <DropdownMenuItem>
-                        {" "}
+                      <DropdownMenuItem onSelect={close}>
                         <Link to="/addproblem">Add Problem</Link>
                       </DropdownMenuItem>
                     )}

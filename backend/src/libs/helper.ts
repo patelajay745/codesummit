@@ -68,8 +68,6 @@ const sleep = (ms: number) => {
 
 export const poolBatchResults = async (tokens: string[]) => {
 
-    console.log("reached here at")
-
     const alltokens = tokens.join(",")
 
     while (true) {

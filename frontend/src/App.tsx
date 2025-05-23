@@ -2,7 +2,7 @@ import { createRouter, RouterProvider } from "@tanstack/react-router";
 import { routeTree } from "./routeTree.gen";
 import { useEffect } from "react";
 import { useAuthStore } from "./stores/useAuthStore";
-import { Loader } from "lucide-react";
+import CircularLoader from "./components/ui/snappy-loader";
 
 const router = createRouter({
   routeTree,
@@ -22,8 +22,8 @@ export default function App() {
 
   if (isCheckingAuth && !auth) {
     return (
-      <div className="flex itmes-center justify-center h-screen">
-        <Loader className="size-10 animate-spin" />
+      <div className="flex items-center justify-center h-screen">
+        <CircularLoader />
       </div>
     );
   }
