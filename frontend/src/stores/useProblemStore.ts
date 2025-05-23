@@ -4,12 +4,20 @@ import { api } from "@/api/client"
 import axios from "axios"
 import { toast } from "sonner"
 
+export type ProblemType = Problem & {
+
+    userId: string
+    createdAt: string
+    updatedAt: string
+    playlistId: string
+}
+
 export interface ProblemStore {
-    problems: Problem[] | []
-    problem: Problem | null
+    problems: ProblemType[] | []
+    problem: ProblemType | null
     isProblemsLoading: boolean
     isProblemLoading: boolean
-    solvedProblems: Problem | []
+    solvedProblems: ProblemType | []
     getAllProblems: () => Promise<void>
     getProblemById: (id: string) => Promise<void>
     getSolvedProblemByUser: () => Promise<void>
@@ -28,6 +36,7 @@ export const useProblemStore = create<ProblemStore>((set) => ({
 
             const res = await api.get("/problems/")
             set({ problems: res.data.data })
+
         } catch (error) {
             let message = "Something went wrong";
 

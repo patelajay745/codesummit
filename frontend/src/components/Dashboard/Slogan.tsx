@@ -255,7 +255,7 @@ function Slogan() {
   const firstHalf = title.slice(0, midpoint);
   const secondHalf = title.slice(midpoint);
   return (
-    <div className="h-screen flex justify-center">
+    <div className=" flex justify-center">
       <div className=" h-full container flex flex-col  py-24 px-4 sm:px-0">
         <div className="flex flex-col w-full items-center gap-2">
           <h1 className="xl:text-6xl font-extrabold tracking-wider text-wrap xl:text-nowrap text-4xl">
