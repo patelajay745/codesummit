@@ -33,7 +33,7 @@ const Home = () => {
                   size={"lg"}
                   className="dark:bg-foreground bg-text-secondary w-full sm:w-auto px-8 py-2 text-lg hover:scale-105 transition delay-150 duration-300 ease-in-out cursor-pointer"
                 >
-                  I Already Have an Account
+                  Already a Member?
                 </Button>
               </Link>
             </div>

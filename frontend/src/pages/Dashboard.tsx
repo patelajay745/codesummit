@@ -23,9 +23,8 @@ const Dashboard = () => {
     <>
       <div className="flex flex-col">
         <Slogan />
-        <div className="container flex h-screen mx-auto">
-          <ProblemTabel data={problems} />
-        </div>
+
+        <ProblemTabel data={problems} />
       </div>
     </>
   );

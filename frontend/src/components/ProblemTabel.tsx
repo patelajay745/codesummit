@@ -7,66 +7,169 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { ProblemType } from "@/stores/useProblemStore";
-import { FC } from "react";
+import { FC, useState } from "react";
 import { Checkbox } from "./ui/checkbox";
 import { Badge } from "./ui/badge";
+
+// import { Bookmark, PencilIcon, Trash2, Trash2Icon, Plus } from "lucide-react";
+// import { useAuthStore } from "@/stores/useAuthStore";
+import { Button } from "./ui/button";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import Input from "./ui/input";
+import { Plus } from "lucide-react";
 
 type Props = {
   data: ProblemType[];
 };
 
 const ProblemTabel: FC<Props> = ({ data }) => {
+  const [search, setSearch] = useState("");
+  // const { authUser } = useAuthStore();
+
+  // const [difficulty, setDifficulty] = useState("ALL");
+  // const [selectedTag, setSelectedTag] = useState("ALL");
+  // const [currentPage, setCurrentPage] = useState(1);
+  // const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
+
+  const uniqueTags = Array.from(
+    new Set(data.flatMap((problem) => problem.tags))
+  );
+
+  const uniqueDifficulty = Array.from(
+    new Set(data.flatMap((problem) => problem.difficulty))
+  );
+
   return (
-    <Table className="rounded-xl">
-      {/* <TableCaption>A list of your recent invoices.</TableCaption> */}
-      <TableHeader className="text-xl font-bold tracking-wider text-center bg-background py-4">
-        <TableRow className="py-4">
-          <TableHead className="w-[100px]">Solved</TableHead>
-          <TableHead>Title</TableHead>
-          <TableHead>Tags</TableHead>
-          <TableHead className="">Dificulty</TableHead>
-          <TableHead className="">Action</TableHead>
-        </TableRow>
-      </TableHeader>
-      <TableBody className="bg-background/40">
-        {data.map((problem) => (
-          <TableRow key={problem.title}>
-            <TableCell className="font-medium">
-              {<Checkbox id="solved" checked={true} className="bg-amber-300" />}
-            </TableCell>
-            <TableCell>{problem.title}</TableCell>
-            <TableCell>
-              <div className="flex flex-row gap-2">
-                {problem.tags.map((tag) => (
-                  <Badge className="bg-brand text-white">{tag}</Badge>
+    <div className="container flex flex-col h-screen mx-auto">
+      <div className="flex justify-between items-center mb-6">
+        <h2 className="text-2xl font-bold">Problems</h2>
+        <div className="flex gap-4">
+          <Input
+            type="text"
+            className="h-9 w-auto"
+            placeholder="Search by title"
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+          />
+
+          <Select
+            onValueChange={() => {
+              // setDifficulty(value);
+            }}
+          >
+            <SelectTrigger className="w-[180px]">
+              <SelectValue placeholder="Select Difficulty" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectGroup>
+                <SelectItem value={"All"}>All Difficulties</SelectItem>
+                {uniqueDifficulty.map((difficulty) => (
+                  <SelectItem key={difficulty} value={difficulty}>
+                    {difficulty.charAt(0).toUpperCase() +
+                      difficulty.slice(1).toLowerCase()}
+                  </SelectItem>
                 ))}
-              </div>
-            </TableCell>
-            <TableCell className="">
-              {problem.difficulty === "EASY" ? (
-                <Badge className="bg-green-500 text-white">
-                  {problem.difficulty}
-                </Badge>
-              ) : problem.difficulty === "MEDIUM" ? (
-                <Badge className="bg-yellow-500 text-white">
-                  {problem.difficulty}
-                </Badge>
-              ) : (
-                <Badge className="bg-red-500 text-white">
-                  {problem.difficulty}
-                </Badge>
-              )}
-            </TableCell>
+              </SelectGroup>
+            </SelectContent>
+          </Select>
+
+          <Select
+            onValueChange={() => {
+              // setSelectedTag(value);
+            }}
+          >
+            <SelectTrigger className="w-[180px]">
+              <SelectValue placeholder="All Tags" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectGroup>
+                <SelectItem value="ALL" defaultChecked={true}>
+                  All Tags
+                </SelectItem>
+                {uniqueTags.map((tag) => (
+                  <SelectItem key={tag} value={tag}>
+                    {tag}
+                  </SelectItem>
+                ))}
+              </SelectGroup>
+            </SelectContent>
+          </Select>
+          <Button
+            className="bg-brand text-white gap-2 hover:bg-brand/80 cursor-pointer"
+            onClick={() => {
+              // setIsCreateModalOpen(true);
+            }}
+          >
+            <Plus className="w-4 h-4" />
+            Create Playlist
+          </Button>
+        </div>
+      </div>
+
+      <Table className="rounded-xl">
+        {/* <TableCaption>A list of your recent invoices.</TableCaption> */}
+        <TableHeader className="text-xl font-bold tracking-wider text-center bg-background py-4">
+          <TableRow className="py-4">
+            <TableHead className="w-[100px]">Solved</TableHead>
+            <TableHead>Title</TableHead>
+            <TableHead>Tags</TableHead>
+            <TableHead className="">Dificulty</TableHead>
+            <TableHead className="">Action</TableHead>
           </TableRow>
-        ))}
-      </TableBody>
-      {/* <TableFooter>
+        </TableHeader>
+        <TableBody className="bg-background/40">
+          {data.map((problem) => (
+            <TableRow key={problem.title}>
+              <TableCell className="font-medium">
+                {
+                  <Checkbox
+                    id="solved"
+                    checked={true}
+                    className="bg-amber-300"
+                  />
+                }
+              </TableCell>
+              <TableCell>{problem.title}</TableCell>
+              <TableCell>
+                <div className="flex flex-row gap-2">
+                  {problem.tags.map((tag) => (
+                    <Badge className="bg-brand text-white">{tag}</Badge>
+                  ))}
+                </div>
+              </TableCell>
+              <TableCell className="">
+                {problem.difficulty === "EASY" ? (
+                  <Badge className="bg-green-500 text-white">
+                    {problem.difficulty}
+                  </Badge>
+                ) : problem.difficulty === "MEDIUM" ? (
+                  <Badge className="bg-yellow-500 text-white">
+                    {problem.difficulty}
+                  </Badge>
+                ) : (
+                  <Badge className="bg-red-500 text-white">
+                    {problem.difficulty}
+                  </Badge>
+                )}
+              </TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+        {/* <TableFooter>
         <TableRow>
           <TableCell colSpan={3}>Total</TableCell>
           <TableCell className="text-right">$2,500.00</TableCell>
         </TableRow>
       </TableFooter> */}
-    </Table>
+      </Table>
+    </div>
   );
 };
 

@@ -93,16 +93,16 @@ const Navbar = () => {
                     <DropdownMenuItem>Profile</DropdownMenuItem>
 
                     {authUser.role === "ADMIN" && (
-                      <DropdownMenuItem onSelect={close}>
-                        <Link to="/addproblem">Add Problem</Link>
-                      </DropdownMenuItem>
+                      <Link to="/addproblem">
+                        <DropdownMenuItem>Add Problem</DropdownMenuItem>
+                      </Link>
                     )}
 
                     <DropdownMenuItem>Team</DropdownMenuItem>
                     <DropdownMenuSeparator />
-                    <DropdownMenuItem>
-                      <Link to="/logout">Logout</Link>
-                    </DropdownMenuItem>
+                    <Link to="/logout">
+                      <DropdownMenuItem>Logout</DropdownMenuItem>
+                    </Link>
                   </DropdownMenuContent>
                 </DropdownMenu>
               )}
