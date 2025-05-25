@@ -7,6 +7,7 @@ import { toast } from "sonner"
 export type ProblemType = Problem & {
 
     userId: string
+    company: string
     createdAt: string
     updatedAt: string
     playlistId: string

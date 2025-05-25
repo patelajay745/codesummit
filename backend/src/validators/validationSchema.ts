@@ -20,6 +20,7 @@ export type Difficulty = (typeof Difficulty)[keyof typeof Difficulty];
 
 export const createProblemSchema = yup.object({
     title: yup.string().required("Title is required"),
+    company: yup.string().required("Company is required"),
     description: yup.string().required("Description is required"),
     difficulty: yup.mixed<Difficulty>().oneOf(Object.values(Difficulty)),
     tags: yup.array().required("Tags is required"),

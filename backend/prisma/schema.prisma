@@ -11,7 +11,7 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL") 
+  url      = env("DATABASE_URL")
 }
 
 enum UserRole {
@@ -41,17 +41,17 @@ model User {
 }
 
 model Problem {
-  id          String     @id @unique @default(uuid())
-  title       String
-  description String
-  difficulty  Difficulty
-  tags        String[]
-  userId      String
-  examples    Json
-  constraints String
-  hints       String?
-  editorial   String?
-
+  id                String     @id @unique @default(uuid())
+  title             String
+  description       String
+  difficulty        Difficulty
+  tags              String[]
+  userId            String
+  examples          Json
+  constraints       String
+  hints             String?
+  editorial         String?
+  company           String?
   testcases         Json
   codeSnippets      Json
   referenceSolution Json

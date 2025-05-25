@@ -39,13 +39,13 @@ const checkRefrenceSolution = async (referenceSolution: Object, testcases: Testc
 
 export const createProblem = asyncHandler(async (req: Request, res: Response) => {
 
-    const { title, description, difficulty, tags, examples, constraints, testcases, codeSnippets, referenceSolution } = req.body
+    const { title, description, difficulty, tags, examples, constraints, testcases, codeSnippets, referenceSolution, company } = req.body
 
     await checkRefrenceSolution(referenceSolution, testcases)
 
     const newProblem = await db.problem.create({
         data: {
-            title, description, difficulty, tags, examples, constraints, testcases, codeSnippets, referenceSolution, userId: req.user!.id
+            title, description, difficulty, tags, examples, constraints, company, testcases, codeSnippets, referenceSolution, userId: req.user!.id
         }
     })
 

@@ -308,137 +308,54 @@ class Main {
   },
 };
 const sampleStringProblem = {
-  title: "Anagram Check",
+  title: "House Robber III",
   description:
-    "Given two strings s and t, return true if t is an anagram of s, and false otherwise. An Anagram is a word or phrase formed by rearranging the letters of a different word or phrase, typically using all the original letters exactly once.",
-  difficulty: "MEDIUM" as Difficulty,
-  tags: ["String", "Hash Table", "Sorting"],
+    "You are a professional robber planning to rob houses along a street. Each house has a certain amount of money stashed. All houses are arranged in a binary tree. The only constraint stopping you from robbing a house is that adjacent houses (i.e., directly-connected parent-child nodes) cannot be robbed on the same night.\n\nReturn the maximum amount of money the robber can rob without alerting the police.",
+  difficulty: "HARD" as Difficulty,
+  tags: ["tree", "dynamic programming", "recursion", "amazon"],
+  examples: {
+    PYTHON: {
+      input: "[3,2,3,null,3,null,1]",
+      output: "7",
+      explanation:
+        "Maximum amount is 3 + 3 + 1 = 7 (not robbing 2 or 3 which are adjacent to root).",
+    },
+    JAVASCRIPT: {
+      input: "[3,4,5,1,3,null,1]",
+      output: "9",
+      explanation:
+        "Robbing 4 + 5 = 9 gives more than robbing 3 + 1 + 3 + 1 = 8",
+    },
+  },
   constraints:
-    "1 <= s.length, t.length <= 5 * 10^4\ns and t consist of lowercase English letters.",
-  hints:
-    "Try counting the frequency of each character in both strings and compare them.",
-  editorial:
-    "Sort both strings and compare, or use a hash map to count the frequency of each character in both strings and check for equality.",
+    "The number of nodes in the tree is in the range [1, 10^4].\n0 <= Node.val <= 10^4",
   testcases: [
     {
-      input: "s = 'anagram', t = 'nagaram'",
-      output: "true",
+      input: "[4,1,null,2,null,3]",
+      output: "7",
     },
     {
-      input: "s = 'rat', t = 'car'",
-      output: "false",
+      input: "[2,1,3,null,4]",
+      output: "7",
     },
     {
-      input: "s = 'a', t = 'a'",
-      output: "true",
+      input: "[4]",
+      output: "4",
     },
   ],
-  examples: {
-    JAVASCRIPT: {
-      input: "s = 'anagram', t = 'nagaram'",
-      output: "true",
-      explanation:
-        "'anagram' and 'nagaram' contain the same characters with the same frequencies.",
-    },
-    PYTHON: {
-      input: "s = 'anagram', t = 'nagaram'",
-      output: "true",
-      explanation:
-        "'anagram' and 'nagaram' contain the same characters with the same frequencies.",
-    },
-    JAVA: {
-      input: "s = 'anagram', t = 'nagaram'",
-      output: "true",
-      explanation:
-        "'anagram' and 'nagaram' contain the same characters with the same frequencies.",
-    },
-  },
   codeSnippets: {
-    JAVASCRIPT: `/**
- * @param {string} s
- * @param {string} t
- * @return {boolean}
- */
-function isAnagram(s, t) {
-  // Write your code here
-}
-
-const readline = require('readline');
-const rl = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout,
-  terminal: false
-});
-
-let inputs = [];
-rl.on('line', (line) => {
-  inputs.push(line);
-  if (inputs.length === 2) {
-    const result = isAnagram(inputs[0], inputs[1]);
-    console.log(result ? "true" : "false");
-    rl.close();
-  }
-});`,
-    PYTHON: `class Solution:
-    def isAnagram(self, s: str, t: str) -> bool:
-        # Write your code here
-        pass
-
-if __name__ == "__main__":
-    import sys
-    s = sys.stdin.readline().strip()
-    t = sys.stdin.readline().strip()
-
-    sol = Solution()
-    result = sol.isAnagram(s, t)
-    print(str(result).lower())`,
-    JAVA: `import java.util.Scanner;
-import java.util.Arrays;
-
-public class Main {
-    public static boolean isAnagram(String s, String t) {
-        // Write your code here
-        return false;
-    }
-
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        String s = sc.nextLine();
-        String t = sc.nextLine();
-
-        boolean result = isAnagram(s, t);
-        System.out.println(result ? "true" : "false");
-    }
-}
-`,
+    JAVASCRIPT:
+      "function rob(root) {\n    function helper(node) {\n        if (!node) return [0, 0];\n\n        const [leftRob, leftNoRob] = helper(node.left);\n        const [rightRob, rightNoRob] = helper(node.right);\n\n        const rob = node.val + leftNoRob + rightNoRob;\n        const noRob = Math.max(leftRob, leftNoRob) + Math.max(rightRob, rightNoRob);\n\n        return [rob, noRob];\n    }\n\n    return Math.max(...helper(root));\n}\n\n// Tree input parser and main function would be added based on execution environment.",
+    PYTHON:
+      "class TreeNode:\n    def __init__(self, val=0, left=None, right=None):\n        self.val = val\n        self.left = left\n        self.right = right\n\ndef rob(root):\n    def helper(node):\n        if not node:\n            return (0, 0)\n        left = helper(node.left)\n        right = helper(node.right)\n        rob_this = node.val + left[1] + right[1]\n        not_rob = max(left) + max(right)\n        return (rob_this, not_rob)\n    return max(helper(root))",
+    JAVA: "class TreeNode {\n    int val;\n    TreeNode left, right;\n    TreeNode(int x) { val = x; }\n}\n\nclass Solution {\n    public int rob(TreeNode root) {\n        int[] result = helper(root);\n        return Math.max(result[0], result[1]);\n    }\n\n    private int[] helper(TreeNode node) {\n        if (node == null) return new int[2];\n        int[] left = helper(node.left);\n        int[] right = helper(node.right);\n\n        int rob = node.val + left[1] + right[1];\n        int notRob = Math.max(left[0], left[1]) + Math.max(right[0], right[1]);\n\n        return new int[]{rob, notRob};\n    }\n}",
   },
   referenceSolution: {
-    JAVASCRIPT: `function isAnagram(s, t) {
-  if (s.length !== t.length) return false;
-
-  const count = new Array(26).fill(0);
-  for (let i = 0; i < s.length; i++) {
-    count[s.charCodeAt(i) - 97]++;
-    count[t.charCodeAt(i) - 97]--;
-  }
-
-  return count.every(c => c === 0);
-}`,
-    PYTHON: `class Solution:
-    def isAnagram(self, s: str, t: str) -> bool:
-        return sorted(s) == sorted(t)`,
-    JAVA: `import java.util.Arrays;
-
-public class Main {
-    public static boolean isAnagram(String s, String t) {
-        if (s.length() != t.length()) return false;
-        char[] sArr = s.toCharArray();
-        char[] tArr = t.toCharArray();
-        Arrays.sort(sArr);
-        Arrays.sort(tArr);
-        return Arrays.equals(sArr, tArr);
-    }
-}`,
+    PYTHON:
+      "def rob(root):\n    def helper(node):\n        if not node:\n            return (0, 0)\n        left = helper(node.left)\n        right = helper(node.right)\n        return (\n            node.val + left[1] + right[1],\n            max(left) + max(right)\n        )\n    return max(helper(root))",
+    JAVASCRIPT:
+      "function rob(root) {\n    function helper(node) {\n        if (!node) return [0, 0];\n        const [leftRob, leftNoRob] = helper(node.left);\n        const [rightRob, rightNoRob] = helper(node.right);\n        const rob = node.val + leftNoRob + rightNoRob;\n        const noRob = Math.max(leftRob, leftNoRob) + Math.max(rightRob, rightNoRob);\n        return [rob, noRob];\n    }\n    return Math.max(...helper(root));\n}",
+    JAVA: "class Solution {\n    public int rob(TreeNode root) {\n        int[] result = helper(root);\n        return Math.max(result[0], result[1]);\n    }\n\n    private int[] helper(TreeNode node) {\n        if (node == null) return new int[2];\n        int[] left = helper(node.left);\n        int[] right = helper(node.right);\n        int rob = node.val + left[1] + right[1];\n        int notRob = Math.max(left[0], left[1]) + Math.max(right[0], right[1]);\n        return new int[]{rob, notRob};\n    }\n}",
   },
 };
 
