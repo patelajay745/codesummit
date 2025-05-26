@@ -4,6 +4,10 @@ import { api } from "@/api/client"
 import axios from "axios"
 import { toast } from "sonner"
 
+type problemSolveBy = {
+    userId: string
+}
+
 export type ProblemType = Problem & {
 
     userId: string
@@ -11,6 +15,7 @@ export type ProblemType = Problem & {
     createdAt: string
     updatedAt: string
     playlistId: string
+    ProblemSolved: problemSolveBy[]
 }
 
 export interface ProblemStore {

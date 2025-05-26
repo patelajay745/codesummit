@@ -11,8 +11,8 @@ import { FC, useMemo, useState } from "react";
 import { Checkbox } from "./ui/checkbox";
 import { Badge } from "./ui/badge";
 
-// import { Bookmark, PencilIcon, Trash2, Trash2Icon, Plus } from "lucide-react";
-// import { useAuthStore } from "@/stores/useAuthStore";
+import { Bookmark, PencilIcon, Trash2Icon, Plus } from "lucide-react";
+import { useAuthStore } from "@/stores/useAuthStore";
 import { Button } from "./ui/button";
 import {
   Select,
@@ -23,7 +23,6 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import Input from "./ui/input";
-import { Plus } from "lucide-react";
 
 type Props = {
   data: ProblemType[];
@@ -31,12 +30,12 @@ type Props = {
 
 const ProblemTabel: FC<Props> = ({ data }) => {
   const [search, setSearch] = useState("");
-  // const { authUser } = useAuthStore();
+  const { authUser } = useAuthStore();
 
-  const [difficulty, setDifficulty] = useState("ALL");
-  const [selectedTag, setSelectedTag] = useState("ALL");
-  const [selectedCompany, setSelectedCompany] = useState("ALL");
-  // const [currentPage, setCurrentPage] = useState(1);
+  const [difficulty, setDifficulty] = useState("All");
+  const [selectedTag, setSelectedTag] = useState("All");
+  const [selectedCompany, setSelectedCompany] = useState("All");
+  const [currentPage, setCurrentPage] = useState(1);
   // const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
 
   const filteredProblems = useMemo(() => {
@@ -47,13 +46,13 @@ const ProblemTabel: FC<Props> = ({ data }) => {
           : problem.title.toLowerCase().includes(search.toLowerCase())
       )
       .filter((problem) =>
-        difficulty === "ALL" ? true : problem.difficulty === difficulty
+        difficulty === "All" ? true : problem.difficulty === difficulty
       )
       .filter((problem) =>
-        selectedTag === "ALL" ? true : problem.tags?.includes(selectedTag)
+        selectedTag === "All" ? true : problem.tags?.includes(selectedTag)
       )
       .filter((problem) =>
-        selectedCompany === "ALL"
+        selectedCompany === "All"
           ? true
           : problem.company?.includes(selectedCompany)
       );
@@ -62,12 +61,6 @@ const ProblemTabel: FC<Props> = ({ data }) => {
   const uniqueTags = Array.from(
     new Set(data.flatMap((problem) => problem.tags))
   ).sort((a, b) => a.localeCompare(b));
-
-  // const itemsPerPage = 5;
-  // const totalPages = Math.ceil(filteredProblems.length / itemsPerPage);
-  // const pageinatedProblems = useMemo(() => {
-  //   return filteredProblems.slice((currentPage - 1) * itemsPerPage);
-  // }, [filteredProblems]);
 
   const uniqueDifficulty = Array.from(
     new Set(data.flatMap((problem) => problem.difficulty))
@@ -85,8 +78,18 @@ const ProblemTabel: FC<Props> = ({ data }) => {
     Apple: "bg-gray-800",
   };
 
+  const itemsPerPage = 10;
+  const totalPages = Math.ceil(filteredProblems.length / itemsPerPage);
+  const pageinatedProblems = useMemo(() => {
+    return (filteredProblems || data).slice(
+      (currentPage - 1) * itemsPerPage,
+      currentPage * itemsPerPage
+    );
+  }, [filteredProblems, currentPage, data]);
+
   return (
-    <div className="container flex flex-col h-screen mx-auto">
+    <div className="container flex flex-col  mx-auto pb-8">
+      {/* search div */}
       <div className="flex justify-between items-center mb-6">
         <h2 className="text-2xl font-bold">Problems</h2>
         <div className="flex gap-4">
@@ -156,7 +159,7 @@ const ProblemTabel: FC<Props> = ({ data }) => {
             </SelectTrigger>
             <SelectContent>
               <SelectGroup>
-                <SelectItem value="ALL" defaultChecked={true}>
+                <SelectItem value="All" defaultChecked={true}>
                   All Tags
                 </SelectItem>
                 {uniqueTags.map((tag) => (
@@ -168,7 +171,7 @@ const ProblemTabel: FC<Props> = ({ data }) => {
             </SelectContent>
           </Select>
           <Button
-            className="bg-brand text-white gap-2 hover:bg-brand/80 cursor-pointer"
+            className="bg-text-secondary text-white gap-2 hover:bg-brand/80 cursor-pointer"
             onClick={() => {
               // setIsCreateModalOpen(true);
             }}
@@ -179,68 +182,107 @@ const ProblemTabel: FC<Props> = ({ data }) => {
         </div>
       </div>
 
-      <Table className="rounded-xl">
-        {/* <TableCaption>A list of your recent invoices.</TableCaption> */}
-        <TableHeader className="text-xl font-bold tracking-wider text-center bg-background py-4">
-          <TableRow className="py-4">
-            <TableHead className="w-[100px]">Solved</TableHead>
-            <TableHead>Title</TableHead>
-            <TableHead>Tags</TableHead>
-            <TableHead>Company</TableHead>
-            <TableHead className="">Dificulty</TableHead>
+      {/* problem table */}
+      <Table className="rounded-xl dark:bg-background/40 bg-neutral-200  border  overflow-hidden text-start  ">
+        <TableHeader className="text-lg font-bold tracking-wider text-center  py-4 bg-brand ">
+          <TableRow className="py-4 ">
+            <TableHead className=" text-white text-center">Solved</TableHead>
+            <TableHead className=" text-white">Title</TableHead>
+            <TableHead className=" text-white">Tags</TableHead>
+            <TableHead className=" text-white">Company</TableHead>
+            <TableHead className="text-white">Dificulty</TableHead>
 
-            <TableHead className="">Actions</TableHead>
+            <TableHead className="text-white  text-center">Actions</TableHead>
           </TableRow>
         </TableHeader>
-        <TableBody className="bg-background/40">
-          {(filteredProblems.length > 0 ? filteredProblems : data).map(
-            (problem) => (
-              <TableRow key={problem.title}>
-                <TableCell className="font-medium">
-                  {
-                    <Checkbox
-                      id="solved"
-                      checked={true}
-                      className="bg-amber-300"
-                    />
-                  }
-                </TableCell>
-                <TableCell>{problem.title}</TableCell>
-                <TableCell>
-                  <div className="flex flex-row gap-2">
-                    {problem.tags.map((tag) => (
-                      <Badge className="bg-brand text-white">{tag}</Badge>
-                    ))}
-                  </div>
-                </TableCell>
-                <TableCell>
-                  <div className="flex flex-row gap-2">
-                    {problem.company ? (
-                      <Badge
-                        className={`${companyColorMap[problem.company] || "bg-text-secondary"} text-white`}
-                      >
-                        {problem.company}
+        <TableBody className="dark:bg-background/40 bg-neutral-200 ">
+          {pageinatedProblems.length > 0 ? (
+            pageinatedProblems.map((problem) => {
+              const isSolved = problem.ProblemSolved.some(
+                (user) => user.userId === authUser?.id
+              );
+              return (
+                <TableRow key={problem.title}>
+                  <TableCell className="font-medium text-center ">
+                    {
+                      <Checkbox
+                        id="solved"
+                        checked={isSolved}
+                        className="bg-foreground/10"
+                      />
+                    }
+                  </TableCell>
+                  <TableCell>{problem.title}</TableCell>
+                  <TableCell>
+                    <div className="flex flex-row gap-2">
+                      {problem.tags.map((tag) => (
+                        <Badge className="bg-transparent border-1 border-foreground/20 text-foreground capitalize">
+                          {tag}
+                        </Badge>
+                      ))}
+                    </div>
+                  </TableCell>
+                  <TableCell>
+                    <div className="flex flex-row gap-2">
+                      {problem.company ? (
+                        <Badge
+                          className={`${companyColorMap[problem.company] || "bg-text-secondary"} text-white`}
+                        >
+                          {problem.company}
+                        </Badge>
+                      ) : null}
+                    </div>
+                  </TableCell>
+                  <TableCell className="text-start">
+                    {problem.difficulty === "EASY" ? (
+                      <Badge className="bg-green-950 outline text-white">
+                        {problem.difficulty}
                       </Badge>
-                    ) : null}
-                  </div>
-                </TableCell>
-                <TableCell className="">
-                  {problem.difficulty === "EASY" ? (
-                    <Badge className="bg-green-500 text-white">
-                      {problem.difficulty}
-                    </Badge>
-                  ) : problem.difficulty === "MEDIUM" ? (
-                    <Badge className="bg-yellow-500 text-white">
-                      {problem.difficulty}
-                    </Badge>
-                  ) : (
-                    <Badge className="bg-red-500 text-white">
-                      {problem.difficulty}
-                    </Badge>
-                  )}
-                </TableCell>
-              </TableRow>
-            )
+                    ) : problem.difficulty === "MEDIUM" ? (
+                      <Badge className="bg-yellow-950 outline text-white">
+                        {problem.difficulty}
+                      </Badge>
+                    ) : (
+                      <Badge className="bg-red-950 outline text-white">
+                        {problem.difficulty}
+                      </Badge>
+                    )}
+                  </TableCell>
+                  <TableCell>
+                    <div className="flex flex-col md:flex-row gap-2 items-start md:items-center">
+                      {authUser?.role === "ADMIN" && (
+                        <div className="flex gap-2">
+                          <button
+                            onClick={() => {}}
+                            className="outline p-2 rounded"
+                          >
+                            <Trash2Icon className="w-4 h-4 text-foreground" />
+                          </button>
+                          <button disabled className="outline p-2 rounded">
+                            <PencilIcon className="w-4 h-4 text-foreground" />
+                          </button>
+                        </div>
+                      )}
+                      <button
+                        className="outline p-2 rounded flex gap-2 items-center"
+                        onClick={() => {}}
+                      >
+                        <Bookmark className="w-4 h-4" />
+                        <span className="hidden sm:inline">
+                          Save to Playlist
+                        </span>
+                      </button>
+                    </div>
+                  </TableCell>
+                </TableRow>
+              );
+            })
+          ) : (
+            <tr>
+              <td colSpan={6} className="text-center py-6 text-gray-500">
+                No problems found.
+              </td>
+            </tr>
           )}
         </TableBody>
         {/* <TableFooter>
@@ -250,6 +292,30 @@ const ProblemTabel: FC<Props> = ({ data }) => {
         </TableRow>
       </TableFooter> */}
       </Table>
+
+      <div className="flex justify-center mt-6 gap-2 items-center">
+        <Button
+          size={"sm"}
+          className={
+            "bg-text-secondary  rounded-xl text-white disabled:cursor-not-allowed hover:bg-brand/80"
+          }
+          disabled={currentPage === 1}
+          onClick={() => setCurrentPage((prev) => prev - 1)}
+        >
+          Prev
+        </Button>
+        <span>
+          {currentPage} / {totalPages}
+        </span>
+        <Button
+          size={"sm"}
+          className="bg-text-secondary hover:bg-brand/80 rounded-xl text-white disabled:cursor-not-allowed"
+          disabled={currentPage === totalPages}
+          onClick={() => setCurrentPage((prev) => prev + 1)}
+        >
+          Next
+        </Button>
+      </div>
     </div>
   );
 };
