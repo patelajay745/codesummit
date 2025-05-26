@@ -70,6 +70,8 @@ export const poolBatchResults = async (tokens: string[]) => {
 
     const alltokens = tokens.join(",")
 
+    console.log(env.JUDGE0_AUTH)
+
     while (true) {
 
         const options = {
@@ -77,6 +79,7 @@ export const poolBatchResults = async (tokens: string[]) => {
             url: `${env.JUDGE0_API_URL}/submissions/batch`,
             params: { tokens: alltokens },
             headers: {
+                "Content-Type": "application/json",
                 Accept: 'application/json',
                 Authorization: `Bearer ${env.JUDGE0_AUTH}`
             }
