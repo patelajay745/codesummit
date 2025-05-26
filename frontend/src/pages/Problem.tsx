@@ -30,12 +30,15 @@ import { getLanguageId } from "@/lib/lang";
 import axios from "axios";
 import { toast } from "sonner";
 import SubmissionCard from "@/components/Submission";
+import useThemeStore from "@/stores/useThemeStore";
 type testcase = {
   input: string;
   output: string;
 };
 
 const Problem = () => {
+  const { theme } = useThemeStore();
+  const [codeEditorColor, setCodeEditorColor] = useState(theme);
   const { Id } = useParams({ strict: false });
   const { getProblemById, problem, isProblemLoading } = useProblemStore();
   const [code, setCode] = useState("");
@@ -49,6 +52,10 @@ const Problem = () => {
   useEffect(() => {
     getProblemById(Id);
   }, [Id]);
+
+  useEffect(() => {
+    setCodeEditorColor(theme === "dark" ? "vs-dark" : "light");
+  }, [theme]);
 
   useEffect(() => {
     if (problem) {
@@ -99,13 +106,13 @@ const Problem = () => {
                   Object.entries(problem?.examples).map(([lang, example]) => (
                     <div
                       key={lang}
-                      className="bg-base-200 p-6 rounded-xl mb-6 font-mono"
+                      className="dark:bg-vs-dark bg-white/90 shadow-md p-6 rounded-xl mb-6 font-mono"
                     >
                       <div className="mb-4">
                         <div className="text-indigo-300 mb-2 text-base font-semibold">
                           Input:
                         </div>
-                        <span className="bg-background/50 px-4 py-1 rounded-lg font-semibold text-white">
+                        <span className=" px-4 py-1 rounded-lg font-semibold text-white dark:bg-background bg-foreground/80">
                           {example.input}
                         </span>
                       </div>
@@ -113,7 +120,7 @@ const Problem = () => {
                         <div className="text-indigo-300 mb-2 text-base font-semibold">
                           Output:
                         </div>
-                        <span className="bg-background/50 px-4 py-1 rounded-lg font-semibold text-white">
+                        <span className="px-4 py-1 rounded-lg font-semibold text-white dark:bg-background bg-foreground/80">
                           {example.output}
                         </span>
                       </div>
@@ -122,7 +129,7 @@ const Problem = () => {
                           <div className="text-emerald-300 mb-2 text-base font-semibold">
                             Explanation:
                           </div>
-                          <p className="text-base-content/70 text-lg font-sem">
+                          <p className="text-muted-foreground text-lg ">
                             {example.explanation}
                           </p>
                         </div>
@@ -135,8 +142,8 @@ const Problem = () => {
             {problem?.constraints && (
               <>
                 <h3 className="text-xl font-bold mb-4">Constraints:</h3>
-                <div className="bg-base-200 p-6 rounded-xl mb-6">
-                  <span className="bg-background/50 px-4 py-1 rounded-lg font-semibold text-white text-lg">
+                <div className=" p-6 rounded-xl mb-6 dark:bg-vs-dark bg-white/90 shadow-md">
+                  <span className="px-4 py-1 rounded-lg font-semibold text-white text-lg dark:bg-background bg-foreground/80">
                     {problem?.constraints}
                   </span>
                 </div>
@@ -311,11 +318,12 @@ const Problem = () => {
                 </Select>
               </div>
 
+              {/* code editor */}
               <div className="h-[600px] w-full">
                 <Editor
                   height="100%"
                   language={selectedlanguage.toLowerCase()}
-                  theme={"vs-dark"}
+                  theme={codeEditorColor}
                   value={code}
                   onChange={(value) => setCode(value || "")}
                   options={{
