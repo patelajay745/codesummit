@@ -1,5 +1,5 @@
 import Slogan from "@/components/Dashboard/Slogan";
-import ProblemTabel from "@/components/ProblemTabel";
+import ProblemTabel from "@/components/ProblemTable";
 import CircularLoader from "@/components/ui/snappy-loader";
 import { useProblemStore } from "@/stores/useProblemStore";
 import { useEffect } from "react";

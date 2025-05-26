@@ -70,8 +70,6 @@ export const poolBatchResults = async (tokens: string[]) => {
 
     const alltokens = tokens.join(",")
 
-    console.log(env.JUDGE0_AUTH)
-
     while (true) {
 
         const options = {

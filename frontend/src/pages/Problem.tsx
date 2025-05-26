@@ -31,6 +31,9 @@ import axios from "axios";
 import { toast } from "sonner";
 import SubmissionCard from "@/components/Submission";
 import useThemeStore from "@/stores/useThemeStore";
+import AllSubmission from "@/components/AllSubmission";
+import { useSubmissionStore } from "@/stores/useSubmission";
+import { cn } from "@/lib/utils";
 type testcase = {
   input: string;
   output: string;
@@ -47,11 +50,26 @@ const Problem = () => {
     useState<string>("javascript");
   const [testCases, setTestCases] = useState<testcase[]>([]);
 
+  const {
+    submission: submissions,
+    isLoading: isSubmissionsLoading,
+    getSubmissionById,
+    getTotalSubmission,
+    submissionCount,
+  } = useSubmissionStore();
+
   const { executeCode, submission, isExecuting } = useExecutionStore();
 
   useEffect(() => {
     getProblemById(Id);
+    getTotalSubmission(Id);
   }, [Id]);
+
+  useEffect(() => {
+    if (activeTab === "submissions" && Id) {
+      getSubmissionById(Id);
+    }
+  }, [activeTab, Id]);
 
   useEffect(() => {
     setCodeEditorColor(theme === "dark" ? "vs-dark" : "light");
@@ -153,11 +171,10 @@ const Problem = () => {
         );
       case "submissions":
         return (
-          <></>
-          //   <AllSubmission
-          //     submissions={submissions}
-          //     isLoading={isSubmissionsLoading}
-          //   />
+          <AllSubmission
+            submissions={submissions}
+            isLoading={isSubmissionsLoading}
+          />
         );
       case "discussion":
         return (
@@ -230,7 +247,7 @@ const Problem = () => {
         </div>
 
         <div className="">
-          <div className="flex items-center gap-2 text-sm text-base-content/70 ml-6">
+          <div className="flex items-center gap-2 text-sm text-muted-foreground ml-6">
             <Clock className="w-4 h-4" />
             <span>
               Updated{" "}
@@ -244,7 +261,7 @@ const Problem = () => {
             </span>
             <span className="text-base-content/30">•</span>
             <Users className="w-4 h-4" />
-            <span>{24} Submissions</span>
+            <span>{submissionCount} Submissions</span>
             <span className="text-base-content/30">•</span>
             <ThumbsUp className="w-4 h-4" />
             <span>95% Success Rate</span>
@@ -256,30 +273,32 @@ const Problem = () => {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-2">
           <div className="card bg-background/50 shadow-xl">
             <div className="card-body p-0">
-              <div className="tabs tabs-bordered">
+              <div className="tabs tabs-border  text-brand ">
                 <button
-                  className={`tab gap-2 ${activeTab === "description" ? "tab-active" : ""}`}
+                  className={`tab gap-2 ${activeTab === "description" ? "tab-active hover:!text-foreground" : "!text-muted-foreground"}`}
                   onClick={() => setActiveTab("description")}
                 >
                   <FileText className="w-4 h-4" />
                   Description
                 </button>
                 <button
-                  className={`tab gap-2 ${activeTab === "submissions" ? "tab-active" : ""}`}
+                  className={cn(
+                    `tab gap-2 ${activeTab === "submissions" ? "tab-active hover:!text-foreground" : "!text-muted-foreground"}`
+                  )}
                   onClick={() => setActiveTab("submissions")}
                 >
                   <Code2 className="w-4 h-4" />
                   Submissions
                 </button>
                 <button
-                  className={`tab gap-2 ${activeTab === "discussion" ? "tab-active" : ""}`}
+                  className={`tab gap-2 ${activeTab === "discussion" ? "tab-active hover:!text-foreground" : "!text-muted-foreground"}`}
                   onClick={() => setActiveTab("discussion")}
                 >
                   <MessageSquare className="w-4 h-4" />
                   Discussion
                 </button>
                 <button
-                  className={`tab gap-2 ${activeTab === "hints" ? "tab-active" : ""}`}
+                  className={`tab gap-2 ${activeTab === "hints" ? "tab-active hover:!text-foreground" : "!text-muted-foreground"}`}
                   onClick={() => setActiveTab("hints")}
                 >
                   <Lightbulb className="w-4 h-4" />

@@ -26,9 +26,11 @@ export const getSubmissionById = asyncHandler(async (req: Request, res: Response
 
     const submission = await db.submission.findMany({
         where: {
-            userId, id: problemId
+            userId, problemId: problemId
         }, include: {
             TestCaseResult: true
+        }, orderBy: {
+            createAt: 'desc',
         }
     })
 
@@ -44,7 +46,7 @@ export const getAllTheSubmissionsForProblem = asyncHandler(async (req: Request, 
 
     const submission = await db.submission.count({
         where: {
-            userId, id: problemId
+            userId, problemId: problemId
         }
     })
 
