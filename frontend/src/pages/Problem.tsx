@@ -14,14 +14,22 @@ import { useEffect, useState } from "react";
 import { CodeSnippets } from "./AddProblem";
 import {
   ChevronLeft,
+  Clock,
   Code2,
   FileText,
   Lightbulb,
   MessageSquare,
+  Play,
   Terminal,
+  ThumbsUp,
+  Users,
 } from "lucide-react";
 import { Editor } from "@monaco-editor/react";
 import { Button } from "@/components/ui/button";
+import { useExecutionStore } from "@/stores/useExecution";
+import { getLanguageId } from "@/lib/lang";
+import axios from "axios";
+import { toast } from "sonner";
 
 type testcase = {
   input: string;
@@ -35,9 +43,9 @@ const Problem = () => {
   const [activeTab, setActiveTab] = useState("description");
   const [selectedlanguage, setSelectedLanguage] =
     useState<string>("javascript");
-  const [_, setTestCases] = useState<testcase[]>([]);
+  const [testCases, setTestCases] = useState<testcase[]>([]);
 
-  //   const { executeCode, submission, isExecuting } = useExecutionStore();
+  const { executeCode, submission, isExecuting } = useExecutionStore();
 
   useEffect(() => {
     getProblemById(Id);
@@ -172,18 +180,73 @@ const Problem = () => {
     }
   };
 
+  const handleRunCode = () => {
+    try {
+      const language_id = +(
+        getLanguageId(
+          selectedlanguage[0].toUpperCase() + selectedlanguage.slice(1)
+        ) || 0
+      );
+
+      const stdin = problem?.testcases.map((testcases) => testcases.input);
+      const expected_outputs = problem?.testcases.map(
+        (testcases) => testcases.output
+      );
+
+      executeCode({
+        source_code: code,
+        language_id: language_id!,
+        expected_outputs: expected_outputs!,
+        stdin: stdin!,
+        problemId: Id,
+      });
+    } catch (error) {
+      let message = "Something went wrong";
+
+      if (axios.isAxiosError(error)) {
+        message = error.response?.data?.message || message;
+      } else if (error instanceof Error) {
+        message = error.message;
+      }
+
+      toast.error(message);
+    }
+  };
+
   return (
-    <div className="container mx-auto py-6 flex gap-1 flex-col">
-      <div className="flex justify-between gap-4 w-full ">
-        <div className="flex items-center gap-2">
+    <div className="container mx-auto py-6 flex gap-4 flex-col ">
+      <div className="flex w-full flex-col gap-1">
+        <div className="flex items-center gap-2 ">
           <Link to={"/dashboard"}>
             <ChevronLeft />
           </Link>
           <div className="font-bold text-2xl">{problem?.title}</div>
         </div>
+
+        <div className="">
+          <div className="flex items-center gap-2 text-sm text-base-content/70 ml-6">
+            <Clock className="w-4 h-4" />
+            <span>
+              Updated{" "}
+              {problem?.createdAt
+                ? new Date(problem!.createdAt).toLocaleString("en-US", {
+                    year: "numeric",
+                    month: "long",
+                    day: "numeric",
+                  })
+                : ""}
+            </span>
+            <span className="text-base-content/30">•</span>
+            <Users className="w-4 h-4" />
+            <span>{24} Submissions</span>
+            <span className="text-base-content/30">•</span>
+            <ThumbsUp className="w-4 h-4" />
+            <span>95% Success Rate</span>
+          </div>
+        </div>
       </div>
 
-      <div className="">
+      <div className="flex flex-col">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-2">
           <div className="card bg-background/50 shadow-xl">
             <div className="card-body p-0">
@@ -271,13 +334,20 @@ const Problem = () => {
               <div className="p-4 ">
                 <div className="flex justify-between items-center">
                   <Button
+                    type="button"
                     size={"lg"}
                     className={`bg-brand gap-2 text-white hover:bg-brand/50 cursor-pointer`}
-                    // onClick={handleRunCode}
-                    // disabled={isExecuting}
+                    onClick={handleRunCode}
+                    disabled={isExecuting}
                   >
-                    {/* {!isExecuting && <Play className="w-4 h-4" />} */}
-                    Run Code
+                    {isExecuting ? (
+                      <span className="loading loading-spinner text-white"></span>
+                    ) : (
+                      <>
+                        {!isExecuting && <Play className="w-4 h-4" />}
+                        Run Code
+                      </>
+                    )}
                   </Button>
                   <Button
                     size={"lg"}
@@ -288,6 +358,39 @@ const Problem = () => {
                 </div>
               </div>
             </div>
+          </div>
+        </div>
+
+        <div className="card bg-background/50 shadow-xl mt-6">
+          <div className="card-body">
+            {submission ? (
+              <></>
+            ) : (
+              //   <Submission submission={submission} />
+              <>
+                <div className="flex items-center justify-between mb-6">
+                  <h3 className="text-xl font-bold">Test Cases</h3>
+                </div>
+                <div className="overflow-x-auto">
+                  <table className="table table-zebra w-full">
+                    <thead>
+                      <tr>
+                        <th>Input</th>
+                        <th>Expected Output</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {testCases.map((testCase, index) => (
+                        <tr key={index}>
+                          <td className="font-mono">{testCase.input}</td>
+                          <td className="font-mono">{testCase.output}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </>
+            )}
           </div>
         </div>
       </div>
