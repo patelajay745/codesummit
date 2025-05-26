@@ -16,6 +16,7 @@ export type ProblemType = Problem & {
     updatedAt: string
     playlistId: string
     ProblemSolved: problemSolveBy[]
+    id: string
 }
 
 export interface ProblemStore {
@@ -64,7 +65,7 @@ export const useProblemStore = create<ProblemStore>((set) => ({
 
             const res = await api.get(`/problems/${id}`)
             set({ problem: res.data.data })
-            toast.success(res.data.message)
+
         } catch (error) {
             let message = "Something went wrong";
 

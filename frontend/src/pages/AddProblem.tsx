@@ -36,7 +36,7 @@ type testCase = {
 
 type Language = "JAVASCRIPT" | "PYTHON" | "JAVA" | string;
 
-type CodeSnippets = Record<Language, string>;
+export type CodeSnippets = Record<Language, string>;
 type ReferenceSolutions = Record<Language, string>;
 
 type Example = {

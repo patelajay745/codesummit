@@ -23,6 +23,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import Input from "./ui/input";
+import { Link } from "@tanstack/react-router";
 
 type Props = {
   data: ProblemType[];
@@ -183,7 +184,7 @@ const ProblemTabel: FC<Props> = ({ data }) => {
       </div>
 
       {/* problem table */}
-      <Table className="rounded-xl dark:bg-background/40 bg-neutral-200  border  overflow-hidden text-start  ">
+      <Table className="rounded-xl  border  overflow-hidden text-start  ">
         <TableHeader className="text-lg font-bold tracking-wider text-center  py-4 bg-brand ">
           <TableRow className="py-4 ">
             <TableHead className=" text-white text-center">Solved</TableHead>
@@ -195,7 +196,7 @@ const ProblemTabel: FC<Props> = ({ data }) => {
             <TableHead className="text-white  text-center">Actions</TableHead>
           </TableRow>
         </TableHeader>
-        <TableBody className="dark:bg-background/40 bg-neutral-200 ">
+        <TableBody className="bg-background/50 ">
           {pageinatedProblems.length > 0 ? (
             pageinatedProblems.map((problem) => {
               const isSolved = problem.ProblemSolved.some(
@@ -212,7 +213,16 @@ const ProblemTabel: FC<Props> = ({ data }) => {
                       />
                     }
                   </TableCell>
-                  <TableCell>{problem.title}</TableCell>
+
+                  <TableCell>
+                    <Link
+                      to={`/problem/${problem.id}`}
+                      className="cursor-pointer hover:underline"
+                    >
+                      {problem.title}
+                    </Link>
+                  </TableCell>
+
                   <TableCell>
                     <div className="flex flex-row gap-2">
                       {problem.tags.map((tag) => (
