@@ -32,8 +32,8 @@ export interface Submission {
     stderr: string | null;
     compileOutput: string | null;
     status: string;
-    memory: string[];
-    time: string[];
+    memory: string;
+    time: string;
     createAt: string;
     updatedAt: string;
     TestCaseResult: TestCaseResult[];

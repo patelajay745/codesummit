@@ -1,5 +1,121 @@
-const Submission = () => {
-  return <div>Submission</div>;
+import { type Submission } from "@/stores/useExecution";
+import { CheckCircle2, Clock, MemoryStick, XCircle } from "lucide-react";
+import { FC } from "react";
+
+type props = {
+  submission: Submission;
 };
 
-export default Submission;
+const SubmissionCard: FC<props> = ({ submission }) => {
+  const memoryArr = JSON.parse(submission.memory || "[]");
+  const timeArr = JSON.parse(submission.time || "[]");
+
+  // Calculate averages
+  const avgMemory =
+    memoryArr
+      .map((m: string) => parseFloat(m))
+      .reduce((a: number, b: number) => a + b, 0) / memoryArr.length;
+
+  const avgTime =
+    timeArr
+      .map((t: string) => parseFloat(t)) // remove ' s' using parseFloat
+      .reduce((a: number, b: number) => a + b, 0) / timeArr.length;
+
+  const passedTests = submission.TestCaseResult.filter(
+    (tc) => tc.passed
+  ).length;
+  const totalTests = submission.TestCaseResult.length;
+  const successRate = (passedTests / totalTests) * 100;
+
+  return (
+    <div className="space-y-6">
+      {/* Overall Status */}
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+        <div className="card bg-base-200 shadow-lg">
+          <div className="card-body p-4">
+            <h3 className="card-title text-sm">Status</h3>
+            <div
+              className={`text-lg font-bold ${
+                submission.status === "Accepted" ? "text-success" : "text-error"
+              }`}
+            >
+              {submission.status}
+            </div>
+          </div>
+        </div>
+
+        <div className="card bg-base-200 shadow-lg">
+          <div className="card-body p-4">
+            <h3 className="card-title text-sm">Success Rate</h3>
+            <div className="text-lg font-bold">{successRate.toFixed(1)}%</div>
+          </div>
+        </div>
+
+        <div className="card bg-base-200 shadow-lg">
+          <div className="card-body p-4">
+            <h3 className="card-title text-sm flex items-center gap-2">
+              <Clock className="w-4 h-4" />
+              Avg. Runtime
+            </h3>
+            <div className="text-lg font-bold">{avgTime.toFixed(2)} s</div>
+          </div>
+        </div>
+
+        <div className="card bg-base-200 shadow-lg">
+          <div className="card-body p-4">
+            <h3 className="card-title text-sm flex items-center gap-2">
+              <MemoryStick className="w-4 h-4" />
+              Avg. Memory
+            </h3>
+            <div className="text-lg font-bold">{avgMemory.toFixed(0)} KB</div>
+          </div>
+        </div>
+      </div>
+
+      {/* Test Cases Results */}
+      <div className="card bg-base-100 shadow-xl">
+        <div className="card-body">
+          <h2 className="card-title mb-4">Test Cases Results</h2>
+          <div className="overflow-x-auto">
+            <table className="table table-zebra w-full">
+              <thead>
+                <tr>
+                  <th>Status</th>
+                  <th>Expected Output</th>
+                  <th>Your Output</th>
+                  <th>Memory</th>
+                  <th>Time</th>
+                </tr>
+              </thead>
+              <tbody>
+                {submission.TestCaseResult.map((testCase) => (
+                  <tr key={testCase.id}>
+                    <td>
+                      {testCase.passed ? (
+                        <div className="flex items-center gap-2 text-success">
+                          <CheckCircle2 className="w-5 h-5" />
+                          Passed
+                        </div>
+                      ) : (
+                        <div className="flex items-center gap-2 text-error">
+                          <XCircle className="w-5 h-5" />
+                          Failed
+                        </div>
+                      )}
+                    </td>
+                    <td className="font-mono">{testCase.expected}</td>
+                    <td className="font-mono">{testCase.stdout || "null"}</td>
+                    <td>{testCase.memory}</td>
+                    <td>{testCase.time}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default SubmissionCard;

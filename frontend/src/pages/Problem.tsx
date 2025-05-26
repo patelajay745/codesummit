@@ -19,7 +19,6 @@ import {
   FileText,
   Lightbulb,
   MessageSquare,
-  Play,
   Terminal,
   ThumbsUp,
   Users,
@@ -30,7 +29,7 @@ import { useExecutionStore } from "@/stores/useExecution";
 import { getLanguageId } from "@/lib/lang";
 import axios from "axios";
 import { toast } from "sonner";
-
+import SubmissionCard from "@/components/Submission";
 type testcase = {
   input: string;
   output: string;
@@ -148,7 +147,7 @@ const Problem = () => {
       case "submissions":
         return (
           <></>
-          //   <SubmissionsList
+          //   <AllSubmission
           //     submissions={submissions}
           //     isLoading={isSubmissionsLoading}
           //   />
@@ -343,17 +342,8 @@ const Problem = () => {
                     {isExecuting ? (
                       <span className="loading loading-spinner text-white"></span>
                     ) : (
-                      <>
-                        {!isExecuting && <Play className="w-4 h-4" />}
-                        Run Code
-                      </>
+                      <>Submit</>
                     )}
-                  </Button>
-                  <Button
-                    size={"lg"}
-                    className={`bg-brand gap-2 text-white hover:bg-brand/50 cursor-pointer`}
-                  >
-                    Submit Solution
                   </Button>
                 </div>
               </div>
@@ -363,10 +353,9 @@ const Problem = () => {
 
         <div className="card bg-background/50 shadow-xl mt-6">
           <div className="card-body">
-            {submission ? (
-              <></>
+            {submission?.problemId === Id ? (
+              <SubmissionCard submission={submission!} />
             ) : (
-              //   <Submission submission={submission} />
               <>
                 <div className="flex items-center justify-between mb-6">
                   <h3 className="text-xl font-bold">Test Cases</h3>
