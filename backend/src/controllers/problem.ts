@@ -62,6 +62,7 @@ export const getAllProblem = asyncHandler(async (req: Request, res: Response) =>
                 },
             },
         },
+        orderBy: { createdAt: 'desc', }
     })
 
     if (!problems) throw new ApiError(404, "No problem found")
