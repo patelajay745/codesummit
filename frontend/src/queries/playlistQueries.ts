@@ -5,20 +5,19 @@ import axios from 'axios'
 import { toast } from 'sonner'
 import { ProblemType } from './problemQueries'
 
-type ProblemSet = {
-    id: string;
-    userId: string;
-    name: string;
-    description: string;
-    problems: ProblemType[];
-    _count: {
-        problems: number;
-    };
-};
-
 export interface createPlaylistFormData {
     name: string,
     description: string
+}
+
+interface playlistTypes extends createPlaylistFormData {
+    id: string,
+    problems: ProblemType[],
+    createdAt: string
+    updatedAt: string
+    _count: {
+        problems: number
+    }
 }
 
 const addPlaylist = async (data: createPlaylistFormData) => {
@@ -43,7 +42,7 @@ export const useAddPlaylist = () => useMutation({
     }
 })
 
-const getAllPlaylist = async (): Promise<ProblemSet[]> => {
+const getAllPlaylist = async (): Promise<playlistTypes[]> => {
     const res = await api.get("/playlist/")
     return res.data.data
 }

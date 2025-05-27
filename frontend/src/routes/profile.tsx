@@ -1,7 +1,7 @@
-import UpdateProblem from "@/pages/UpdateProblem";
+import Profile from "@/pages/Profile";
 import { createFileRoute, redirect } from "@tanstack/react-router";
 
-export const Route = createFileRoute("/updateproblem/$Id")({
+export const Route = createFileRoute("/profile")({
   beforeLoad: ({ context }) => {
     if (!context.auth) {
       throw redirect({
@@ -9,5 +9,5 @@ export const Route = createFileRoute("/updateproblem/$Id")({
       });
     }
   },
-  component: UpdateProblem,
+  component: Profile,
 });

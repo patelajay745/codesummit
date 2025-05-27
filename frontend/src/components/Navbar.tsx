@@ -89,16 +89,15 @@ const Navbar = () => {
                       description={authUser.email}
                       icon={<User />}
                     />
-
-                    <DropdownMenuItem>Profile</DropdownMenuItem>
-
+                    <Link to="/profile">
+                      <DropdownMenuItem>Profile</DropdownMenuItem>
+                    </Link>
                     {authUser.role === "ADMIN" && (
                       <Link to="/addproblem">
                         <DropdownMenuItem>Add Problem</DropdownMenuItem>
                       </Link>
                     )}
 
-                    <DropdownMenuItem>Team</DropdownMenuItem>
                     <DropdownMenuSeparator />
                     <Link to="/logout">
                       <DropdownMenuItem>Logout</DropdownMenuItem>
