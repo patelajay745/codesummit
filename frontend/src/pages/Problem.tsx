@@ -56,6 +56,8 @@ const Problem = () => {
     getSubmissionById,
     getTotalSubmission,
     submissionCount,
+    getSuccessRate,
+    successRate,
   } = useSubmissionStore();
 
   const { executeCode, submission, isExecuting } = useExecutionStore();
@@ -63,13 +65,14 @@ const Problem = () => {
   useEffect(() => {
     getProblemById(Id);
     getTotalSubmission(Id);
-  }, [Id]);
+    getSuccessRate(Id);
+  }, [Id, submission]);
 
   useEffect(() => {
     if (activeTab === "submissions" && Id) {
       getSubmissionById(Id);
     }
-  }, [activeTab, Id]);
+  }, [activeTab, Id, submission]);
 
   useEffect(() => {
     setCodeEditorColor(theme === "dark" ? "vs-dark" : "light");
@@ -264,7 +267,7 @@ const Problem = () => {
             <span>{submissionCount} Submissions</span>
             <span className="text-base-content/30">•</span>
             <ThumbsUp className="w-4 h-4" />
-            <span>95% Success Rate</span>
+            <span>{(+successRate).toFixed(1)}% Success Rate</span>
           </div>
         </div>
       </div>

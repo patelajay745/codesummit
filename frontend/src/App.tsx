@@ -3,6 +3,7 @@ import { routeTree } from "./routeTree.gen";
 import { useEffect } from "react";
 import { useAuthStore } from "./stores/useAuthStore";
 import CircularLoader from "./components/ui/snappy-loader";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 const router = createRouter({
   routeTree,
@@ -12,6 +13,8 @@ const router = createRouter({
     auth: undefined!,
   },
 });
+
+export const queryClient = new QueryClient();
 
 export default function App() {
   const { authUser: auth, checkAuth, isCheckingAuth } = useAuthStore();
@@ -27,5 +30,9 @@ export default function App() {
       </div>
     );
   }
-  return <RouterProvider router={router} context={{ auth }} />;
+  return (
+    <QueryClientProvider client={queryClient}>
+      <RouterProvider router={router} context={{ auth }} />{" "}
+    </QueryClientProvider>
+  );
 }

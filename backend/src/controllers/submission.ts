@@ -54,3 +54,22 @@ export const getAllTheSubmissionsForProblem = asyncHandler(async (req: Request, 
 
     res.status(200).json(new ApiResponse(200, "Submission is fetched", submission))
 })
+
+export const getSuccessRateForProblem = asyncHandler(async (req: Request, res: Response) => {
+
+    const { problemId } = req.params
+
+    const submission = await db.submission.findMany({
+        where: {
+            problemId: problemId
+        }
+    })
+
+    if (!submission) throw new ApiError(404, "No submission found")
+
+    const successSubmission = submission.filter(sub => sub.status === "Accepted")
+
+    const percentage = (successSubmission.length * 100) / (submission.length)
+
+    res.status(200).json(new ApiResponse(200, "Submission is fetched", percentage.toFixed(2)))
+})

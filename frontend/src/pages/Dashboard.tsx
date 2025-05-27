@@ -1,17 +1,12 @@
 import Slogan from "@/components/Dashboard/Slogan";
 import ProblemTabel from "@/components/ProblemTable";
 import CircularLoader from "@/components/ui/snappy-loader";
-import { useProblemStore } from "@/stores/useProblemStore";
-import { useEffect } from "react";
+import { useAllProblems } from "@/queries/problemQueries";
 
 const Dashboard = () => {
-  const { getAllProblems, problems, isProblemsLoading } = useProblemStore();
+  const { data: problems, isLoading } = useAllProblems();
 
-  useEffect(() => {
-    getAllProblems();
-  }, [getAllProblems]);
-
-  if (isProblemsLoading) {
+  if (isLoading) {
     return (
       <div className="flex items-center justify-center h-screen">
         <CircularLoader />

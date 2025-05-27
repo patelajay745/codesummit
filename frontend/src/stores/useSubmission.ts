@@ -42,9 +42,11 @@ export interface SubmissionStore {
     isLoading: boolean
     submission: Submission[] | null
     submissionCount: number
+    successRate: number
     getAllSubmission: () => Promise<void>
     getSubmissionById: (problemId: string) => Promise<void>
     getTotalSubmission: (problemId: string) => Promise<void>
+    getSuccessRate: (problemId: string) => Promise<void>
 
 }
 
@@ -53,6 +55,7 @@ export const useSubmissionStore = create<SubmissionStore>((set) => ({
     isLoading: false,
     submission: null,
     submissionCount: 0,
+    successRate: 0,
 
     getAllSubmission: async () => {
         try {
@@ -99,6 +102,26 @@ export const useSubmissionStore = create<SubmissionStore>((set) => ({
             set({ isLoading: true })
             const res = await api.get(`/submission/submission-count/${problemId}`)
             set({ submissionCount: res.data.data })
+
+        } catch (error) {
+            let message = "Something went wrong";
+
+            if (axios.isAxiosError(error)) {
+                message = error.response?.data?.message || message;
+            } else if (error instanceof Error) {
+                message = error.message;
+            }
+
+            toast.error(message);
+        } finally {
+            set({ isLoading: false })
+        }
+    },
+    getSuccessRate: async (problemId) => {
+        try {
+            set({ isLoading: true })
+            const res = await api.get(`/submission/success-count/${problemId}`)
+            set({ successRate: res.data.data })
 
         } catch (error) {
             let message = "Something went wrong";

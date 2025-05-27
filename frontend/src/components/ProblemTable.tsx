@@ -11,7 +11,7 @@ import { FC, useMemo, useState } from "react";
 import { Checkbox } from "./ui/checkbox";
 import { Badge } from "./ui/badge";
 
-import { Bookmark, PencilIcon, Trash2Icon, Plus } from "lucide-react";
+import { Bookmark, PencilIcon, Trash2Icon, Plus, Loader } from "lucide-react";
 import { useAuthStore } from "@/stores/useAuthStore";
 import { Button } from "./ui/button";
 import {
@@ -24,6 +24,10 @@ import {
 } from "@/components/ui/select";
 import Input from "./ui/input";
 import { Link } from "@tanstack/react-router";
+import { useDeleteProblem } from "@/queries/problemQueries";
+import { useAddPlaylist } from "@/queries/playlistQueries";
+import AddToPlaylist from "./AddToPlaylist";
+import CreatePlaylistModal, { FormData } from "./createPlaylistModal";
 
 type Props = {
   data: ProblemType[];
@@ -31,12 +35,19 @@ type Props = {
 
 const ProblemTabel: FC<Props> = ({ data }) => {
   const [search, setSearch] = useState("");
+  const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
+  const [isAddToPlaylistModal, setIsAddToPlaylistModal] = useState(false);
+  const [selectedProblemId, setSelectedProblemId] = useState("");
   const { authUser } = useAuthStore();
+  // const { onDeletProblem } = useActionsStore();
+  const { mutate: deleteProblem, isPending } = useDeleteProblem();
+  const { mutate: addPlaylist } = useAddPlaylist();
 
   const [difficulty, setDifficulty] = useState("All");
   const [selectedTag, setSelectedTag] = useState("All");
   const [selectedCompany, setSelectedCompany] = useState("All");
   const [currentPage, setCurrentPage] = useState(1);
+
   // const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
 
   const filteredProblems = useMemo(() => {
@@ -87,6 +98,15 @@ const ProblemTabel: FC<Props> = ({ data }) => {
       currentPage * itemsPerPage
     );
   }, [filteredProblems, currentPage, data]);
+
+  const handleCreatePlaylist = async (data: FormData) => {
+    addPlaylist(data);
+  };
+
+  const handleAddToPlaylist = (problemId: string) => {
+    setSelectedProblemId(problemId);
+    setIsAddToPlaylistModal(true);
+  };
 
   return (
     <div className="container flex flex-col  mx-auto pb-8">
@@ -174,7 +194,7 @@ const ProblemTabel: FC<Props> = ({ data }) => {
           <Button
             className="bg-text-secondary text-white gap-2 hover:bg-brand/80 cursor-pointer"
             onClick={() => {
-              // setIsCreateModalOpen(true);
+              setIsCreateModalOpen(true);
             }}
           >
             <Plus className="w-4 h-4" />
@@ -262,26 +282,43 @@ const ProblemTabel: FC<Props> = ({ data }) => {
                     <div className="flex flex-col md:flex-row gap-2 items-start md:items-center">
                       {authUser?.role === "ADMIN" && (
                         <div className="flex gap-2">
-                          <button
-                            onClick={() => {}}
+                          <Button
+                            id={problem.id}
+                            type="button"
+                            variant={"outline"}
+                            disabled={isPending}
+                            onClick={() => {
+                              deleteProblem(problem.id);
+                            }}
+                            className="outline p-2 rounded cursor-pointer "
+                          >
+                            {isPending ? (
+                              <Loader className="animate-spin w-4 h-4"></Loader>
+                            ) : (
+                              <Trash2Icon className="w-4 h-4 text-foreground" />
+                            )}
+                          </Button>
+                          <Button
+                            variant={"outline"}
+                            disabled
                             className="outline p-2 rounded"
                           >
-                            <Trash2Icon className="w-4 h-4 text-foreground" />
-                          </button>
-                          <button disabled className="outline p-2 rounded">
                             <PencilIcon className="w-4 h-4 text-foreground" />
-                          </button>
+                          </Button>
                         </div>
                       )}
-                      <button
-                        className="outline p-2 rounded flex gap-2 items-center"
-                        onClick={() => {}}
+                      <Button
+                        variant={"outline"}
+                        className="outline p-2 rounded flex gap-2 items-center  cursor-pointer"
+                        onClick={() => {
+                          handleAddToPlaylist(problem.id);
+                        }}
                       >
                         <Bookmark className="w-4 h-4" />
                         <span className="hidden sm:inline">
                           Save to Playlist
                         </span>
-                      </button>
+                      </Button>
                     </div>
                   </TableCell>
                 </TableRow>
@@ -295,12 +332,6 @@ const ProblemTabel: FC<Props> = ({ data }) => {
             </tr>
           )}
         </TableBody>
-        {/* <TableFooter>
-        <TableRow>
-          <TableCell colSpan={3}>Total</TableCell>
-          <TableCell className="text-right">$2,500.00</TableCell>
-        </TableRow>
-      </TableFooter> */}
       </Table>
 
       <div className="flex justify-center mt-6 gap-2 items-center">
@@ -326,6 +357,18 @@ const ProblemTabel: FC<Props> = ({ data }) => {
           Next
         </Button>
       </div>
+
+      <CreatePlaylistModal
+        isOpen={isCreateModalOpen}
+        onClose={() => setIsCreateModalOpen(false)}
+        onSubmit={handleCreatePlaylist}
+      />
+
+      <AddToPlaylist
+        isOpen={isAddToPlaylistModal}
+        onClose={() => setIsAddToPlaylistModal(false)}
+        problemId={selectedProblemId}
+      />
     </div>
   );
 };

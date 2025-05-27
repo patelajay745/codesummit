@@ -24,10 +24,8 @@ import {
 } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { api } from "@/api/client";
-import { toast } from "sonner";
+import { useAddProblem } from "@/queries/problemQueries";
 import { useNavigate } from "@tanstack/react-router";
-import axios from "axios";
 
 type testCase = {
   input: string;
@@ -307,262 +305,210 @@ class Main {
 }`,
   },
 };
+
 const sampleStringProblem = {
-  title: "House Robber III",
+  title: "Valid Palindrome",
   description:
-    "You are a professional robber planning to rob houses along a street. Each house has a certain amount of money stashed. All houses are arranged in a binary tree. The only constraint stopping you from robbing a house is that adjacent houses (i.e., directly-connected parent-child nodes) cannot be robbed on the same night.\n\nReturn the maximum amount of money the robber can rob without alerting the police.",
-  difficulty: "HARD" as Difficulty,
-  tags: ["tree", "dynamic programming", "recursion", "amazon"],
-  examples: {
-    PYTHON: {
-      input: "[3,2,3,null,3,null,1]",
-      output: "7",
-      explanation:
-        "Maximum amount is 3 + 3 + 1 = 7 (not robbing 2 or 3 which are adjacent to root).",
-    },
-    JAVASCRIPT: {
-      input: "[3,4,5,1,3,null,1]",
-      output: "9",
-      explanation:
-        "Robbing 4 + 5 = 9 gives more than robbing 3 + 1 + 3 + 1 = 8",
-    },
-  },
+    "A phrase is a palindrome if, after converting all uppercase letters into lowercase letters and removing all non-alphanumeric characters, it reads the same forward and backward. Alphanumeric characters include letters and numbers. Given a string s, return true if it is a palindrome, or false otherwise.",
+  difficulty: "MEDIUM" as Difficulty,
+  tags: ["String", "Two Pointers", "Memoization"],
   constraints:
-    "The number of nodes in the tree is in the range [1, 10^4].\n0 <= Node.val <= 10^4",
+    "1 <= s.length <= 2 * 10^5\ns consists only of printable ASCII characters.",
+  hints:
+    "Consider using two pointers, one from the start and one from the end, moving towards the center.",
+  editorial:
+    "We can use two pointers approach to check if the string is a palindrome. One pointer starts from the beginning and the other from the end, moving towards each other.",
   testcases: [
     {
-      input: "[4,1,null,2,null,3]",
-      output: "7",
+      input: "A man, a plan, a canal: Panama",
+      output: "true",
     },
     {
-      input: "[2,1,3,null,4]",
-      output: "7",
+      input: "race a car",
+      output: "false",
     },
     {
-      input: "[4]",
-      output: "4",
+      input: " ",
+      output: "true",
     },
   ],
+  examples: {
+    JAVASCRIPT: {
+      input: 's = "A man, a plan, a canal: Panama"',
+      output: "true",
+      explanation: '"amanaplanacanalpanama" is a palindrome.',
+    },
+    PYTHON: {
+      input: 's = "A man, a plan, a canal: Panama"',
+      output: "true",
+      explanation: '"amanaplanacanalpanama" is a palindrome.',
+    },
+    JAVA: {
+      input: 's = "A man, a plan, a canal: Panama"',
+      output: "true",
+      explanation: '"amanaplanacanalpanama" is a palindrome.',
+    },
+  },
   codeSnippets: {
-    JAVASCRIPT:
-      "function rob(root) {\n    function helper(node) {\n        if (!node) return [0, 0];\n\n        const [leftRob, leftNoRob] = helper(node.left);\n        const [rightRob, rightNoRob] = helper(node.right);\n\n        const rob = node.val + leftNoRob + rightNoRob;\n        const noRob = Math.max(leftRob, leftNoRob) + Math.max(rightRob, rightNoRob);\n\n        return [rob, noRob];\n    }\n\n    return Math.max(...helper(root));\n}\n\n// Tree input parser and main function would be added based on execution environment.",
-    PYTHON:
-      "class TreeNode:\n    def __init__(self, val=0, left=None, right=None):\n        self.val = val\n        self.left = left\n        self.right = right\n\ndef rob(root):\n    def helper(node):\n        if not node:\n            return (0, 0)\n        left = helper(node.left)\n        right = helper(node.right)\n        rob_this = node.val + left[1] + right[1]\n        not_rob = max(left) + max(right)\n        return (rob_this, not_rob)\n    return max(helper(root))",
-    JAVA: "class TreeNode {\n    int val;\n    TreeNode left, right;\n    TreeNode(int x) { val = x; }\n}\n\nclass Solution {\n    public int rob(TreeNode root) {\n        int[] result = helper(root);\n        return Math.max(result[0], result[1]);\n    }\n\n    private int[] helper(TreeNode node) {\n        if (node == null) return new int[2];\n        int[] left = helper(node.left);\n        int[] right = helper(node.right);\n\n        int rob = node.val + left[1] + right[1];\n        int notRob = Math.max(left[0], left[1]) + Math.max(right[0], right[1]);\n\n        return new int[]{rob, notRob};\n    }\n}",
+    JAVASCRIPT: `/**
+   * @param {string} s
+   * @return {boolean}
+   */
+  function isPalindrome(s) {
+    // Write your code here
+  }
+
+  // Add readline for dynamic input handling
+  const readline = require('readline');
+  const rl = readline.createInterface({
+    input: process.stdin,
+    output: process.stdout,
+    terminal: false
+  });
+
+  // Process input line
+  rl.on('line', (line) => {
+    // Call solution with the input string
+    const result = isPalindrome(line);
+
+    // Output the result
+    console.log(result ? "true" : "false");
+    rl.close();
+  });`,
+    PYTHON: `class Solution:
+      def isPalindrome(self, s: str) -> bool:
+          # Write your code here
+          pass
+
+  # Input parsing
+  if __name__ == "__main__":
+      import sys
+      # Read the input string
+      s = sys.stdin.readline().strip()
+
+      # Call solution
+      sol = Solution()
+      result = sol.isPalindrome(s)
+
+      # Output result
+      print(str(result).lower())  # Convert True/False to lowercase true/false`,
+    JAVA: `import java.util.Scanner;
+
+public class Main {
+    public static String preprocess(String s) {
+        return s.replaceAll("[^a-zA-Z0-9]", "").toLowerCase();
+    }
+
+    public static boolean isPalindrome(String s) {
+
+    }
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        String input = sc.nextLine();
+
+        boolean result = isPalindrome(input);
+        System.out.println(result ? "true" : "false");
+    }
+}
+`,
   },
   referenceSolution: {
-    PYTHON:
-      "def rob(root):\n    def helper(node):\n        if not node:\n            return (0, 0)\n        left = helper(node.left)\n        right = helper(node.right)\n        return (\n            node.val + left[1] + right[1],\n            max(left) + max(right)\n        )\n    return max(helper(root))",
-    JAVASCRIPT:
-      "function rob(root) {\n    function helper(node) {\n        if (!node) return [0, 0];\n        const [leftRob, leftNoRob] = helper(node.left);\n        const [rightRob, rightNoRob] = helper(node.right);\n        const rob = node.val + leftNoRob + rightNoRob;\n        const noRob = Math.max(leftRob, leftNoRob) + Math.max(rightRob, rightNoRob);\n        return [rob, noRob];\n    }\n    return Math.max(...helper(root));\n}",
-    JAVA: "class Solution {\n    public int rob(TreeNode root) {\n        int[] result = helper(root);\n        return Math.max(result[0], result[1]);\n    }\n\n    private int[] helper(TreeNode node) {\n        if (node == null) return new int[2];\n        int[] left = helper(node.left);\n        int[] right = helper(node.right);\n        int rob = node.val + left[1] + right[1];\n        int notRob = Math.max(left[0], left[1]) + Math.max(right[0], right[1]);\n        return new int[]{rob, notRob};\n    }\n}",
+    JAVASCRIPT: `/**
+   * @param {string} s
+   * @return {boolean}
+   */
+  function isPalindrome(s) {
+    // Convert to lowercase and remove non-alphanumeric characters
+    s = s.toLowerCase().replace(/[^a-z0-9]/g, '');
+
+    // Check if it's a palindrome
+    let left = 0;
+    let right = s.length - 1;
+
+    while (left < right) {
+      if (s[left] !== s[right]) {
+        return false;
+      }
+      left++;
+      right--;
+    }
+
+    return true;
+  }
+
+  // Add readline for dynamic input handling
+  const readline = require('readline');
+  const rl = readline.createInterface({
+    input: process.stdin,
+    output: process.stdout,
+    terminal: false
+  });
+
+  // Process input line
+  rl.on('line', (line) => {
+    // Call solution with the input string
+    const result = isPalindrome(line);
+
+    // Output the result
+    console.log(result ? "true" : "false");
+    rl.close();
+  });`,
+    PYTHON: `class Solution:
+      def isPalindrome(self, s: str) -> bool:
+          # Convert to lowercase and keep only alphanumeric characters
+          filtered_chars = [c.lower() for c in s if c.isalnum()]
+
+          # Check if it's a palindrome
+          return filtered_chars == filtered_chars[::-1]
+
+  # Input parsing
+  if __name__ == "__main__":
+      import sys
+      # Read the input string
+      s = sys.stdin.readline().strip()
+
+      # Call solution
+      sol = Solution()
+      result = sol.isPalindrome(s)
+
+      # Output result
+      print(str(result).lower())  # Convert True/False to lowercase true/false`,
+    JAVA: `import java.util.Scanner;
+
+public class Main {
+    public static String preprocess(String s) {
+        return s.replaceAll("[^a-zA-Z0-9]", "").toLowerCase();
+    }
+
+    public static boolean isPalindrome(String s) {
+        s = preprocess(s);
+        int left = 0, right = s.length() - 1;
+
+        while (left < right) {
+            if (s.charAt(left) != s.charAt(right)) return false;
+            left++;
+            right--;
+        }
+
+        return true;
+    }
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        String input = sc.nextLine();
+
+        boolean result = isPalindrome(input);
+        System.out.println(result ? "true" : "false");
+    }
+}
+`,
   },
 };
 
-// const sampleStringProblem = {
-//   title: "Valid Palindrome",
-//   description:
-//     "A phrase is a palindrome if, after converting all uppercase letters into lowercase letters and removing all non-alphanumeric characters, it reads the same forward and backward. Alphanumeric characters include letters and numbers. Given a string s, return true if it is a palindrome, or false otherwise.",
-//   difficulty: "MEDIUM" as Difficulty,
-//   tags: ["String", "Two Pointers", "Memoization"],
-//   constraints:
-//     "1 <= s.length <= 2 * 10^5\ns consists only of printable ASCII characters.",
-//   hints:
-//     "Consider using two pointers, one from the start and one from the end, moving towards the center.",
-//   editorial:
-//     "We can use two pointers approach to check if the string is a palindrome. One pointer starts from the beginning and the other from the end, moving towards each other.",
-//   testcases: [
-//     {
-//       input: "A man, a plan, a canal: Panama",
-//       output: "true",
-//     },
-//     {
-//       input: "race a car",
-//       output: "false",
-//     },
-//     {
-//       input: " ",
-//       output: "true",
-//     },
-//   ],
-//   examples: {
-//     JAVASCRIPT: {
-//       input: 's = "A man, a plan, a canal: Panama"',
-//       output: "true",
-//       explanation: '"amanaplanacanalpanama" is a palindrome.',
-//     },
-//     PYTHON: {
-//       input: 's = "A man, a plan, a canal: Panama"',
-//       output: "true",
-//       explanation: '"amanaplanacanalpanama" is a palindrome.',
-//     },
-//     JAVA: {
-//       input: 's = "A man, a plan, a canal: Panama"',
-//       output: "true",
-//       explanation: '"amanaplanacanalpanama" is a palindrome.',
-//     },
-//   },
-//   codeSnippets: {
-//     JAVASCRIPT: `/**
-//    * @param {string} s
-//    * @return {boolean}
-//    */
-//   function isPalindrome(s) {
-//     // Write your code here
-//   }
-
-//   // Add readline for dynamic input handling
-//   const readline = require('readline');
-//   const rl = readline.createInterface({
-//     input: process.stdin,
-//     output: process.stdout,
-//     terminal: false
-//   });
-
-//   // Process input line
-//   rl.on('line', (line) => {
-//     // Call solution with the input string
-//     const result = isPalindrome(line);
-
-//     // Output the result
-//     console.log(result ? "true" : "false");
-//     rl.close();
-//   });`,
-//     PYTHON: `class Solution:
-//       def isPalindrome(self, s: str) -> bool:
-//           # Write your code here
-//           pass
-
-//   # Input parsing
-//   if __name__ == "__main__":
-//       import sys
-//       # Read the input string
-//       s = sys.stdin.readline().strip()
-
-//       # Call solution
-//       sol = Solution()
-//       result = sol.isPalindrome(s)
-
-//       # Output result
-//       print(str(result).lower())  # Convert True/False to lowercase true/false`,
-//     JAVA: `import java.util.Scanner;
-
-// public class Main {
-//     public static String preprocess(String s) {
-//         return s.replaceAll("[^a-zA-Z0-9]", "").toLowerCase();
-//     }
-
-//     public static boolean isPalindrome(String s) {
-
-//     }
-
-//     public static void main(String[] args) {
-//         Scanner sc = new Scanner(System.in);
-//         String input = sc.nextLine();
-
-//         boolean result = isPalindrome(input);
-//         System.out.println(result ? "true" : "false");
-//     }
-// }
-// `,
-//   },
-//   referenceSolution: {
-//     JAVASCRIPT: `/**
-//    * @param {string} s
-//    * @return {boolean}
-//    */
-//   function isPalindrome(s) {
-//     // Convert to lowercase and remove non-alphanumeric characters
-//     s = s.toLowerCase().replace(/[^a-z0-9]/g, '');
-
-//     // Check if it's a palindrome
-//     let left = 0;
-//     let right = s.length - 1;
-
-//     while (left < right) {
-//       if (s[left] !== s[right]) {
-//         return false;
-//       }
-//       left++;
-//       right--;
-//     }
-
-//     return true;
-//   }
-
-//   // Add readline for dynamic input handling
-//   const readline = require('readline');
-//   const rl = readline.createInterface({
-//     input: process.stdin,
-//     output: process.stdout,
-//     terminal: false
-//   });
-
-//   // Process input line
-//   rl.on('line', (line) => {
-//     // Call solution with the input string
-//     const result = isPalindrome(line);
-
-//     // Output the result
-//     console.log(result ? "true" : "false");
-//     rl.close();
-//   });`,
-//     PYTHON: `class Solution:
-//       def isPalindrome(self, s: str) -> bool:
-//           # Convert to lowercase and keep only alphanumeric characters
-//           filtered_chars = [c.lower() for c in s if c.isalnum()]
-
-//           # Check if it's a palindrome
-//           return filtered_chars == filtered_chars[::-1]
-
-//   # Input parsing
-//   if __name__ == "__main__":
-//       import sys
-//       # Read the input string
-//       s = sys.stdin.readline().strip()
-
-//       # Call solution
-//       sol = Solution()
-//       result = sol.isPalindrome(s)
-
-//       # Output result
-//       print(str(result).lower())  # Convert True/False to lowercase true/false`,
-//     JAVA: `import java.util.Scanner;
-
-// public class Main {
-//     public static String preprocess(String s) {
-//         return s.replaceAll("[^a-zA-Z0-9]", "").toLowerCase();
-//     }
-
-//     public static boolean isPalindrome(String s) {
-//         s = preprocess(s);
-//         int left = 0, right = s.length() - 1;
-
-//         while (left < right) {
-//             if (s.charAt(left) != s.charAt(right)) return false;
-//             left++;
-//             right--;
-//         }
-
-//         return true;
-//     }
-
-//     public static void main(String[] args) {
-//         Scanner sc = new Scanner(System.in);
-//         String input = sc.nextLine();
-
-//         boolean result = isPalindrome(input);
-//         System.out.println(result ? "true" : "false");
-//     }
-// }
-// `,
-//   },
-// };
-
 function AddProblem() {
-  const [isLoading, setIsLoading] = useState(false);
   const [sampleType, setSampleType] = useState("array");
-  const navigate = useNavigate({ from: "/addproblem" });
+  const navigate = useNavigate({});
 
   const {
     register,
@@ -594,29 +540,15 @@ function AddProblem() {
     },
   });
 
+  const { mutate: addProblem, isPending, isSuccess } = useAddProblem();
+
   const onSubmit = async (data: Problem) => {
-    try {
-      setIsLoading(true);
-      const res = await api.post("/problems/", data);
-
-      toast.success(res.data.message || "Problem is created");
-
-      navigate({ to: "/dashboard" });
-    } catch (error) {
-      console.log(error);
-      let message = "Something went wrong";
-
-      if (axios.isAxiosError(error)) {
-        message = error.response?.data?.message || message;
-      } else if (error instanceof Error) {
-        message = error.message;
-      }
-
-      toast.error(message);
-    } finally {
-      setIsLoading(false);
-    }
+    addProblem(data);
   };
+
+  if (isSuccess) {
+    navigate({ to: "/dashboard" });
+  }
 
   const {
     fields: testCaseFields,
@@ -634,11 +566,7 @@ function AddProblem() {
     const sampleData =
       sampleType === "array" ? sampledpData : sampleStringProblem;
 
-    // Replace the tags and test cases arrays
-    // replaceTags(sampleData.tags.map((tag) => tag));
     replaceTestCases(sampleData.testcases.map((tc) => tc));
-
-    // Reset the form with sample data
     reset(sampleData);
   };
 
@@ -1194,7 +1122,7 @@ function AddProblem() {
 
               <div className="card-actions justify-end pt-4 border-t">
                 <Button className="bg-brand hover:bg-brand/80 text-white btn-lg gap-2">
-                  {isLoading ? (
+                  {isPending ? (
                     <span className="loading loading-spinner text-white"></span>
                   ) : (
                     <>
