@@ -18,6 +18,7 @@ import { Route as LogoutImport } from './routes/logout'
 import { Route as DashboardImport } from './routes/dashboard'
 import { Route as AddproblemImport } from './routes/addproblem'
 import { Route as IndexImport } from './routes/index'
+import { Route as UpdateproblemIdImport } from './routes/updateproblem.$Id'
 import { Route as ProblemIdImport } from './routes/problem.$Id'
 
 // Create/Update Routes
@@ -61,6 +62,12 @@ const AddproblemRoute = AddproblemImport.update({
 const IndexRoute = IndexImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const UpdateproblemIdRoute = UpdateproblemIdImport.update({
+  id: '/updateproblem/$Id',
+  path: '/updateproblem/$Id',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -130,6 +137,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProblemIdImport
       parentRoute: typeof rootRoute
     }
+    '/updateproblem/$Id': {
+      id: '/updateproblem/$Id'
+      path: '/updateproblem/$Id'
+      fullPath: '/updateproblem/$Id'
+      preLoaderRoute: typeof UpdateproblemIdImport
+      parentRoute: typeof rootRoute
+    }
   }
 }
 
@@ -144,6 +158,7 @@ export interface FileRoutesByFullPath {
   '/signup': typeof SignupRoute
   '/singin': typeof SinginRoute
   '/problem/$Id': typeof ProblemIdRoute
+  '/updateproblem/$Id': typeof UpdateproblemIdRoute
 }
 
 export interface FileRoutesByTo {
@@ -155,6 +170,7 @@ export interface FileRoutesByTo {
   '/signup': typeof SignupRoute
   '/singin': typeof SinginRoute
   '/problem/$Id': typeof ProblemIdRoute
+  '/updateproblem/$Id': typeof UpdateproblemIdRoute
 }
 
 export interface FileRoutesById {
@@ -167,6 +183,7 @@ export interface FileRoutesById {
   '/signup': typeof SignupRoute
   '/singin': typeof SinginRoute
   '/problem/$Id': typeof ProblemIdRoute
+  '/updateproblem/$Id': typeof UpdateproblemIdRoute
 }
 
 export interface FileRouteTypes {
@@ -180,6 +197,7 @@ export interface FileRouteTypes {
     | '/signup'
     | '/singin'
     | '/problem/$Id'
+    | '/updateproblem/$Id'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -190,6 +208,7 @@ export interface FileRouteTypes {
     | '/signup'
     | '/singin'
     | '/problem/$Id'
+    | '/updateproblem/$Id'
   id:
     | '__root__'
     | '/'
@@ -200,6 +219,7 @@ export interface FileRouteTypes {
     | '/signup'
     | '/singin'
     | '/problem/$Id'
+    | '/updateproblem/$Id'
   fileRoutesById: FileRoutesById
 }
 
@@ -212,6 +232,7 @@ export interface RootRouteChildren {
   SignupRoute: typeof SignupRoute
   SinginRoute: typeof SinginRoute
   ProblemIdRoute: typeof ProblemIdRoute
+  UpdateproblemIdRoute: typeof UpdateproblemIdRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
@@ -223,6 +244,7 @@ const rootRouteChildren: RootRouteChildren = {
   SignupRoute: SignupRoute,
   SinginRoute: SinginRoute,
   ProblemIdRoute: ProblemIdRoute,
+  UpdateproblemIdRoute: UpdateproblemIdRoute,
 }
 
 export const routeTree = rootRoute
@@ -242,7 +264,8 @@ export const routeTree = rootRoute
         "/sample",
         "/signup",
         "/singin",
-        "/problem/$Id"
+        "/problem/$Id",
+        "/updateproblem/$Id"
       ]
     },
     "/": {
@@ -268,6 +291,9 @@ export const routeTree = rootRoute
     },
     "/problem/$Id": {
       "filePath": "problem.$Id.tsx"
+    },
+    "/updateproblem/$Id": {
+      "filePath": "updateproblem.$Id.tsx"
     }
   }
 }

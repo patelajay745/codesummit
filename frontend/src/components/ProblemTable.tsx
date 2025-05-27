@@ -23,7 +23,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import Input from "./ui/input";
-import { Link } from "@tanstack/react-router";
+import { Link, useNavigate } from "@tanstack/react-router";
 import { useDeleteProblem } from "@/queries/problemQueries";
 import { useAddPlaylist } from "@/queries/playlistQueries";
 import AddToPlaylist from "./AddToPlaylist";
@@ -39,6 +39,7 @@ const ProblemTabel: FC<Props> = ({ data }) => {
   const [isAddToPlaylistModal, setIsAddToPlaylistModal] = useState(false);
   const [selectedProblemId, setSelectedProblemId] = useState("");
   const { authUser } = useAuthStore();
+  const navigate = useNavigate();
   // const { onDeletProblem } = useActionsStore();
   const { mutate: deleteProblem, isPending } = useDeleteProblem();
   const { mutate: addPlaylist } = useAddPlaylist();
@@ -213,7 +214,7 @@ const ProblemTabel: FC<Props> = ({ data }) => {
             <TableHead className=" text-white">Company</TableHead>
             <TableHead className="text-white">Dificulty</TableHead>
 
-            <TableHead className="text-white  text-center">Actions</TableHead>
+            <TableHead className="text-white  ">Actions</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody className="bg-background/50 ">
@@ -223,7 +224,7 @@ const ProblemTabel: FC<Props> = ({ data }) => {
                 (user) => user.userId === authUser?.id
               );
               return (
-                <TableRow key={problem.title}>
+                <TableRow key={problem.id}>
                   <TableCell className="font-medium text-center ">
                     {
                       <Checkbox
@@ -300,8 +301,10 @@ const ProblemTabel: FC<Props> = ({ data }) => {
                           </Button>
                           <Button
                             variant={"outline"}
-                            disabled
-                            className="outline p-2 rounded"
+                            className="outline p-2 rounded cursor-pointer"
+                            onClick={() =>
+                              navigate({ to: `/updateproblem/${problem.id}` })
+                            }
                           >
                             <PencilIcon className="w-4 h-4 text-foreground" />
                           </Button>

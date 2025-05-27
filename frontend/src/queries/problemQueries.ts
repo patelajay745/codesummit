@@ -85,10 +85,41 @@ export const useDeleteProblem = () => useMutation({
     }
 })
 
-// const fetchProblemById = async (id: string) => {
-//     const res = await api.get(`/problems/${id}`)
-//     return res.data.data
-// }
+const fetchProblemById = async (id: string): Promise<Problem> => {
+    const res = await api.get(`/problems/${id}`)
+    return res.data.data
+}
+
+export const useProblemById = (id: string) => useQuery({
+    queryKey: ["problem", id],
+    queryFn: () => fetchProblemById(id),
+    enabled: !!id,
+
+})
+
+const updateProblem = async ({ id, data }: { id: string, data: Problem }) => {
+    const res = await api.patch(`/problems/${id}`, data)
+    return res.data
+}
+
+export const useUpdateProblem = () => useMutation({
+    mutationFn: updateProblem,
+    onSuccess: (data) => {
+        toast.success(data.message || "Problem is updated");
+        queryClient.invalidateQueries({ queryKey: ['problems'] })
+
+    },
+    onError: (error) => {
+        const message =
+            axios.isAxiosError(error)
+                ? error.response?.data?.message || 'Something went wrong'
+                : error instanceof Error
+                    ? error.message
+                    : 'Something went wrong'
+        toast.error(message)
+    }
+
+})
 
 // const fetchSolvedProblemsByUser = async () => {
 //     const res = await api.get('/problems/get-solved-problems')
