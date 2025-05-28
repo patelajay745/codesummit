@@ -1,7 +1,11 @@
 import { Button } from "@/components/ui/button";
 import CircularLoader from "@/components/ui/snappy-loader";
 import { cn } from "@/lib/utils";
-import { useProblemById, useUpdateProblem } from "@/queries/problemQueries";
+import {
+  Problem,
+  useProblemById,
+  useUpdateProblem,
+} from "@/queries/problemQueries";
 import { addProblemSchema } from "@/schemas";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Editor } from "@monaco-editor/react";
@@ -16,7 +20,6 @@ import {
 } from "lucide-react";
 import { useEffect } from "react";
 import { Controller, useFieldArray, useForm } from "react-hook-form";
-import { Problem } from "./AddProblem";
 
 const UpdateProblem = () => {
   const { Id } = useParams({ strict: false });

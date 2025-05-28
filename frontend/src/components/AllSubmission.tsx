@@ -1,4 +1,4 @@
-import { Submission } from "@/stores/useSubmission";
+// import { Submission } from "@/stores/useSubmission";
 import {
   Calendar,
   CheckCircle2,
@@ -14,6 +14,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "./ui/accordion";
+import { Submission } from "@/queries/submissionQueries";
 
 interface props {
   isLoading: boolean;

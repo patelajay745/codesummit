@@ -1,12 +1,45 @@
 import { api } from '@/api/client'
 import { queryClient } from '@/App'
-import { Problem } from '@/pages/AddProblem'
+import { Difficulty } from '@/schemas'
 import { useMutation, useQuery } from '@tanstack/react-query'
 import axios from 'axios'
 import { toast } from 'sonner'
 
 type problemSolveBy = {
     userId: string
+}
+
+type testCase = {
+    input: string;
+    output: string;
+};
+
+type Language = "JAVASCRIPT" | "PYTHON" | "JAVA" | string;
+
+type Examples = Record<Language, Example>;
+
+export type CodeSnippets = Record<Language, string>;
+type ReferenceSolutions = Record<Language, string>;
+
+type Example = {
+    input: string;
+    output: string;
+    explanation: string;
+};
+
+export interface Problem {
+    title: string;
+    description: string;
+    constraints: string;
+    testcases: testCase[];
+    codeSnippets: CodeSnippets;
+    referenceSolution: ReferenceSolutions;
+    hints?: string;
+    editorial?: string;
+    category?: string;
+    tags: string[];
+    examples: Examples;
+    difficulty: Difficulty;
 }
 
 export type ProblemType = Problem & {
@@ -35,15 +68,15 @@ const fetchAllProblems = async () => {
     }
 }
 
-const addProblem = async (data: Problem) => {
-    const res = await api.post("/problems/", data);
-    return res.data
-}
-
 export const useAllProblems = () => useQuery({
     queryKey: ['problems'],
     queryFn: fetchAllProblems,
 })
+
+const addProblem = async (data: Problem) => {
+    const res = await api.post("/problems/", data);
+    return res.data
+}
 
 export const useAddProblem = () => useMutation({
     mutationFn: addProblem,
@@ -85,7 +118,7 @@ export const useDeleteProblem = () => useMutation({
     }
 })
 
-const fetchProblemById = async (id: string): Promise<Problem> => {
+const fetchProblemById = async (id: string): Promise<ProblemType> => {
     const res = await api.get(`/problems/${id}`)
     return res.data.data
 }

@@ -8,10 +8,8 @@ import {
 } from "@/components/ui/select";
 
 import CircularLoader from "@/components/ui/snappy-loader";
-import { useProblemStore } from "@/stores/useProblemStore";
 import { Link, useParams } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
-import { CodeSnippets } from "./AddProblem";
 import {
   ChevronLeft,
   Clock,
@@ -25,58 +23,45 @@ import {
 } from "lucide-react";
 import { Editor } from "@monaco-editor/react";
 import { Button } from "@/components/ui/button";
-import { useExecutionStore } from "@/stores/useExecution";
 import { getLanguageId } from "@/lib/lang";
 import axios from "axios";
 import { toast } from "sonner";
 import SubmissionCard from "@/components/Submission";
 import useThemeStore from "@/stores/useThemeStore";
 import AllSubmission from "@/components/AllSubmission";
-import { useSubmissionStore } from "@/stores/useSubmission";
 import { cn } from "@/lib/utils";
+import { CodeSnippets, useProblemById } from "@/queries/problemQueries";
+import {
+  useGetSubmissionById,
+  useGetSubmissionCount,
+  useGetSuccessRate,
+} from "@/queries/submissionQueries";
+import { useExecuteCode } from "@/queries/executeQueries";
 type testcase = {
   input: string;
   output: string;
 };
 
 const Problem = () => {
+  const { Id } = useParams({ strict: false });
   const { theme } = useThemeStore();
   const [codeEditorColor, setCodeEditorColor] = useState(theme);
-  const { Id } = useParams({ strict: false });
-  const { getProblemById, problem, isProblemLoading } = useProblemStore();
   const [code, setCode] = useState("");
   const [activeTab, setActiveTab] = useState("description");
   const [selectedlanguage, setSelectedLanguage] =
     useState<string>("javascript");
   const [testCases, setTestCases] = useState<testcase[]>([]);
 
+  const { data: problem, isFetching: isProblemLoading } = useProblemById(Id);
+  const { data: submissions, isFetching: isSubmissionsLoading } =
+    useGetSubmissionById(Id);
+  const { data: submissionCount } = useGetSubmissionCount(Id);
+  const { data: successRate } = useGetSuccessRate(Id);
   const {
-    submission: submissions,
-    isLoading: isSubmissionsLoading,
-    getSubmissionById,
-    getTotalSubmission,
-    submissionCount,
-    getSuccessRate,
-    successRate,
-  } = useSubmissionStore();
-
-  const { executeCode, submission, isExecuting } = useExecutionStore();
-
-  useEffect(() => {
-    getProblemById(Id);
-    getTotalSubmission(Id);
-    getSuccessRate(Id);
-  }, [Id, submission]);
-
-  useEffect(() => {
-    if (activeTab === "submissions" && Id) {
-      getSubmissionById(Id);
-    }
-  }, [activeTab, Id, submission]);
-
-  useEffect(() => {
-    setCodeEditorColor(theme === "dark" ? "vs-dark" : "light");
-  }, [theme]);
+    mutate: executeCode,
+    data: submission,
+    isPending: isExecuting,
+  } = useExecuteCode(Id);
 
   useEffect(() => {
     if (problem) {
@@ -97,21 +82,22 @@ const Problem = () => {
     }
   }, [problem, selectedlanguage]);
 
+  useEffect(() => {
+    setCodeEditorColor(theme === "dark" ? "vs-dark" : "light");
+  }, [theme]);
+
   const handleLanguageChange = (value: string) => {
     console.log(value);
     setSelectedLanguage(value);
     setCode(problem!.codeSnippets![value as keyof CodeSnippets] || "");
   };
 
-  console.log(problem);
   if (isProblemLoading)
     return (
       <div className="flex items-center justify-center h-screen">
         <CircularLoader />
       </div>
     );
-
-  //   console.log("aaaa", problem!.codeSnippets);
 
   const renderTabContent = () => {
     switch (activeTab) {
@@ -264,10 +250,13 @@ const Problem = () => {
             </span>
             <span className="text-base-content/30">•</span>
             <Users className="w-4 h-4" />
-            <span>{submissionCount} Submissions</span>
+            <span>{submissionCount ?? 0} Submissions</span>
             <span className="text-base-content/30">•</span>
             <ThumbsUp className="w-4 h-4" />
-            <span>{(+successRate).toFixed(1)}% Success Rate</span>
+            <span>
+              {successRate == "NaN" ? 0 : (+successRate).toFixed(1)}% Success
+              Rate
+            </span>
           </div>
         </div>
       </div>

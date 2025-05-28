@@ -1,4 +1,4 @@
-import { type Submission } from "@/stores/useExecution";
+import { Submission } from "@/queries/submissionQueries";
 import { CheckCircle2, Clock, MemoryStick, XCircle } from "lucide-react";
 import { FC } from "react";
 

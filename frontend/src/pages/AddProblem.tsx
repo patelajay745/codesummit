@@ -24,41 +24,8 @@ import {
 } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { useAddProblem } from "@/queries/problemQueries";
+import { Problem, useAddProblem } from "@/queries/problemQueries";
 import { useNavigate } from "@tanstack/react-router";
-
-type testCase = {
-  input: string;
-  output: string;
-};
-
-type Language = "JAVASCRIPT" | "PYTHON" | "JAVA" | string;
-
-export type CodeSnippets = Record<Language, string>;
-type ReferenceSolutions = Record<Language, string>;
-
-type Example = {
-  input: string;
-  output: string;
-  explanation: string;
-};
-
-type Examples = Record<Language, Example>;
-
-export interface Problem {
-  title: string;
-  description: string;
-  constraints: string;
-  testcases: testCase[];
-  codeSnippets: CodeSnippets;
-  referenceSolution: ReferenceSolutions;
-  hints?: string;
-  editorial?: string;
-  category?: string;
-  tags: string[];
-  examples: Examples;
-  difficulty: Difficulty;
-}
 
 const sampledpData: Problem = {
   title: "Climbing Stairs",

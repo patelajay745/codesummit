@@ -6,8 +6,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { ProblemType } from "@/stores/useProblemStore";
-import { FC, useMemo, useState } from "react";
+import { FC, useEffect, useMemo, useState } from "react";
 import { Checkbox } from "./ui/checkbox";
 import { Badge } from "./ui/badge";
 
@@ -24,7 +23,7 @@ import {
 } from "@/components/ui/select";
 import Input from "./ui/input";
 import { Link, useNavigate } from "@tanstack/react-router";
-import { useDeleteProblem } from "@/queries/problemQueries";
+import { ProblemType, useDeleteProblem } from "@/queries/problemQueries";
 import { useAddPlaylist } from "@/queries/playlistQueries";
 import AddToPlaylist from "./AddToPlaylist";
 import CreatePlaylistModal, { FormData } from "./createPlaylistModal";
@@ -38,18 +37,16 @@ const ProblemTabel: FC<Props> = ({ data }) => {
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
   const [isAddToPlaylistModal, setIsAddToPlaylistModal] = useState(false);
   const [selectedProblemId, setSelectedProblemId] = useState("");
-  const { authUser } = useAuthStore();
-  const navigate = useNavigate();
-  // const { onDeletProblem } = useActionsStore();
-  const { mutate: deleteProblem, isPending } = useDeleteProblem();
-  const { mutate: addPlaylist } = useAddPlaylist();
-
   const [difficulty, setDifficulty] = useState("All");
   const [selectedTag, setSelectedTag] = useState("All");
   const [selectedCompany, setSelectedCompany] = useState("All");
   const [currentPage, setCurrentPage] = useState(1);
 
-  // const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
+  const { authUser } = useAuthStore();
+  const navigate = useNavigate();
+
+  const { mutate: deleteProblem, isPending } = useDeleteProblem();
+  const { mutate: addPlaylist } = useAddPlaylist();
 
   const filteredProblems = useMemo(() => {
     return (data || [])
@@ -70,6 +67,10 @@ const ProblemTabel: FC<Props> = ({ data }) => {
           : problem.company?.includes(selectedCompany)
       );
   }, [data, difficulty, selectedTag, search, selectedCompany]);
+
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [difficulty, selectedTag, search, selectedCompany]);
 
   const uniqueTags = Array.from(
     new Set(data.flatMap((problem) => problem.tags))
@@ -247,7 +248,10 @@ const ProblemTabel: FC<Props> = ({ data }) => {
                   <TableCell>
                     <div className="flex flex-row gap-2">
                       {problem.tags.map((tag) => (
-                        <Badge className="bg-transparent border-1 border-foreground/20 text-foreground capitalize">
+                        <Badge
+                          key={tag}
+                          className="bg-transparent border-1 border-foreground/20 text-foreground capitalize"
+                        >
                           {tag}
                         </Badge>
                       ))}
