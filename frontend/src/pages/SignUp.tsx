@@ -1,7 +1,7 @@
-import SignUpForm from "@/sections/SignUpForm";
 import { useAuthStore } from "@/stores/useAuthStore";
 import { useNavigate } from "@tanstack/react-router";
 import { useEffect } from "react";
+import { SignUp as SignUpForm } from "@clerk/clerk-react";
 
 const SignUp = () => {
   const { authUser } = useAuthStore();

@@ -43,4 +43,4 @@ jobs:
               --port=8081 \
               --region us-central1 \
               --allow-unauthenticated \
-              --set-env-vars "BASEURL=${{secrets.BASE_URL}},DATABASE_URL=${{secrets.DATABASE_URL}},JWT_SECRET=${{secrets.JWT_SECRET}},JUDGE0_API_URL=${{secrets.JUDGE0_API_URL}},JUDGE0_AUTH=${{secrets.JUDGE0_AUTH}},CORS_ORIGIN=${{secrets.CORS_ORIGIN}},NODE_ENV=${{secrets.NODE_ENV}}"
+              --set-env-vars "BASEURL=${{secrets.BASE_URL}},DATABASE_URL=${{secrets.DATABASE_URL}},JWT_SECRET=${{secrets.JWT_SECRET}},JUDGE0_API_URL=${{secrets.JUDGE0_API_URL}},JUDGE0_AUTH=${{secrets.JUDGE0_AUTH}},CORS_ORIGIN=${{secrets.CORS_ORIGIN}},NODE_ENV=${{secrets.NODE_ENV}},CLERK_PUBLISHABLE_KEY=${{secrets.CLERK_PUBLISHABLE_KEY}},CLERK_SECRET_KEY=${{secrets.CLERK_SECRET_KEY}}"
