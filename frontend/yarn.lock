@@ -198,6 +198,14 @@
     std-env "^3.9.0"
     swr "^2.3.3"
 
+"@clerk/themes@^2.2.48":
+  version "2.2.48"
+  resolved "https://registry.yarnpkg.com/@clerk/themes/-/themes-2.2.48.tgz#297a5bec44bf90e5e00b5691dfd3ab9df8e85f74"
+  integrity sha512-vylu+2IShOCBr6OBhIFlXL3ULqIZc4L5A/muB0HEum7BHR0bjq6UWHyNZuPKla0W4QGc3azPrTgi19zI4PlZ6A==
+  dependencies:
+    "@clerk/types" "^4.59.3"
+    tslib "2.8.1"
+
 "@clerk/types@^4.59.3":
   version "4.59.3"
   resolved "https://registry.yarnpkg.com/@clerk/types/-/types-4.59.3.tgz#2aea47c1a57c4f1c29035694d675f6de2206cc13"

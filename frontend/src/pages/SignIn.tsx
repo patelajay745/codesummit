@@ -40,6 +40,7 @@ const SignIn = () => {
         <div className="w-full lg:w-1/2 flex items-center justify-center   px-4 sm:px-6 lg:px-20 h-full min-h-1/2 ">
           {/* <SignInForm /> */}
           <SignInForm
+           
             fallbackRedirectUrl="/dashboard"
             signUpForceRedirectUrl="/signup"
             signUpUrl="/signup"

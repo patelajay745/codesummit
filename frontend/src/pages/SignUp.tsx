@@ -37,7 +37,7 @@ const SignUp = () => {
 
         {/* Form Section */}
         <div className="w-full lg:w-1/2 flex items-center justify-center   px-4 sm:px-6 lg:px-20 h-full min-h-1/2">
-          <SignUpForm />
+          <SignUpForm redirectUrl={"/dashboard"} />
         </div>
       </div>
     </div>
