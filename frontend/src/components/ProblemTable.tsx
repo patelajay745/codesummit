@@ -118,7 +118,7 @@ const ProblemTabel: FC<Props> = ({ data }) => {
     <div className="container flex flex-col  mx-auto pb-8">
       {/* search div */}
 
-      <div className="gap-2 flex overflow-hidden  pr-20">
+      <div className="gap-2 flex overflow-hidden justify-evenly  pr-20">
         <Badge
           className="capitalize cursor-pointer"
           variant={"outline"}
@@ -133,16 +133,20 @@ const ProblemTabel: FC<Props> = ({ data }) => {
         >
           Demo
         </Badge>
-        {Object.entries(tagCounts).map(([tag, count]) => (
-          <Badge
-            variant={"outline"}
-            className="capitalize cursor-pointer"
-            key={tag}
-            onClick={() => setSelectedTag(tag)}
-          >
-            {tag} ({count})
-          </Badge>
-        ))}
+        {Object.entries(tagCounts).map(([tag, count]) =>
+          tag !== "demo" ? (
+            <Badge
+              variant={"outline"}
+              className="capitalize cursor-pointer"
+              key={tag}
+              onClick={() => setSelectedTag(tag)}
+            >
+              {tag} ({count})
+            </Badge>
+          ) : (
+            <></>
+          )
+        )}
       </div>
 
       <div className="flex justify-between items-center mt-5 mb-6">

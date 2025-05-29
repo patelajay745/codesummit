@@ -9,7 +9,7 @@ import {
 
 import CircularLoader from "@/components/ui/snappy-loader";
 import { Link, useParams } from "@tanstack/react-router";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   ChevronLeft,
   Clock,
@@ -52,6 +52,8 @@ const Problem = () => {
     useState<string>("javascript");
   const [testCases, setTestCases] = useState<testcase[]>([]);
 
+  const submissionCardRef = useRef<HTMLDivElement>(null);
+
   const { data: problem, isFetching: isProblemLoading } = useProblemById(Id);
   const { data: submissions, isFetching: isSubmissionsLoading } =
     useGetSubmissionById(Id);
@@ -62,6 +64,12 @@ const Problem = () => {
     data: submission,
     isPending: isExecuting,
   } = useExecuteCode(Id);
+
+  useEffect(() => {
+    if (submissionCardRef.current) {
+      submissionCardRef.current.focus();
+    }
+  }, [submission]);
 
   useEffect(() => {
     if (problem) {
@@ -370,7 +378,11 @@ const Problem = () => {
           </div>
         </div>
 
-        <div className="card bg-background/50 shadow-xl mt-6">
+        <div
+          ref={submissionCardRef}
+          tabIndex={-1}
+          className="card bg-background/50 shadow-xl mt-6"
+        >
           <div className="card-body">
             {submission?.problemId === Id ? (
               <SubmissionCard submission={submission!} />
