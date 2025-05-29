@@ -4,6 +4,7 @@ import swaggerUi from "swagger-ui-express";
 import * as swaggerDocument from "./swagger-output.json"
 import cors from "cors";
 import { env } from "./validators/env";
+import { clerkMiddleware } from "@clerk/express";
 
 const app: Express = express()
 
@@ -17,6 +18,8 @@ app.use(
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 app.use(cookieParser())
+
+app.use(clerkMiddleware())
 
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
