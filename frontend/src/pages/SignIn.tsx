@@ -1,7 +1,8 @@
-import SignInForm from "@/sections/SignInForm";
+// import SignInForm from "@/sections/SignInForm";
 import { useAuthStore } from "@/stores/useAuthStore";
 import { useNavigate } from "@tanstack/react-router";
 import { useEffect } from "react";
+import { SignIn as SignInForm } from "@clerk/clerk-react";
 
 const SignIn = () => {
   const { authUser } = useAuthStore();
@@ -37,7 +38,12 @@ const SignIn = () => {
 
         {/* Form Section */}
         <div className="w-full lg:w-1/2 flex items-center justify-center   px-4 sm:px-6 lg:px-20 h-full min-h-1/2 ">
-          <SignInForm />
+          {/* <SignInForm /> */}
+          <SignInForm
+            fallbackRedirectUrl="/dashboard"
+            signUpForceRedirectUrl="/signup"
+            signUpUrl="/signup"
+          />
         </div>
       </div>
     </div>

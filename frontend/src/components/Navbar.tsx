@@ -2,21 +2,15 @@ import { Link } from "@tanstack/react-router";
 import Logo from "./Logo";
 import ModeToggle from "./ModeToggle";
 import { useState } from "react";
-import { Menu, User, X } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import { useAuthStore } from "@/stores/useAuthStore";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuHeader,
-  DropdownMenuItem,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "./ui/dropdown-menu";
+
+import { SignedIn, UserButton } from "@clerk/clerk-react";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
 
-  const [openDropDown, setOpenDropDown] = useState(false);
+  // const [openDropDown, setOpenDropDown] = useState(false);
 
   const { authUser } = useAuthStore();
 
@@ -72,7 +66,11 @@ const Navbar = () => {
                 </Link>
               ))}
 
-              {authUser && (
+              <SignedIn>
+                <UserButton />
+              </SignedIn>
+
+              {/* {authUser && (
                 <DropdownMenu
                   open={openDropDown}
                   onOpenChange={setOpenDropDown}
@@ -104,7 +102,7 @@ const Navbar = () => {
                     </Link>
                   </DropdownMenuContent>
                 </DropdownMenu>
-              )}
+              )} */}
 
               {/* {authUser && (
                 <Link to="/logout" inactiveProps={inactiveLinkProps}>

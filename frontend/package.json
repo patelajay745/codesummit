@@ -12,6 +12,7 @@
     "prepare": "husky"
   },
   "dependencies": {
+    "@clerk/clerk-react": "^5.31.8",
     "@hookform/resolvers": "^5.0.1",
     "@monaco-editor/react": "^4.7.0",
     "@radix-ui/react-accordion": "^1.2.11",

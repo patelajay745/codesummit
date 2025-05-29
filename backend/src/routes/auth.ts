@@ -5,11 +5,14 @@ import { validate } from "../middlewares/validator";
 import { loginSchema, newUserSchema } from "../validators/validationSchema";
 import { Router } from "express";
 
+import { ClerkExpressRequireAuth, ClerkExpressWithAuth } from '@clerk/clerk-sdk-node'
+import { clerkMiddleware } from "@clerk/express";
+
 export const router = Router()
 
 const loginlimiter = limitter(5, 15)
 
 router.post("/", loginlimiter, validate(newUserSchema), registerUser)
-router.get("/", isAuth, getUser)
+router.get("/", clerkMiddleware(), getUser)
 router.post("/login", validate(loginSchema), getLogin)
 router.post("/logout", isAuth, getLogout)

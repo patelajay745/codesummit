@@ -8,6 +8,8 @@ import { env } from "../validators/env";
 import { ApiResponse } from "../utils/apiResponse";
 import { User, UserRole } from "@prisma/client";
 
+import { clerkClient, getAuth } from '@clerk/express';
+
 const generateToken = (user: User) => {
     return jwt.sign(
         {
@@ -103,15 +105,12 @@ export const getLogout = asyncHandler(async (req: Request, res: Response) => {
 
 export const getUser = asyncHandler(async (req: Request, res: Response) => {
 
-    res.status(200).json(new ApiResponse(200, "user is fetched", {
-        user: {
-            id: req.user!.id,
-            name: req.user!.name,
-            email: req.user!.email,
-            image: req.user!.image,
-            role: req.user!.role,
+    const { userId } = getAuth(req)
 
-        }
+    const user = await clerkClient.users.getUser(userId!)
+
+    res.status(200).json(new ApiResponse(200, "user is fetched", {
+        user
     }))
 })
 
