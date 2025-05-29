@@ -29,6 +29,12 @@ export function getTagCounts(problems: ProblemType[]): Record<string, number> {
             tagCount[tag] = (tagCount[tag] || 0) + 1;
         }
     }
+    const sortedEntries = Object.entries(tagCount).sort((a, b) => b[1] - a[1]);
 
-    return tagCount;
+    const sortedTagCount: Record<string, number> = {};
+    for (const [tag, count] of sortedEntries) {
+        sortedTagCount[tag] = count;
+    }
+
+    return sortedTagCount;
 }

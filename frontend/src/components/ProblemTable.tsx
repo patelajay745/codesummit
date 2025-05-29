@@ -27,6 +27,7 @@ import { ProblemType, useDeleteProblem } from "@/queries/problemQueries";
 import { useAddPlaylist } from "@/queries/playlistQueries";
 import AddToPlaylist from "./AddToPlaylist";
 import CreatePlaylistModal, { FormData } from "./createPlaylistModal";
+import { getTagCounts } from "@/lib/lang";
 
 type Props = {
   data: ProblemType[];
@@ -72,6 +73,9 @@ const ProblemTabel: FC<Props> = ({ data }) => {
     setCurrentPage(1);
   }, [difficulty, selectedTag, search, selectedCompany]);
 
+  const tagCounts = getTagCounts(data);
+  console.log(tagCounts);
+
   const uniqueTags = Array.from(
     new Set(data.flatMap((problem) => problem.tags))
   ).sort((a, b) => a.localeCompare(b));
@@ -113,7 +117,35 @@ const ProblemTabel: FC<Props> = ({ data }) => {
   return (
     <div className="container flex flex-col  mx-auto pb-8">
       {/* search div */}
-      <div className="flex justify-between items-center mb-6">
+
+      <div className="gap-2 flex overflow-hidden  pr-20">
+        <Badge
+          className="capitalize cursor-pointer"
+          variant={"outline"}
+          onClick={() => setSelectedTag("All")}
+        >
+          All
+        </Badge>
+        <Badge
+          className="capitalize cursor-pointer"
+          variant={"outline"}
+          onClick={() => setSelectedTag("demo")}
+        >
+          Demo
+        </Badge>
+        {Object.entries(tagCounts).map(([tag, count]) => (
+          <Badge
+            variant={"outline"}
+            className="capitalize cursor-pointer"
+            key={tag}
+            onClick={() => setSelectedTag(tag)}
+          >
+            {tag} ({count})
+          </Badge>
+        ))}
+      </div>
+
+      <div className="flex justify-between items-center mt-5 mb-6">
         <h2 className="text-2xl font-bold">Problems</h2>
         <div className="flex gap-4">
           <Input
