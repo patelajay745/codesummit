@@ -2,13 +2,10 @@ import { useAuthStore } from "@/stores/useAuthStore";
 import { useNavigate } from "@tanstack/react-router";
 import { useEffect } from "react";
 import { SignUp as SignUpForm } from "@clerk/clerk-react";
-import useThemeStore from "@/stores/useThemeStore";
 
 const SignUp = () => {
   const { authUser } = useAuthStore();
   const navigate = useNavigate({ from: "/signup" });
-
-  const { theme } = useThemeStore();
 
   useEffect(() => {
     if (authUser) navigate({ to: "/dashboard" });
@@ -44,22 +41,6 @@ const SignUp = () => {
             fallbackRedirectUrl={"/dashboard"}
             signInFallbackRedirectUrl="/signin"
             signInUrl="/signin"
-            appearance={{
-              variables: {
-                colorPrimary:
-                  theme === "dark"
-                    ? "rgba(34, 130, 204, 1)"
-                    : "rgba(76, 70, 70, .20)",
-                colorBackground:
-                  theme === "dark" ? "rgba(76, 70, 70, .20)" : "#ffffff",
-                colorText: theme === "dark" ? "#ffffff" : "#0f172a",
-              },
-              elements: {
-                card: "shadow-xl rounded-2xl",
-                formButtonPrimary: "bg-violet-600 hover:bg-violet-700",
-                headerTitle: "text-2xl font-bold",
-              },
-            }}
           />
         </div>
       </div>

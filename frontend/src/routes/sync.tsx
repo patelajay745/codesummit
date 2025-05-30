@@ -3,6 +3,7 @@ import { useNavigate } from "@tanstack/react-router";
 import { createFileRoute } from "@tanstack/react-router";
 import { useAuthStore } from "@/stores/useAuthStore";
 import { useAllProblems } from "@/queries/problemQueries";
+import CircularLoader from "@/components/ui/snappy-loader";
 
 export const Route = createFileRoute("/sync")({
   component: RouteComponent,
@@ -35,5 +36,9 @@ function RouteComponent() {
     sync();
   }, [authUser]);
 
-  return <div>Syncing...</div>;
+  return (
+    <div className="flex items-center justify-center h-screen">
+      <CircularLoader />
+    </div>
+  );
 }

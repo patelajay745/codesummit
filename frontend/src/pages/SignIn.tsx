@@ -8,8 +8,6 @@ const SignIn = () => {
   const { authUser } = useAuthStore();
   const navigate = useNavigate();
 
-  const { theme } = useThemeStore();
-
   useEffect(() => {
     if (authUser) navigate({ to: "/dashboard" });
   }, [authUser]);
@@ -45,22 +43,6 @@ const SignIn = () => {
             fallbackRedirectUrl="/sync"
             signUpForceRedirectUrl="/signup"
             signUpUrl="/signup"
-            appearance={{
-              variables: {
-                colorPrimary:
-                  theme === "dark"
-                    ? "rgba(34, 130, 204, 1)"
-                    : "rgba(34, 130, 204, 1)",
-                colorBackground:
-                  theme === "dark" ? "rgba(76, 70, 70, .20)" : "#ffffff",
-                colorText: theme === "dark" ? "#ffffff" : "#0f172a",
-              },
-              elements: {
-                card: "shadow-xl rounded-2xl",
-                formButtonPrimary: "bg-violet-600 hover:bg-violet-700",
-                headerTitle: "text-2xl font-bold text-red-500",
-              },
-            }}
           />
         </div>
       </div>

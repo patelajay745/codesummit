@@ -28,7 +28,7 @@ const Home = () => {
                   Get Started – It's Free
                 </Button>
               </Link>
-              <Link to="/singin">
+              <Link to="/signin">
                 <Button
                   size={"lg"}
                   className="dark:bg-foreground bg-text-secondary w-full sm:w-auto px-8 py-2 text-lg hover:scale-105 transition delay-150 duration-300 ease-in-out cursor-pointer"
