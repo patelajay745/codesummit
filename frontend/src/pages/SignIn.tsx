@@ -2,7 +2,6 @@ import { useAuthStore } from "@/stores/useAuthStore";
 import { useNavigate } from "@tanstack/react-router";
 import { useEffect } from "react";
 import { SignIn as SignInForm } from "@clerk/clerk-react";
-import useThemeStore from "@/stores/useThemeStore";
 
 const SignIn = () => {
   const { authUser } = useAuthStore();
