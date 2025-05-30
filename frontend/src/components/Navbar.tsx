@@ -41,7 +41,7 @@ const Navbar = () => {
       : [
           {
             name: "Login",
-            link: "/singin",
+            link: "/signin",
           },
         ]),
   ];

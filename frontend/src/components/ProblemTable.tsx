@@ -47,10 +47,6 @@ const ProblemTabel: FC<Props> = ({ data }) => {
 
   const navigate = useNavigate();
 
-  if (!data) {
-    return <></>;
-  }
-
   const { mutate: deleteProblem, isPending } = useDeleteProblem();
   const { mutate: addPlaylist } = useAddPlaylist();
 
