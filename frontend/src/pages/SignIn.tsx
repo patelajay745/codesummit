@@ -1,12 +1,14 @@
-// import SignInForm from "@/sections/SignInForm";
 import { useAuthStore } from "@/stores/useAuthStore";
 import { useNavigate } from "@tanstack/react-router";
 import { useEffect } from "react";
 import { SignIn as SignInForm } from "@clerk/clerk-react";
+import useThemeStore from "@/stores/useThemeStore";
 
 const SignIn = () => {
   const { authUser } = useAuthStore();
   const navigate = useNavigate({ from: "/singin" });
+
+  const { theme } = useThemeStore();
 
   useEffect(() => {
     if (authUser) navigate({ to: "/dashboard" });
@@ -36,13 +38,27 @@ const SignIn = () => {
           </div>
         </div>
 
+        {/* <SignInFormOld /> */}
         {/* Form Section */}
         <div className="w-full lg:w-1/2 flex items-center justify-center   px-4 sm:px-6 lg:px-20 h-full min-h-1/2 ">
-          {/* <SignInForm /> */}
           <SignInForm
             fallbackRedirectUrl="/dashboard"
             signUpForceRedirectUrl="/signup"
             signUpUrl="/signup"
+            appearance={{
+              variables: {
+                colorPrimary:
+                  theme === "dark" ? "rgba(34, 130, 204, 1)" : "#6366f1", // Example: violet / indigo
+                colorBackground:
+                  theme === "dark" ? "rgba(76, 70, 70, .20)" : "#ffffff",
+                colorText: theme === "dark" ? "#ffffff" : "#0f172a",
+              },
+              elements: {
+                card: "shadow-xl rounded-2xl", // tailwind-like classes
+                formButtonPrimary: "bg-violet-600 hover:bg-violet-700",
+                headerTitle: "text-2xl font-bold",
+              },
+            }}
           />
         </div>
       </div>

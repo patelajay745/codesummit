@@ -4,9 +4,11 @@ import { validate } from "../middlewares/validator";
 import { createProblemSchema } from "../validators/validationSchema";
 import { Router } from "express";
 
+import { requireAuth } from "@clerk/express";
+
 export const router = Router()
 
-router.use(isAuth)
+router.use(requireAuth())
 
 router.post("/", isAdmin, validate(createProblemSchema), createProblem)
 router.get("/get-solved-problems", getSolvedProblem)

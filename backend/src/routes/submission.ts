@@ -1,10 +1,11 @@
+import { requireAuth } from "@clerk/express";
 import { getAllSubmission, getAllTheSubmissionsForProblem, getSubmissionById, getSuccessRateForProblem } from "../controllers/submission";
 import { isAuth } from "../middlewares/auth";
 import { Router } from "express";
 
 export const router = Router()
 
-router.use(isAuth)
+router.use(requireAuth())
 
 router.get("/", getAllSubmission)
 router.get("/:problemId", getSubmissionById)

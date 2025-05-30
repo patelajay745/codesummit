@@ -6,6 +6,7 @@ import { asyncHandler } from "../utils/asyncHandler";
 import { env } from "../validators/env";
 import { NextFunction, Request, Response } from "express";
 import jwt from "jsonwebtoken"
+import { clerkClient, getAuth } from "@clerk/express";
 
 type decodedType = {
     id: string,
@@ -35,7 +36,15 @@ export const isAuth = asyncHandler(async (req: Request, res: Response, next: Nex
 
 export const isAdmin = asyncHandler(async (req: Request, res: Response, next: NextFunction) => {
 
-    if (req.user?.role !== UserRole.ADMIN) throw new ApiError(403, "UnAuthorized request")
+    const { userId } = getAuth(req)
+
+    const clerkuser = await clerkClient.users.getUser(userId!)
+
+    let user = await db.user.findUnique({ where: { id: userId! } });
+
+    req.user = user!
+
+    if (user?.role !== UserRole.ADMIN) throw new ApiError(403, "UnAuthorized request")
 
     next()
 

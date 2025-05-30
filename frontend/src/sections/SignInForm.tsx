@@ -13,7 +13,7 @@ export interface loginFormDataTypes {
   password: string;
 }
 
-function SignInForm() {
+export function SignInForm() {
   const [showPassword, setPassword] = useState(false);
 
   const { isLoggingIn, signIn } = useAuthStore();
@@ -101,5 +101,3 @@ function SignInForm() {
     </div>
   );
 }
-
-export default SignInForm;

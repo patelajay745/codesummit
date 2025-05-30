@@ -1,3 +1,4 @@
+import { requireAuth } from "@clerk/express";
 import { AddToPlaylist, createPlaylist, deletePlaylist, deleteProblemFromPlaylist, getAllPlaylist, getAPlaylist, updatePlaylist } from "../controllers/playlist";
 import { isAuth } from "../middlewares/auth";
 import { validate } from "../middlewares/validator";
@@ -6,7 +7,7 @@ import { Router } from "express";
 
 export const router = Router()
 
-router.use(isAuth)
+router.use(requireAuth())
 
 router.post("/", validate(createPlaylistSchema), createPlaylist)
 router.get("/", getAllPlaylist)

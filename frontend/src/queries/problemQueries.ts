@@ -55,22 +55,24 @@ export type ProblemType = Problem & {
 
 const fetchAllProblems = async () => {
     try {
-        const res = await api.get('/problems/')
-        return res.data.data
+        const res = await api.get('/problems/');
+        return res.data.data;
     } catch (error) {
-        const message =
-            axios.isAxiosError(error)
-                ? error.response?.data?.message || 'Something went wrong'
-                : error instanceof Error
-                    ? error.message
-                    : 'Something went wrong'
-        toast.error(message)
+        const message = axios.isAxiosError(error)
+            ? error.response?.data?.message || 'Something went wrong'
+            : error instanceof Error
+                ? error.message
+                : 'Something went wrong';
+
+        toast.error(message);
+        return [];
     }
 }
 
 export const useAllProblems = () => useQuery({
     queryKey: ['problems'],
     queryFn: fetchAllProblems,
+
 })
 
 const addProblem = async (data: Problem) => {

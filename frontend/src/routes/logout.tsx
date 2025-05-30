@@ -13,14 +13,14 @@ export const Route = createFileRoute("/logout")({
   component: RouteComponent,
 });
 
-async function RouteComponent() {
+function RouteComponent() {
   const navigate = useNavigate({ from: "/logout" });
   const { logOut } = useAuthStore();
 
   useEffect(() => {
     try {
       logOut();
-      console.log("useEffect runs");
+
       navigate({ to: "/" });
     } catch (error) {}
   }, []);

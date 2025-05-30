@@ -44,7 +44,12 @@ const ProblemTabel: FC<Props> = ({ data }) => {
   const [currentPage, setCurrentPage] = useState(1);
 
   const { authUser } = useAuthStore();
+
   const navigate = useNavigate();
+
+  if (!data) {
+    return <></>;
+  }
 
   const { mutate: deleteProblem, isPending } = useDeleteProblem();
   const { mutate: addPlaylist } = useAddPlaylist();
@@ -74,7 +79,6 @@ const ProblemTabel: FC<Props> = ({ data }) => {
   }, [difficulty, selectedTag, search, selectedCompany]);
 
   const tagCounts = getTagCounts(data);
-  console.log(tagCounts);
 
   const uniqueTags = Array.from(
     new Set(data.flatMap((problem) => problem.tags))

@@ -1,3 +1,4 @@
+import { getAuth } from "@clerk/express";
 import { db } from "../libs/db";
 import { ApiError } from "../utils/apiError";
 import { ApiResponse } from "../utils/apiResponse";
@@ -85,11 +86,11 @@ export const deletePlaylist = asyncHandler(async (req: Request, res: Response) =
 
 export const getAllPlaylist = asyncHandler(async (req: Request, res: Response) => {
 
-    const userId = req.user!.id
+    const { userId } = getAuth(req)
 
     const playlists = await db.playlist.findMany({
         where: {
-            userId
+            userId: userId!
         }, include: {
             problems: true,
             _count: true
@@ -104,12 +105,12 @@ export const getAllPlaylist = asyncHandler(async (req: Request, res: Response) =
 
 export const getAPlaylist = asyncHandler(async (req: Request, res: Response) => {
 
-    const userId = req.user!.id
+    const { userId } = getAuth(req)
     const { playlistId } = req.params
 
     const playlist = await db.playlist.findMany({
         where: {
-            userId, id: playlistId
+            userId: userId!, id: playlistId
         }, include: {
             problems: true,
             _count: true
@@ -142,9 +143,11 @@ export const AddToPlaylist = asyncHandler(async (req: Request, res: Response) =>
 
     if (!problem) throw new ApiError(404, "invalid problemId")
 
+    const { userId } = getAuth(req)
+
     const playlist = await db.playlist.update({
         where: {
-            id: playlistId, userId: req.user!.id
+            id: playlistId, userId: userId!
         }, data: {
             problems: {
                 connect: {
@@ -182,9 +185,11 @@ export const deleteProblemFromPlaylist = asyncHandler(async (req: Request, res: 
 
     if (!problem) throw new ApiError(404, "invalid problemId")
 
+    const { userId } = getAuth(req)
+
     const playlist = await db.playlist.update({
         where: {
-            id: playlistId, userId: req.user!.id
+            id: playlistId, userId: userId!
         }, data: {
             problems: {
                 disconnect: {

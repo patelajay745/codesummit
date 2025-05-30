@@ -1,28 +1,10 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
-  // output   = "../src/generated/prisma"
 }
 
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
-}
-
-enum UserRole {
-  ADMIN
-  USER
-}
-
-enum Difficulty {
-  EASY
-  MEDIUM
-  HARD
 }
 
 model User {
@@ -31,39 +13,37 @@ model User {
   email         String          @unique
   image         String?
   role          UserRole        @default(USER)
-  password      String
+  password      String?
   createdAt     DateTime        @default(now())
   updatedAt     DateTime        @updatedAt
-  Problem       Problem[]
-  Submission    Submission[]
-  ProblemSolved ProblemSolved[]
   Playlist      Playlist[]
+  Problem       Problem[]
+  ProblemSolved ProblemSolved[]
+  Submission    Submission[]
 }
 
 model Problem {
-  id                String     @id @unique @default(uuid())
+  id                String          @id @unique @default(uuid())
   title             String
   description       String
   difficulty        Difficulty
+  company           String?
   tags              String[]
   userId            String
   examples          Json
   constraints       String
   hints             String?
   editorial         String?
-  company           String?
   testcases         Json
   codeSnippets      Json
   referenceSolution Json
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  user          User            @relation(fields: [userId], references: [id], onDelete: Cascade)
-  Submission    Submission[]
-  ProblemSolved ProblemSolved[]
-  Playlist      Playlist?       @relation(fields: [playlistId], references: [id])
-  playlistId    String?
+  createdAt         DateTime        @default(now())
+  updatedAt         DateTime        @updatedAt
+  playlistId        String?
+  Playlist          Playlist?       @relation(fields: [playlistId], references: [id])
+  user              User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  ProblemSolved     ProblemSolved[]
+  Submission        Submission[]
 }
 
 model Submission {
@@ -79,17 +59,15 @@ model Submission {
   status         String
   memory         String?
   time           String?
+  createAt       DateTime         @default(now())
+  updatedAt      DateTime         @updatedAt
+  problem        Problem          @relation(fields: [problemId], references: [id], onDelete: Cascade)
+  user           User             @relation(fields: [userId], references: [id], onDelete: Cascade)
   TestCaseResult TestCaseResult[]
-
-  createAt  DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
-  problem Problem @relation(fields: [problemId], references: [id], onDelete: Cascade)
 }
 
 model TestCaseResult {
-  id            String   @id @unique @default(uuid())
+  id            String     @id @unique @default(uuid())
   submissionId  String
   testCase      Int
   passed        Boolean
@@ -100,10 +78,9 @@ model TestCaseResult {
   status        String
   memory        String?
   time          String?
-  createAt      DateTime @default(now())
-  updatedAt     DateTime @updatedAt
-
-  submission Submission @relation(fields: [submissionId], references: [id], onDelete: Cascade)
+  createAt      DateTime   @default(now())
+  updatedAt     DateTime   @updatedAt
+  submission    Submission @relation(fields: [submissionId], references: [id], onDelete: Cascade)
 }
 
 model ProblemSolved {
@@ -112,9 +89,8 @@ model ProblemSolved {
   problemId String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-
-  user    User    @relation(fields: [userId], references: [id])
-  problem Problem @relation(fields: [problemId], references: [id])
+  problem   Problem  @relation(fields: [problemId], references: [id])
+  user      User     @relation(fields: [userId], references: [id])
 
   @@unique([userId, problemId])
 }
@@ -124,7 +100,17 @@ model Playlist {
   userId      String
   name        String
   description String
+  user        User      @relation(fields: [userId], references: [id])
   problems    Problem[]
+}
 
-  user User @relation(fields: [userId], references: [id])
+enum UserRole {
+  ADMIN
+  USER
+}
+
+enum Difficulty {
+  EASY
+  MEDIUM
+  HARD
 }

@@ -77,7 +77,7 @@ export const getLogin = asyncHandler(async (req: Request, res: Response) => {
 
     if (!user) throw new ApiError(401, "User not found")
 
-    const isMatched = await bcrypt.compare(password, user.password)
+    const isMatched = await bcrypt.compare(password, user.password || "")
 
     if (!isMatched) throw new ApiError(400, "Invalid Credential")
 
@@ -107,10 +107,12 @@ export const getUser = asyncHandler(async (req: Request, res: Response) => {
 
     const { userId } = getAuth(req)
 
-    const user = await clerkClient.users.getUser(userId!)
+    let user = await clerkClient.users.getUser(userId!)
+
+    let dbUser = await db.user.findUnique({ where: { id: userId! } });
 
     res.status(200).json(new ApiResponse(200, "user is fetched", {
-        user
+        ...user, role: dbUser?.role
     }))
 })
 

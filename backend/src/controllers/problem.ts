@@ -1,3 +1,4 @@
+import { clerkClient, getAuth } from "@clerk/express";
 import { db } from "../libs/db";
 import { getJudge0LanguageId, poolBatchResults, Submissions, submitBatch, TestcasesTypes } from "../libs/helper";
 import { ApiError } from "../utils/apiError";
@@ -54,11 +55,32 @@ export const createProblem = asyncHandler(async (req: Request, res: Response) =>
 })
 
 export const getAllProblem = asyncHandler(async (req: Request, res: Response) => {
+
+    const { userId } = getAuth(req)
+
+    const clerkuser = await clerkClient.users.getUser(userId!)
+    // console.log(clerkuser.id)
+
+    let user = await db.user.findUnique({ where: { id: userId! } });
+
+    if (!user) {
+        user = await db.user.create({
+            data: {
+                id: clerkuser.id,
+                email: clerkuser.emailAddresses[0]?.emailAddress,
+                name: `${clerkuser.firstName || ""} ${clerkuser.lastName || ""}`.trim(),
+                image: clerkuser.imageUrl,
+                role: "USER",
+                password: ""
+            },
+        });
+    }
+
     const problems = await db.problem.findMany({
         include: {
             ProblemSolved: {
                 where: {
-                    userId: req.user!.id,
+                    userId: clerkuser.id,
                 },
             },
         },

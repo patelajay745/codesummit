@@ -1,3 +1,4 @@
+import { requireAuth } from "@clerk/express";
 import { executeCode } from "../controllers/execution";
 import { isAuth } from "../middlewares/auth";
 import { validate } from "../middlewares/validator";
@@ -6,4 +7,4 @@ import { Router } from "express";
 
 export const router = Router()
 
-router.post("/", isAuth, validate(executeCodeSchema), executeCode)
+router.post("/", requireAuth(), validate(executeCodeSchema), executeCode)

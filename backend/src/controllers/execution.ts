@@ -1,3 +1,4 @@
+import { getAuth } from "@clerk/express";
 import { db } from "../libs/db";
 import { getLanguageName, poolBatchResults, Submissions, submitBatch } from "../libs/helper";
 import { ApiError } from "../utils/apiError";
@@ -8,7 +9,7 @@ import { Request, Response } from "express";
 export const executeCode = asyncHandler(async (req: Request, res: Response) => {
     let { source_code, language_id, stdin, expected_outputs, problemId } = req.body
 
-    const userId = req.user!.id
+    const { userId } = getAuth(req)
 
     if (stdin.length === 0 || expected_outputs.length !== stdin.length) {
         throw new ApiError(400, "Invalid or missing test cases")
@@ -52,7 +53,7 @@ export const executeCode = asyncHandler(async (req: Request, res: Response) => {
 
     const submission = await db.submission.create({
         data: {
-            userId: req.user!.id,
+            userId: userId!,
             problemId,
             sourceCode: source_code,
             language: getLanguageName(+language_id),
@@ -70,12 +71,12 @@ export const executeCode = asyncHandler(async (req: Request, res: Response) => {
         await db.problemSolved.upsert({
             where: {
                 userId_problemId: {
-                    userId, problemId
+                    userId: userId!, problemId
                 }
             },
             update: {},
             create: {
-                userId,
+                userId: userId!,
                 problemId,
             }
         })

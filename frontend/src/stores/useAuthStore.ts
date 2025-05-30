@@ -33,7 +33,7 @@ export const useAuthStore = create<AuthStore>((set) => ({
         set({ isCheckingAuth: true })
         try {
             const res = await api.get("/auth/")
-            set({ authUser: res.data.data.user })
+            set({ authUser: res.data.data })
         } catch (error) {
             set({ authUser: null })
         } finally {

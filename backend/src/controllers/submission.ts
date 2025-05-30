@@ -1,3 +1,4 @@
+import { getAuth } from "@clerk/express";
 import { db } from "../libs/db";
 import { ApiError } from "../utils/apiError";
 import { ApiResponse } from "../utils/apiResponse";
@@ -5,11 +6,11 @@ import { asyncHandler } from "../utils/asyncHandler";
 import { Response, Request } from "express";
 
 export const getAllSubmission = asyncHandler(async (req: Request, res: Response) => {
-    const userId = req.user!.id
+    const { userId } = getAuth(req)
 
     const submission = await db.submission.findMany({
         where: {
-            userId
+            userId: userId!
         }, include: {
             TestCaseResult: true
         }
@@ -21,12 +22,12 @@ export const getAllSubmission = asyncHandler(async (req: Request, res: Response)
 })
 
 export const getSubmissionById = asyncHandler(async (req: Request, res: Response) => {
-    const userId = req.user!.id
+    const { userId } = getAuth(req)
     const { problemId } = req.params
 
     const submission = await db.submission.findMany({
         where: {
-            userId, problemId: problemId
+            userId: userId!, problemId: problemId
         }, include: {
             TestCaseResult: true
         }, orderBy: {
@@ -42,11 +43,11 @@ export const getSubmissionById = asyncHandler(async (req: Request, res: Response
 export const getAllTheSubmissionsForProblem = asyncHandler(async (req: Request, res: Response) => {
 
     const { problemId } = req.params
-    const userId = req.user!.id
+    const { userId } = getAuth(req)
 
     const submission = await db.submission.count({
         where: {
-            userId, problemId: problemId
+            userId: userId!, problemId: problemId
         }
     })
 
