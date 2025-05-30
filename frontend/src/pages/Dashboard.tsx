@@ -1,10 +1,12 @@
+import ProgressTracker from "@/components/Dashboard/ProgressTracker";
 import Slogan from "@/components/Dashboard/Slogan";
 import ProblemTabel from "@/components/ProblemTable";
 import CircularLoader from "@/components/ui/snappy-loader";
-import { useAllProblems } from "@/queries/problemQueries";
+import { useAllProblems, useUserProgress } from "@/queries/problemQueries";
 
 const Dashboard = () => {
   const { data: problems, isLoading } = useAllProblems();
+  const { data: progressData } = useUserProgress();
 
   if (isLoading) {
     return (
@@ -18,6 +20,17 @@ const Dashboard = () => {
     <>
       <div className="flex flex-col">
         <Slogan />
+
+        {progressData && (
+          <ProgressTracker
+            solved={progressData.solved}
+            total={progressData.total}
+            easy={progressData.easy}
+            medium={progressData.medium}
+            hard={progressData.hard}
+            className="mx-auto container mb-5"
+          />
+        )}
 
         {problems && <ProblemTabel data={problems} />}
       </div>

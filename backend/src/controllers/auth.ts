@@ -116,3 +116,58 @@ export const getUser = asyncHandler(async (req: Request, res: Response) => {
     }))
 })
 
+export const userProgress = asyncHandler(async (req: Request, res: Response) => {
+    //     const progressData = {
+    //     solved: 347,
+    //     total: 500,
+    //     easy: { solved: 156, total: 200 },
+    //     medium: { solved: 123, total: 200 },
+    //     hard: { solved: 68, total: 100 },
+    //   };
+    const { userId } = getAuth(req)
+
+    const problemSolved = await db.problemSolved.findMany({
+        where: {
+            userId: userId!
+        }, include: {
+            problem: true
+        }
+    })
+
+    const problems = await db.problem.findMany()
+
+    console.log("problemSolved", problemSolved)
+    console.log("problem", problems)
+
+    const result = {
+        easy: { solved: 0, total: 0 },
+        medium: { solved: 0, total: 0 },
+        hard: { solved: 0, total: 0 },
+    };
+
+    type Difficulty = 'easy' | 'medium' | 'hard';
+
+    for (const prob of problems) {
+        const difficulty = prob.difficulty.toLowerCase() as Difficulty;
+        if (result[difficulty]) {
+            result[difficulty].total += 1;
+        }
+    }
+
+    for (const solved of problemSolved) {
+        const difficulty = solved.problem.difficulty.toLowerCase() as Difficulty;
+        if (result[difficulty]) {
+            result[difficulty].solved += 1;
+        }
+    }
+
+    res.status(200).json(new ApiResponse(200, "user is fetched", {
+        progressData: {
+            solved: problemSolved.length,
+            total: problems.length,
+            ...result
+        }
+    }))
+
+})
+

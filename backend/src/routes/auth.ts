@@ -1,4 +1,4 @@
-import { getLogin, getLogout, getUser, registerUser, } from "../controllers/auth";
+import { getLogin, getLogout, getUser, registerUser, userProgress, } from "../controllers/auth";
 import { limitter } from "../libs/rate-limiter";
 import { isAuth } from "../middlewares/auth";
 import { validate } from "../middlewares/validator";
@@ -16,3 +16,4 @@ router.post("/login", validate(loginSchema), getLogin)
 router.post("/logout", isAuth, getLogout)
 
 router.get("/", requireAuth(), getUser)
+router.get("/user-progress", requireAuth(), userProgress)

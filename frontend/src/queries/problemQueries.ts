@@ -161,3 +161,24 @@ export const useUpdateProblem = () => useMutation({
 //     return res.data.data
 // }
 
+interface DifficultyStats {
+    solved: number;
+    total: number;
+}
+
+interface ProgressData extends DifficultyStats {
+    easy: DifficultyStats;
+    medium: DifficultyStats;
+    hard: DifficultyStats;
+}
+
+const userProgress = async (): Promise<ProgressData> => {
+    const res = await api.get("/auth/user-progress")
+    return res.data.data.progressData
+}
+
+export const useUserProgress = () => useQuery({
+    queryKey: ["progress"],
+    queryFn: userProgress
+})
+
