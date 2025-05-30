@@ -72,7 +72,6 @@ const fetchAllProblems = async () => {
 export const useAllProblems = () => useQuery({
     queryKey: ['problems'],
     queryFn: fetchAllProblems,
-
 })
 
 const addProblem = async (data: Problem) => {

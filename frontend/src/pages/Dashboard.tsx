@@ -19,7 +19,7 @@ const Dashboard = () => {
       <div className="flex flex-col">
         <Slogan />
 
-        <ProblemTabel data={problems} />
+        {problems && <ProblemTabel data={problems} />}
       </div>
     </>
   );

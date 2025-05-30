@@ -42,7 +42,7 @@ const SignIn = () => {
         {/* Form Section */}
         <div className="w-full lg:w-1/2 flex items-center justify-center   px-4 sm:px-6 lg:px-20 h-full min-h-1/2 ">
           <SignInForm
-            fallbackRedirectUrl="/dashboard"
+            fallbackRedirectUrl="/sync"
             signUpForceRedirectUrl="/signup"
             signUpUrl="/signup"
             appearance={{
@@ -58,7 +58,7 @@ const SignIn = () => {
               elements: {
                 card: "shadow-xl rounded-2xl",
                 formButtonPrimary: "bg-violet-600 hover:bg-violet-700",
-                headerTitle: "text-2xl font-bold",
+                headerTitle: "text-2xl font-bold text-red-500",
               },
             }}
           />

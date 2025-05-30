@@ -69,7 +69,7 @@ export const registerUser = asyncHandler(async (req: Request, res: Response) => 
 export const getLogin = asyncHandler(async (req: Request, res: Response) => {
     const { email, password } = req.body
 
-    const user = await db.user.findUnique({
+    const user = await db.user.findFirst({
         where: {
             email
         }
