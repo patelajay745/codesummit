@@ -107,23 +107,31 @@ export const getUser = asyncHandler(async (req: Request, res: Response) => {
 
     const { userId } = getAuth(req)
 
-    let user = await clerkClient.users.getUser(userId!)
+    const clerkuser = await clerkClient.users.getUser(userId!)
+    // console.log(clerkuser.id)
 
-    let dbUser = await db.user.findUnique({ where: { id: userId! } });
+    let user = await db.user.findUnique({ where: { id: userId! } });
+
+    if (!user) {
+        user = await db.user.create({
+            data: {
+                id: clerkuser.id,
+                email: clerkuser.emailAddresses[0]?.emailAddress,
+                name: `${clerkuser.firstName || ""} ${clerkuser.lastName || ""}`.trim(),
+                image: clerkuser.imageUrl,
+                role: "USER",
+                password: ""
+            },
+        });
+    }
 
     res.status(200).json(new ApiResponse(200, "user is fetched", {
-        ...user, role: dbUser?.role
+        ...user, role: user?.role
     }))
 })
 
 export const userProgress = asyncHandler(async (req: Request, res: Response) => {
-    //     const progressData = {
-    //     solved: 347,
-    //     total: 500,
-    //     easy: { solved: 156, total: 200 },
-    //     medium: { solved: 123, total: 200 },
-    //     hard: { solved: 68, total: 100 },
-    //   };
+
     const { userId } = getAuth(req)
 
     const problemSolved = await db.problemSolved.findMany({
@@ -135,9 +143,6 @@ export const userProgress = asyncHandler(async (req: Request, res: Response) => 
     })
 
     const problems = await db.problem.findMany()
-
-    console.log("problemSolved", problemSolved)
-    console.log("problem", problems)
 
     const result = {
         easy: { solved: 0, total: 0 },
