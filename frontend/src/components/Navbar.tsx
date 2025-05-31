@@ -34,7 +34,7 @@ const Navbar = () => {
     ...(authUser
       ? [
           {
-            name: "DashBoard",
+            name: "Dashboard",
             link: "/dashboard",
           },
         ]
@@ -48,7 +48,7 @@ const Navbar = () => {
 
   return (
     <>
-      <div className="sticky top-0 z-50 w-full flex items-center flex-col !bg-none sm:px-0 px-5 backdrop-blur">
+      <div className="sticky top-0 z-50 w-full flex items-center flex-col !bg-none px-5 backdrop-blur 2xl:px-0">
         <div className="container pt-6 flex items-center justify-between tracking-wider font-['Inter']">
           <Link to="/">
             <Logo />
