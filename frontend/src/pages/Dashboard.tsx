@@ -5,10 +5,10 @@ import CircularLoader from "@/components/ui/snappy-loader";
 import { useAllProblems, useUserProgress } from "@/queries/problemQueries";
 
 const Dashboard = () => {
-  const { data: problems, isLoading } = useAllProblems();
-  const { data: progressData } = useUserProgress();
+  const { data: problems, isLoading: problemsLoading } = useAllProblems();
+  const { data: progressData, isLoading: progressLoading } = useUserProgress();
 
-  if (isLoading) {
+  if (problemsLoading || progressLoading) {
     return (
       <div className="flex items-center justify-center h-screen">
         <CircularLoader />
@@ -32,7 +32,7 @@ const Dashboard = () => {
           />
         )}
 
-        {problems && <ProblemTabel data={problems} />}
+        {<ProblemTabel data={problems} />}
       </div>
     </>
   );

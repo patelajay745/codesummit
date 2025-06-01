@@ -1,12 +1,12 @@
 import { createRouter, RouterProvider } from "@tanstack/react-router";
 import { routeTree } from "./routeTree.gen";
-import { useEffect } from "react";
+
 import { useAuthStore } from "./stores/useAuthStore";
-import CircularLoader from "./components/ui/snappy-loader";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ClerkProvider } from "@clerk/clerk-react";
 import useThemeStore from "./stores/useThemeStore";
 import { dark } from "@clerk/themes";
+import { AuthWatcher } from "./components/AuthWatcher";
 
 const router = createRouter({
   routeTree,
@@ -26,20 +26,23 @@ if (!PUBLISHABLE_KEY) {
 export const queryClient = new QueryClient();
 
 export default function App() {
-  const { authUser: auth, checkAuth, isCheckingAuth } = useAuthStore();
+  // const { authUser: auth, checkAuth, isCheckingAuth } = useAuthStore();
   const { theme } = useThemeStore();
 
-  useEffect(() => {
-    checkAuth();
-  }, [checkAuth]);
+  // useEffect(() => {
+  //   checkAuth();
+  // }, [checkAuth]);
 
-  if (isCheckingAuth && !auth) {
-    return (
-      <div className="flex items-center justify-center h-screen">
-        <CircularLoader />
-      </div>
-    );
-  }
+  // if (isCheckingAuth && !auth) {
+  //   return (
+  //     <div className="flex items-center justify-center h-screen">
+  //       <CircularLoader />
+  //     </div>
+  //   );
+  // }
+
+  const auth = useAuthStore((s) => s.authUser);
+
   return (
     <ClerkProvider
       publishableKey={PUBLISHABLE_KEY}
@@ -62,6 +65,7 @@ export default function App() {
         },
       }}
     >
+      <AuthWatcher />
       <QueryClientProvider client={queryClient}>
         <RouterProvider router={router} context={{ auth }} />{" "}
       </QueryClientProvider>
