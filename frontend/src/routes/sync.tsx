@@ -18,11 +18,6 @@ function RouteComponent() {
     const sync = async () => {
       await checkAuth();
 
-      if (!authUser) {
-        navigate({ to: "/signin" });
-        return;
-      }
-
       if (!isFetched) {
         const { data } = await refetch();
         if (!data || data.length === 0) {

@@ -18,7 +18,7 @@ const Dashboard = () => {
 
   return (
     <>
-      <div className="flex flex-col">
+      <div className="flex flex-col 2xl:px-0 lg:px-5">
         <Slogan />
 
         {progressData && (

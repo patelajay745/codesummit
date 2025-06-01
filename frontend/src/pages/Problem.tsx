@@ -234,7 +234,7 @@ const Problem = () => {
   };
 
   return (
-    <div className="container mx-auto py-6 flex gap-4 flex-col ">
+    <div className="container mx-auto py-6 flex gap-4 flex-col 2xl:px-0 lg:px-5 ">
       <div className="flex w-full flex-col gap-1">
         <div className="flex items-center gap-2 ">
           <Link to={"/dashboard"}>

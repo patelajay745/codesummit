@@ -258,11 +258,11 @@ function Slogan() {
     <div className=" flex justify-center">
       <div className=" h-full container flex flex-col  py-24 px-4 sm:px-0">
         <div className="flex flex-col w-full items-center gap-2">
-          <h1 className="xl:text-6xl font-extrabold tracking-wider text-wrap xl:text-nowrap text-4xl">
+          <h1 className="2xl:text-6xl lg:text-5xl font-extrabold tracking-wider text-wrap xl:text-nowrap text-md">
             <span className="text-text-secondary">{firstHalf}</span>
             <span className="text-brand">{secondHalf}</span>
           </h1>
-          <h2 className="text-muted-foreground xl:text-2xl text-wrap xl:text-nowrap  tracking-wide text-center">
+          <h2 className="text-muted-foreground 2xl:text-2xl lg-text-xl  text-wrap xl:text-nowrap  tracking-wide text-center">
             {slogans[randomNumber].subText}
           </h2>
         </div>
