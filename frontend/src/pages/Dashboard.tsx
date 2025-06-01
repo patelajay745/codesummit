@@ -1,20 +1,10 @@
 import ProgressTracker from "@/components/Dashboard/ProgressTracker";
 import Slogan from "@/components/Dashboard/Slogan";
 import ProblemTabel from "@/components/ProblemTable";
-import CircularLoader from "@/components/ui/snappy-loader";
-import { useAllProblems, useUserProgress } from "@/queries/problemQueries";
+import { useUserProgress } from "@/queries/problemQueries";
 
 const Dashboard = () => {
-  const { data: problems, isLoading: problemsLoading } = useAllProblems();
-  const { data: progressData, isLoading: progressLoading } = useUserProgress();
-
-  if (problemsLoading || progressLoading) {
-    return (
-      <div className="flex items-center justify-center h-screen">
-        <CircularLoader />
-      </div>
-    );
-  }
+  const { data: progressData } = useUserProgress();
 
   return (
     <>
@@ -32,7 +22,7 @@ const Dashboard = () => {
           />
         )}
 
-        {<ProblemTabel data={problems} />}
+        <ProblemTabel />
       </div>
     </>
   );

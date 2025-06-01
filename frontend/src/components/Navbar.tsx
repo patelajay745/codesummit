@@ -4,11 +4,13 @@ import ModeToggle from "./ModeToggle";
 import { useState } from "react";
 import { Menu, X } from "lucide-react";
 import { useAuthStore } from "@/stores/useAuthStore";
-
+import { dark } from "@clerk/themes";
 import { SignedIn, UserButton } from "@clerk/clerk-react";
+import useThemeStore from "@/stores/useThemeStore";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const { theme } = useThemeStore();
 
   // const [openDropDown, setOpenDropDown] = useState(false);
 
@@ -67,7 +69,25 @@ const Navbar = () => {
               ))}
 
               <SignedIn>
-                <UserButton />
+                <UserButton
+                  appearance={{
+                    baseTheme: theme === "dark" ? dark : undefined,
+                    variables: {
+                      colorPrimary:
+                        theme === "dark"
+                          ? "rgba(34, 130, 204, 1)"
+                          : "rgba(34, 130, 204, 1)",
+                      colorBackground:
+                        theme === "dark" ? "rgba(76, 70, 70)" : "#ffffff",
+                      colorText: theme === "dark" ? "#ffffff" : "#0f172a",
+                    },
+                    elements: {
+                      card: "shadow-xl rounded-2xl",
+                      formButtonPrimary: "bg-violet-600 hover:bg-violet-700",
+                      headerTitle: "text-2xl font-bold text-red-500",
+                    },
+                  }}
+                />
               </SignedIn>
 
               {/* {authUser && (

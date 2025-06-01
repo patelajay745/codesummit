@@ -53,7 +53,7 @@ export type ProblemType = Problem & {
     id: string
 }
 
-const fetchAllProblems = async () => {
+const fetchAllProblems = async (): Promise<ProblemType[]> => {
     try {
         const res = await api.get('/problems/');
         return res.data.data;

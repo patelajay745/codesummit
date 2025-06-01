@@ -6,7 +6,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { FC, useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Checkbox } from "./ui/checkbox";
 import { Badge } from "./ui/badge";
 
@@ -23,17 +23,14 @@ import {
 } from "@/components/ui/select";
 import Input from "./ui/input";
 import { Link, useNavigate } from "@tanstack/react-router";
-import { ProblemType, useDeleteProblem } from "@/queries/problemQueries";
+import { useAllProblems, useDeleteProblem } from "@/queries/problemQueries";
 import { useAddPlaylist } from "@/queries/playlistQueries";
 import AddToPlaylist from "./AddToPlaylist";
 import CreatePlaylistModal, { FormData } from "./createPlaylistModal";
 import { getTagCounts } from "@/lib/lang";
+import CircularLoader from "./ui/snappy-loader";
 
-type Props = {
-  data: ProblemType[];
-};
-
-const ProblemTabel: FC<Props> = ({ data }) => {
+const ProblemTabel = () => {
   const [search, setSearch] = useState("");
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
   const [isAddToPlaylistModal, setIsAddToPlaylistModal] = useState(false);
@@ -44,6 +41,7 @@ const ProblemTabel: FC<Props> = ({ data }) => {
   const [currentPage, setCurrentPage] = useState(1);
 
   const { authUser } = useAuthStore();
+  const { data, isLoading: problemsLoading } = useAllProblems();
 
   const navigate = useNavigate();
 
@@ -74,18 +72,18 @@ const ProblemTabel: FC<Props> = ({ data }) => {
     setCurrentPage(1);
   }, [difficulty, selectedTag, search, selectedCompany]);
 
-  const tagCounts = getTagCounts(data);
+  const tagCounts = getTagCounts(data!);
 
   const uniqueTags = Array.from(
-    new Set(data.flatMap((problem) => problem.tags))
+    new Set(data?.flatMap((problem) => problem.tags))
   ).sort((a, b) => a.localeCompare(b));
 
   const uniqueDifficulty = Array.from(
-    new Set(data.flatMap((problem) => problem.difficulty))
+    new Set(data?.flatMap((problem) => problem.difficulty))
   );
 
   const uniqueCompany = Array.from(
-    new Set(data.flatMap((problem) => problem.company).filter(Boolean))
+    new Set(data?.flatMap((problem) => problem.company).filter(Boolean))
   );
 
   const companyColorMap: Record<string, string> = {
@@ -113,6 +111,14 @@ const ProblemTabel: FC<Props> = ({ data }) => {
     setSelectedProblemId(problemId);
     setIsAddToPlaylistModal(true);
   };
+
+  if (problemsLoading) {
+    return (
+      <div className="flex items-center justify-center h-screen">
+        <CircularLoader />
+      </div>
+    );
+  }
 
   return (
     <div className="container flex flex-col  mx-auto pb-8">

@@ -2,10 +2,13 @@ import { useAuthStore } from "@/stores/useAuthStore";
 import { useNavigate } from "@tanstack/react-router";
 import { useEffect } from "react";
 import { SignIn as SignInForm } from "@clerk/clerk-react";
+import useThemeStore from "@/stores/useThemeStore";
+import { dark } from "@clerk/themes";
 
 const SignIn = () => {
   const { authUser } = useAuthStore();
   const navigate = useNavigate();
+  const { theme } = useThemeStore();
 
   useEffect(() => {
     if (authUser) navigate({ to: "/dashboard" });
@@ -39,10 +42,26 @@ const SignIn = () => {
         {/* Form Section */}
         <div className="w-full lg:w-1/2 flex items-center justify-center   px-4 sm:px-6 lg:px-20 h-full min-h-1/2 ">
           <SignInForm
-            fallbackRedirectUrl="/sync"
-            
+            fallbackRedirectUrl="/dashboard"
             signUpForceRedirectUrl="/signup"
             signUpUrl="/signup"
+            appearance={{
+              baseTheme: theme === "dark" ? dark : undefined,
+              variables: {
+                colorPrimary:
+                  theme === "dark"
+                    ? "rgba(34, 130, 204, 1)"
+                    : "rgba(34, 130, 204, 1)",
+                colorBackground:
+                  theme === "dark" ? "rgba(76, 70, 70, .20)" : "#ffffff",
+                colorText: theme === "dark" ? "#ffffff" : "#0f172a",
+              },
+              elements: {
+                card: "shadow-xl rounded-2xl",
+                formButtonPrimary: "bg-violet-600 hover:bg-violet-700",
+                headerTitle: "text-2xl font-bold text-red-500",
+              },
+            }}
           />
         </div>
       </div>
