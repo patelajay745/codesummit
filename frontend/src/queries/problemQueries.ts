@@ -54,24 +54,15 @@ export type ProblemType = Problem & {
 }
 
 const fetchAllProblems = async (): Promise<ProblemType[]> => {
-    try {
-        const res = await api.get('/problems/');
-        return res.data.data;
-    } catch (error) {
-        const message = axios.isAxiosError(error)
-            ? error.response?.data?.message || 'Something went wrong'
-            : error instanceof Error
-                ? error.message
-                : 'Something went wrong';
-
-        toast.error(message);
-        return [];
-    }
+    const res = await api.get('/problems/');
+    return res.data.data;
 }
 
 export const useAllProblems = () => useQuery({
     queryKey: ['problems'],
     queryFn: fetchAllProblems,
+    staleTime: 0,
+    refetchOnMount: true,
 })
 
 const addProblem = async (data: Problem) => {

@@ -97,7 +97,7 @@ const ProblemTabel = () => {
   const itemsPerPage = 10;
   const totalPages = Math.ceil(filteredProblems.length / itemsPerPage);
   const pageinatedProblems = useMemo(() => {
-    return (filteredProblems || data).slice(
+    return filteredProblems.slice(
       (currentPage - 1) * itemsPerPage,
       currentPage * itemsPerPage
     );
@@ -112,9 +112,18 @@ const ProblemTabel = () => {
     setIsAddToPlaylistModal(true);
   };
 
-  if (problemsLoading) {
+  if (
+    filteredProblems.length === 0 &&
+    !problemsLoading &&
+    data &&
+    data.length > 0
+  ) {
+    return <div>Loading filtered data...</div>;
+  }
+
+  if (!data && !problemsLoading) {
     return (
-      <div className="flex items-center justify-center h-screen">
+      <div className="mx-auto container flex items-center justify-center">
         <CircularLoader />
       </div>
     );
