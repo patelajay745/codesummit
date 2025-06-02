@@ -56,7 +56,7 @@ export const createProblem = asyncHandler(async (req: Request, res: Response) =>
 
 export const getAllProblem = asyncHandler(async (req: Request, res: Response) => {
 
-    const { userId } = req.auth
+    const { userId } = getAuth(req)
 
     const problems = await db.problem.findMany({
         include: {
