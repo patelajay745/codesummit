@@ -19,7 +19,12 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 app.use(cookieParser())
 
-app.use(clerkMiddleware())
+app.use(clerkMiddleware({
+    debug: true,
+    publishableKey: process.env.CLERK_PUBLISHABLE_KEY,
+    secretKey: process.env.CLERK_SECRET_KEY,
+    authorizedParties: env.NODE_ENV === "production" ? ["https://codesummit.ca/"] : ["http://localhost:5173"]
+}))
 
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 

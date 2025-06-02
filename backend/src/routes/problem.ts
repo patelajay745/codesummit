@@ -1,14 +1,12 @@
 import { createProblem, getAllProblem, getAproblem, updateProblem, deleteProblem, getSolvedProblem } from "../controllers/problem";
-import { isAdmin, isAuth } from "../middlewares/auth";
+import { clerkAuth, isAdmin, isAuth, myAuth } from "../middlewares/auth";
 import { validate } from "../middlewares/validator";
 import { createProblemSchema } from "../validators/validationSchema";
 import { Router } from "express";
 
-import { requireAuth } from "@clerk/express";
-
 export const router = Router()
 
-router.use(requireAuth())
+// router.use(myAuth)
 
 router.post("/", isAdmin, validate(createProblemSchema), createProblem)
 router.get("/get-solved-problems", getSolvedProblem)

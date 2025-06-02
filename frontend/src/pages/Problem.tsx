@@ -249,13 +249,18 @@ const Problem = () => {
       (testcases) => testcases.output
     );
 
-    executeCode({
-      source_code: code,
-      language_id: language_id!,
-      expected_outputs: expected_outputs!,
-      stdin: stdin!,
-      problemId: Id,
-    });
+    if (canProceed()) {
+      executeCode({
+        source_code: code,
+        language_id: language_id!,
+        expected_outputs: expected_outputs!,
+        stdin: stdin!,
+        problemId: Id,
+      });
+      triggerThrottle();
+    } else {
+      console.log("Throttled. Try again later.", throttleUntil);
+    }
   };
 
   const handleRunCode = () => {
@@ -271,7 +276,6 @@ const Problem = () => {
     );
 
     if (canProceed()) {
-      triggerThrottle();
       runCode({
         source_code: code,
         language_id: language_id!,
@@ -279,6 +283,7 @@ const Problem = () => {
         stdin: stdin!,
         problemId: Id,
       });
+      triggerThrottle();
     } else {
       console.log("Throttled. Try again later.", throttleUntil);
     }
