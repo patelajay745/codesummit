@@ -29,3 +29,24 @@ export const useExecuteCode = (id: string) => useMutation({
         toast.error(message)
     }
 })
+
+const runCode = async (data: executeCodeData) => {
+    const res = await api.post("/execute-code/run-code", data)
+    return res.data.data
+}
+
+export const useRunCode = () => useMutation({
+    mutationFn: runCode,
+    onSuccess: (data) => {
+        toast.success(data.message || "Code is executed");
+    },
+    onError: (error) => {
+        const message =
+            axios.isAxiosError(error)
+                ? error.response?.data?.message || 'Something went wrong'
+                : error instanceof Error
+                    ? error.message
+                    : 'Something went wrong'
+        toast.error(message)
+    }
+})

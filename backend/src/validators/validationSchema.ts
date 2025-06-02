@@ -39,6 +39,13 @@ export const executeCodeSchema = yup.object({
     problemId: yup.string().required("Problem Id is required")
 })
 
+export const runCodeSchema = yup.object({
+    source_code: yup.string().required("source_code is required"),
+    language_id: yup.number().required("language_id is required"),
+    stdin: yup.array().required("stdin is required"),
+    expected_outputs: yup.array().required("expected_outputs is required")
+})
+
 export const createPlaylistSchema = yup.object({
     name: yup.string().required("name is required"),
     description: yup.string().required("description is required"),

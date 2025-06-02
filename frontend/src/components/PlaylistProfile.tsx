@@ -43,7 +43,7 @@ const PlaylistProfile: FC<props> = ({ createPlaylistfn }) => {
 
         {playlists?.length === 0 ? (
           <div className="card bg-text-secondary/50 shadow-xl">
-            <div className="card-body items-center text-center bg-text-secondary/50">
+            <div className="card-body items-center text-center bg-vs-dark">
               <h3 className="text-xl font-medium">No Sheet found</h3>
               <p className="text-base-content/70">
                 Create your first Sheet to organize problems!

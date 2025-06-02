@@ -7,6 +7,7 @@ type props = {
 };
 
 const SubmissionCard: FC<props> = ({ submission }) => {
+  console.log("got this data", submission);
   const memoryArr = JSON.parse(submission.memory || "[]");
   const timeArr = JSON.parse(submission.time || "[]");
 
@@ -21,10 +22,10 @@ const SubmissionCard: FC<props> = ({ submission }) => {
       .map((t: string) => parseFloat(t)) // remove ' s' using parseFloat
       .reduce((a: number, b: number) => a + b, 0) / timeArr.length;
 
-  const passedTests = submission.TestCaseResult.filter(
+  const passedTests = submission.TestCaseResult?.filter(
     (tc) => tc.passed
   ).length;
-  const totalTests = submission.TestCaseResult.length;
+  const totalTests = submission.TestCaseResult?.length;
   const successRate = (passedTests / totalTests) * 100;
 
   return (
@@ -88,7 +89,7 @@ const SubmissionCard: FC<props> = ({ submission }) => {
                 </tr>
               </thead>
               <tbody>
-                {submission.TestCaseResult.map((testCase) => (
+                {submission.TestCaseResult?.map((testCase) => (
                   <tr key={testCase.id}>
                     <td>
                       {testCase.passed ? (

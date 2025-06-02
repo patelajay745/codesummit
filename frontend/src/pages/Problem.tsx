@@ -24,8 +24,7 @@ import {
 import { Editor } from "@monaco-editor/react";
 import { Button } from "@/components/ui/button";
 import { getLanguageId } from "@/lib/lang";
-import axios from "axios";
-import { toast } from "sonner";
+
 import SubmissionCard from "@/components/Submission";
 import useThemeStore from "@/stores/useThemeStore";
 import AllSubmission from "@/components/AllSubmission";
@@ -36,7 +35,9 @@ import {
   useGetSubmissionCount,
   useGetSuccessRate,
 } from "@/queries/submissionQueries";
-import { useExecuteCode } from "@/queries/executeQueries";
+import { useExecuteCode, useRunCode } from "@/queries/executeQueries";
+import { useRunStore } from "@/stores/useRunStore";
+
 type testcase = {
   input: string;
   output: string;
@@ -51,6 +52,12 @@ const Problem = () => {
   const [selectedlanguage, setSelectedLanguage] =
     useState<string>("javascript");
   const [testCases, setTestCases] = useState<testcase[]>([]);
+  const [submission, setSubmission] = useState(null);
+
+  const { canProceed, triggerThrottle, throttleUntil, isThrottled } =
+    useRunStore();
+
+  const [remainingTime, setRemainingTime] = useState(0);
 
   const submissionCardRef = useRef<HTMLDivElement>(null);
 
@@ -61,15 +68,24 @@ const Problem = () => {
   const { data: successRate } = useGetSuccessRate(Id);
   const {
     mutate: executeCode,
-    data: submission,
+    data: executeData,
     isPending: isExecuting,
   } = useExecuteCode(Id);
 
+  const {
+    mutate: runCode,
+    data: runData,
+    isPending: isRunningCode,
+  } = useRunCode();
+
   useEffect(() => {
+    const newSubmission = executeData ?? runData;
+    setSubmission(newSubmission);
+
     if (submissionCardRef.current) {
       submissionCardRef.current.focus();
     }
-  }, [submission]);
+  }, [executeData, runData]);
 
   useEffect(() => {
     if (problem) {
@@ -93,6 +109,27 @@ const Problem = () => {
   useEffect(() => {
     setCodeEditorColor(theme === "dark" ? "vs-dark" : "light");
   }, [theme]);
+
+  useEffect(() => {
+    if (!isThrottled) {
+      setRemainingTime(0);
+      return;
+    }
+
+    const interval = setInterval(() => {
+      const timeLeft = Math.max(
+        0,
+        Math.ceil((throttleUntil - Date.now()) / 1000)
+      );
+      setRemainingTime(timeLeft);
+
+      if (timeLeft <= 0) {
+        clearInterval(interval);
+      }
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, [isThrottled, throttleUntil]);
 
   const handleLanguageChange = (value: string) => {
     console.log(value);
@@ -200,36 +237,50 @@ const Problem = () => {
     }
   };
 
+  const handleSubmitCode = () => {
+    const language_id = +(
+      getLanguageId(
+        selectedlanguage[0].toUpperCase() + selectedlanguage.slice(1)
+      ) || 0
+    );
+
+    const stdin = problem?.testcases.map((testcases) => testcases.input);
+    const expected_outputs = problem?.testcases.map(
+      (testcases) => testcases.output
+    );
+
+    executeCode({
+      source_code: code,
+      language_id: language_id!,
+      expected_outputs: expected_outputs!,
+      stdin: stdin!,
+      problemId: Id,
+    });
+  };
+
   const handleRunCode = () => {
-    try {
-      const language_id = +(
-        getLanguageId(
-          selectedlanguage[0].toUpperCase() + selectedlanguage.slice(1)
-        ) || 0
-      );
+    const language_id = +(
+      getLanguageId(
+        selectedlanguage[0].toUpperCase() + selectedlanguage.slice(1)
+      ) || 0
+    );
 
-      const stdin = problem?.testcases.map((testcases) => testcases.input);
-      const expected_outputs = problem?.testcases.map(
-        (testcases) => testcases.output
-      );
+    const stdin = problem?.testcases.map((testcases) => testcases.input);
+    const expected_outputs = problem?.testcases.map(
+      (testcases) => testcases.output
+    );
 
-      executeCode({
+    if (canProceed()) {
+      triggerThrottle();
+      runCode({
         source_code: code,
         language_id: language_id!,
         expected_outputs: expected_outputs!,
         stdin: stdin!,
         problemId: Id,
       });
-    } catch (error) {
-      let message = "Something went wrong";
-
-      if (axios.isAxiosError(error)) {
-        message = error.response?.data?.message || message;
-      } else if (error instanceof Error) {
-        message = error.message;
-      }
-
-      toast.error(message);
+    } else {
+      console.log("Throttled. Try again later.", throttleUntil);
     }
   };
 
@@ -258,7 +309,7 @@ const Problem = () => {
             </span>
             <span className="text-base-content/30">•</span>
             <Users className="w-4 h-4" />
-            <span>{submissionCount ?? 0} Submissions</span>
+            <span>{submissionCount?.count ?? 0} Submissions</span>
             <span className="text-base-content/30">•</span>
             <ThumbsUp className="w-4 h-4" />
             <span>
@@ -364,10 +415,28 @@ const Problem = () => {
                     size={"lg"}
                     className={`bg-brand gap-2 text-white hover:bg-brand/50 cursor-pointer`}
                     onClick={handleRunCode}
-                    disabled={isExecuting}
+                    disabled={isRunningCode || isThrottled}
+                  >
+                    {isRunningCode ? (
+                      <span className="loading loading-spinner text-white"></span>
+                    ) : isThrottled ? (
+                      <>Try again in {remainingTime}s</>
+                    ) : (
+                      <>Run Code</>
+                    )}
+                  </Button>
+
+                  <Button
+                    type="button"
+                    size={"lg"}
+                    className={`bg-brand gap-2 text-white hover:bg-brand/50 cursor-pointer`}
+                    onClick={handleSubmitCode}
+                    disabled={isExecuting || isThrottled}
                   >
                     {isExecuting ? (
                       <span className="loading loading-spinner text-white"></span>
+                    ) : isThrottled ? (
+                      <>Try again in {remainingTime}s</>
                     ) : (
                       <>Submit</>
                     )}
@@ -384,8 +453,8 @@ const Problem = () => {
           className="card bg-background/50 shadow-xl mt-6"
         >
           <div className="card-body">
-            {submission?.problemId === Id ? (
-              <SubmissionCard submission={submission!} />
+            {submission ? (
+              <SubmissionCard submission={submission} />
             ) : (
               <>
                 <div className="flex items-center justify-between mb-6">

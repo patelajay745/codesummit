@@ -40,7 +40,7 @@ export const getSubmissionById = asyncHandler(async (req: Request, res: Response
     res.status(200).json(new ApiResponse(200, "Submission is fetched", submission))
 })
 
-export const getAllTheSubmissionsForProblem = asyncHandler(async (req: Request, res: Response) => {
+export const getAllTheSubmissionsForProblem = (async (req: Request, res: Response) => {
 
     const { problemId } = req.params
     const { userId } = getAuth(req)
@@ -51,9 +51,7 @@ export const getAllTheSubmissionsForProblem = asyncHandler(async (req: Request, 
         }
     })
 
-    if (!submission) throw new ApiError(404, "No submission found")
-
-    res.status(200).json(new ApiResponse(200, "Submission is fetched", submission))
+    res.status(200).json(new ApiResponse(200, "Submission is fetched", { count: submission }))
 })
 
 export const getSuccessRateForProblem = asyncHandler(async (req: Request, res: Response) => {
