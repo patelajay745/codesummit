@@ -28,7 +28,6 @@ import { useAddPlaylist } from "@/queries/playlistQueries";
 import AddToPlaylist from "./AddToPlaylist";
 import CreatePlaylistModal, { FormData } from "./createPlaylistModal";
 import { getTagCounts } from "@/lib/lang";
-import CircularLoader from "./ui/snappy-loader";
 
 const ProblemTabel = () => {
   const [search, setSearch] = useState("");
@@ -119,14 +118,6 @@ const ProblemTabel = () => {
     data.length > 0
   ) {
     return <div>Loading filtered data...</div>;
-  }
-
-  if (!data && !problemsLoading) {
-    return (
-      <div className="mx-auto container flex items-center justify-center">
-        <CircularLoader />
-      </div>
-    );
   }
 
   return (
@@ -251,7 +242,7 @@ const ProblemTabel = () => {
             }}
           >
             <Plus className="w-4 h-4" />
-            Create Playlist
+            Create DSA Sheet
           </Button>
         </div>
       </div>
@@ -373,9 +364,7 @@ const ProblemTabel = () => {
                         }}
                       >
                         <Bookmark className="w-4 h-4" />
-                        <span className="hidden sm:inline">
-                          Save to Playlist
-                        </span>
+                        <span className="hidden sm:inline">Add to Sheet</span>
                       </Button>
                     </div>
                   </TableCell>

@@ -34,7 +34,7 @@ const CreatePlaylistModal: FC<props> = ({ isOpen, onClose, onSubmit }) => {
     <div className="fixed inset-0 dark:bg-black/80 bg-white/80 bg-opacity-50 flex items-center justify-center z-50">
       <div className="bg-text-secondary rounded-lg shadow-xl w-full max-w-md">
         <div className="flex justify-between items-center p-4 border-b border-base-300">
-          <h3 className="text-xl font-bold text-white">Create New Playlist</h3>
+          <h3 className="text-xl font-bold text-white">Create New DSA Sheet</h3>
           <button onClick={onClose} className="btn btn-ghost btn-sm btn-circle">
             <X className="w-5 h-5" />
           </button>
@@ -47,14 +47,14 @@ const CreatePlaylistModal: FC<props> = ({ isOpen, onClose, onSubmit }) => {
           <div className="form-control gap-2 flex flex-col">
             <label className="label">
               <span className="label-text font-medium text-white">
-                Playlist Name
+                Sheet Name
               </span>
             </label>
             <input
               type="text"
               className="input input-bordered w-full bg-vs-dark text-white"
-              placeholder="Enter playlist name"
-              {...register("name", { required: "Playlist name is required" })}
+              placeholder="Enter Sheet name"
+              {...register("name", { required: "Sheet name is required" })}
             />
             {errors.name && (
               <label className="label">
@@ -73,7 +73,7 @@ const CreatePlaylistModal: FC<props> = ({ isOpen, onClose, onSubmit }) => {
             </label>
             <textarea
               className="textarea textarea-bordered h-24 w-full bg-vs-dark text-white"
-              placeholder="Enter playlist description"
+              placeholder="Enter Sheet description"
               {...register("description")}
             />
           </div>
@@ -90,7 +90,7 @@ const CreatePlaylistModal: FC<props> = ({ isOpen, onClose, onSubmit }) => {
               type="submit"
               className="bg-brand hover:bg-brand/80 cursor-pointer text-white"
             >
-              Create Playlist
+              Create Sheet
             </Button>
           </div>
         </form>

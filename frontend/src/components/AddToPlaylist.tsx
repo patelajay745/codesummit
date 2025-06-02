@@ -37,7 +37,7 @@ const AddToPlaylist: FC<props> = ({ isOpen, onClose, problemId }) => {
     <div className="fixed inset-0 dark:bg-black/80 bg-white/80 bg-opacity-50 flex items-center justify-center z-50">
       <div className="bg-text-secondary rounded-lg shadow-xl w-full max-w-md">
         <div className="flex justify-between items-center p-4 border-b border-base-300">
-          <h3 className="text-xl font-bold">Add to Playlist</h3>
+          <h3 className="text-xl font-bold">Add to DSA Sheet</h3>
           <button onClick={onClose} className="btn btn-ghost btn-sm btn-circle">
             <X className="w-5 h-5" />
           </button>
@@ -46,7 +46,7 @@ const AddToPlaylist: FC<props> = ({ isOpen, onClose, problemId }) => {
         <form onSubmit={handleSubmit} className="p-6 space-y-4">
           <div className="form-control gap-2 flex flex-col">
             <label className="label">
-              <span className="label-text font-medium">Select Playlist</span>
+              <span className="label-text font-medium">Select Sheet</span>
             </label>
 
             <Select
@@ -54,7 +54,7 @@ const AddToPlaylist: FC<props> = ({ isOpen, onClose, problemId }) => {
               disabled={isFetching}
             >
               <SelectTrigger className="w-full">
-                <SelectValue placeholder="Select a playlist" />
+                <SelectValue placeholder="Select a Sheet" />
               </SelectTrigger>
               <SelectContent>
                 <SelectGroup>
@@ -86,7 +86,7 @@ const AddToPlaylist: FC<props> = ({ isOpen, onClose, problemId }) => {
               ) : (
                 <Plus className="w-4 h-4" />
               )}
-              Add to Playlist
+              Add to Sheet
             </Button>
           </div>
         </form>

@@ -2,19 +2,29 @@ import { Link } from "@tanstack/react-router";
 import Logo from "./Logo";
 import ModeToggle from "./ModeToggle";
 import { useState } from "react";
-import { Menu, X } from "lucide-react";
+import { Menu, User, X } from "lucide-react";
 import { useAuthStore } from "@/stores/useAuthStore";
-import { dark } from "@clerk/themes";
-import { SignedIn, UserButton } from "@clerk/clerk-react";
-import useThemeStore from "@/stores/useThemeStore";
+
+import { useUser } from "@clerk/clerk-react";
+import { useClerk } from "@clerk/clerk-react";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuHeader,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "./ui/dropdown-menu";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const { theme } = useThemeStore();
 
-  // const [openDropDown, setOpenDropDown] = useState(false);
+  const [openDropDown, setOpenDropDown] = useState(false);
 
+  const { openUserProfile } = useClerk();
   const { authUser } = useAuthStore();
+  const { user } = useUser();
+  const { signOut } = useClerk();
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
@@ -33,7 +43,7 @@ const Navbar = () => {
       name: "Home",
       link: "/",
     },
-    ...(authUser
+    ...(user
       ? [
           {
             name: "Dashboard",
@@ -68,7 +78,7 @@ const Navbar = () => {
                 </Link>
               ))}
 
-              <SignedIn>
+              {/* <SignedIn>
                 <UserButton
                   appearance={{
                     baseTheme: theme === "dark" ? dark : undefined,
@@ -88,9 +98,9 @@ const Navbar = () => {
                     },
                   }}
                 />
-              </SignedIn>
+              </SignedIn> */}
 
-              {/* {authUser && (
+              {authUser && (
                 <DropdownMenu
                   open={openDropDown}
                   onOpenChange={setOpenDropDown}
@@ -103,8 +113,8 @@ const Navbar = () => {
                   </DropdownMenuTrigger>
                   <DropdownMenuContent className="w-20">
                     <DropdownMenuHeader
-                      title={authUser.name}
-                      description={authUser.email}
+                      title={user?.firstName || "" + user?.lastName}
+                      description={user?.emailAddresses[0].emailAddress || ""}
                       icon={<User />}
                     />
                     <Link to="/profile">
@@ -116,13 +126,22 @@ const Navbar = () => {
                       </Link>
                     )}
 
-                    <DropdownMenuSeparator />
-                    <Link to="/logout">
-                      <DropdownMenuItem>Logout</DropdownMenuItem>
+                    <Link to="/sheet">
+                      <DropdownMenuItem>My Sheet</DropdownMenuItem>
                     </Link>
+
+                    <DropdownMenuItem onClick={() => openUserProfile()}>
+                      Manage Account
+                    </DropdownMenuItem>
+
+                    <DropdownMenuSeparator />
+
+                    <DropdownMenuItem onClick={() => signOut()}>
+                      Logout
+                    </DropdownMenuItem>
                   </DropdownMenuContent>
                 </DropdownMenu>
-              )} */}
+              )}
 
               {/* {authUser && (
                 <Link to="/logout" inactiveProps={inactiveLinkProps}>

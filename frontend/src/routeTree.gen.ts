@@ -14,6 +14,7 @@ import { Route as rootRoute } from './routes/__root'
 import { Route as SyncImport } from './routes/sync'
 import { Route as SignupImport } from './routes/signup'
 import { Route as SigninImport } from './routes/signin'
+import { Route as SheetImport } from './routes/sheet'
 import { Route as SampleImport } from './routes/sample'
 import { Route as ProfileImport } from './routes/profile'
 import { Route as LogoutImport } from './routes/logout'
@@ -40,6 +41,12 @@ const SignupRoute = SignupImport.update({
 const SigninRoute = SigninImport.update({
   id: '/signin',
   path: '/signin',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const SheetRoute = SheetImport.update({
+  id: '/sheet',
+  path: '/sheet',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -137,6 +144,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SampleImport
       parentRoute: typeof rootRoute
     }
+    '/sheet': {
+      id: '/sheet'
+      path: '/sheet'
+      fullPath: '/sheet'
+      preLoaderRoute: typeof SheetImport
+      parentRoute: typeof rootRoute
+    }
     '/signin': {
       id: '/signin'
       path: '/signin'
@@ -184,6 +198,7 @@ export interface FileRoutesByFullPath {
   '/logout': typeof LogoutRoute
   '/profile': typeof ProfileRoute
   '/sample': typeof SampleRoute
+  '/sheet': typeof SheetRoute
   '/signin': typeof SigninRoute
   '/signup': typeof SignupRoute
   '/sync': typeof SyncRoute
@@ -198,6 +213,7 @@ export interface FileRoutesByTo {
   '/logout': typeof LogoutRoute
   '/profile': typeof ProfileRoute
   '/sample': typeof SampleRoute
+  '/sheet': typeof SheetRoute
   '/signin': typeof SigninRoute
   '/signup': typeof SignupRoute
   '/sync': typeof SyncRoute
@@ -213,6 +229,7 @@ export interface FileRoutesById {
   '/logout': typeof LogoutRoute
   '/profile': typeof ProfileRoute
   '/sample': typeof SampleRoute
+  '/sheet': typeof SheetRoute
   '/signin': typeof SigninRoute
   '/signup': typeof SignupRoute
   '/sync': typeof SyncRoute
@@ -229,6 +246,7 @@ export interface FileRouteTypes {
     | '/logout'
     | '/profile'
     | '/sample'
+    | '/sheet'
     | '/signin'
     | '/signup'
     | '/sync'
@@ -242,6 +260,7 @@ export interface FileRouteTypes {
     | '/logout'
     | '/profile'
     | '/sample'
+    | '/sheet'
     | '/signin'
     | '/signup'
     | '/sync'
@@ -255,6 +274,7 @@ export interface FileRouteTypes {
     | '/logout'
     | '/profile'
     | '/sample'
+    | '/sheet'
     | '/signin'
     | '/signup'
     | '/sync'
@@ -270,6 +290,7 @@ export interface RootRouteChildren {
   LogoutRoute: typeof LogoutRoute
   ProfileRoute: typeof ProfileRoute
   SampleRoute: typeof SampleRoute
+  SheetRoute: typeof SheetRoute
   SigninRoute: typeof SigninRoute
   SignupRoute: typeof SignupRoute
   SyncRoute: typeof SyncRoute
@@ -284,6 +305,7 @@ const rootRouteChildren: RootRouteChildren = {
   LogoutRoute: LogoutRoute,
   ProfileRoute: ProfileRoute,
   SampleRoute: SampleRoute,
+  SheetRoute: SheetRoute,
   SigninRoute: SigninRoute,
   SignupRoute: SignupRoute,
   SyncRoute: SyncRoute,
@@ -307,6 +329,7 @@ export const routeTree = rootRoute
         "/logout",
         "/profile",
         "/sample",
+        "/sheet",
         "/signin",
         "/signup",
         "/sync",
@@ -331,6 +354,9 @@ export const routeTree = rootRoute
     },
     "/sample": {
       "filePath": "sample.tsx"
+    },
+    "/sheet": {
+      "filePath": "sheet.tsx"
     },
     "/signin": {
       "filePath": "signin.tsx"

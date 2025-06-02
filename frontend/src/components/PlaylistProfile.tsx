@@ -4,11 +4,15 @@ import {
 } from "@/queries/playlistQueries";
 import { Link } from "@tanstack/react-router";
 import { ChevronDown, ChevronUp, ExternalLink } from "lucide-react";
-import { useState } from "react";
+import { FC, useState } from "react";
 import { Button } from "./ui/button";
 import { Badge } from "./ui/badge";
 
-const PlaylistProfile = () => {
+interface props {
+  createPlaylistfn?: () => void;
+}
+
+const PlaylistProfile: FC<props> = ({ createPlaylistfn }) => {
   const { data: playlists } = useGetAllPlaylist();
   const { mutate: deletePlaylist } = useDeletePlaylist();
   const [expandedPlaylist, setExpandedPlaylist] = useState<string | null>(null);
@@ -30,7 +34,7 @@ const PlaylistProfile = () => {
       <div className="w-full mx-auto">
         <div className="flex justify-between items-center mb-6">
           <h1 className="text-3xl font-bold text-primary mb-4 md:mb-0">
-            My Playlists
+            My Sheets
           </h1>
           {/* <Button className="bg-brand cursor-pointer text-white hover:bg-brand/80">
             Create Playlist
@@ -40,12 +44,17 @@ const PlaylistProfile = () => {
         {playlists?.length === 0 ? (
           <div className="card bg-text-secondary/50 shadow-xl">
             <div className="card-body items-center text-center bg-text-secondary/50">
-              <h3 className="text-xl font-medium">No playlists found</h3>
+              <h3 className="text-xl font-medium">No Sheet found</h3>
               <p className="text-base-content/70">
-                Create your first playlist to organize problems!
+                Create your first Sheet to organize problems!
               </p>
               <div className="card-actions justify-center mt-4">
-                <button className="btn btn-primary">Create Playlist</button>
+                <Button
+                  className="bg-brand text-white hover:bg-brand/80 cursor-pointer"
+                  onClick={createPlaylistfn}
+                >
+                  Create DSA Sheet
+                </Button>
               </div>
             </div>
           </div>
