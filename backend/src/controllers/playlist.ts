@@ -7,11 +7,13 @@ import { Request, Response } from "express";
 
 export const createPlaylist = asyncHandler(async (req: Request, res: Response) => {
 
+    const { userId } = getAuth(req)
+
     const { name, description } = req.body
 
     const playlist = await db.playlist.create({
         data: {
-            name, description, userId: req.user!.id
+            name, description, userId: userId!
         }
     })
 
@@ -28,6 +30,7 @@ export const createPlaylist = asyncHandler(async (req: Request, res: Response) =
 })
 
 export const updatePlaylist = asyncHandler(async (req: Request, res: Response) => {
+    const { userId } = getAuth(req)
     const { name, description } = req.body
     const { playlistId } = req.params
 
@@ -63,7 +66,7 @@ export const updatePlaylist = asyncHandler(async (req: Request, res: Response) =
 export const deletePlaylist = asyncHandler(async (req: Request, res: Response) => {
 
     const { playlistId } = req.params
-    const userId = req.user!.id
+    const { userId } = getAuth(req)
 
     const playlist = await db.playlist.findUnique({
         where: {
@@ -76,7 +79,7 @@ export const deletePlaylist = asyncHandler(async (req: Request, res: Response) =
     const deletedPlaylist = await db.playlist.delete({
         where: {
             id: playlistId,
-            userId
+            userId: userId!
         }
     })
 

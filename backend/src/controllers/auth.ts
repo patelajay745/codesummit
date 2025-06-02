@@ -108,7 +108,6 @@ export const getUser = asyncHandler(async (req: Request, res: Response) => {
     const { userId } = getAuth(req)
 
     const clerkuser = await clerkClient.users.getUser(userId!)
-    // console.log(clerkuser.id)
 
     let user = await db.user.findUnique({ where: { id: userId! } });
 
