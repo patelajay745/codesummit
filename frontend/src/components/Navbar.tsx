@@ -100,7 +100,7 @@ const Navbar = () => {
                 />
               </SignedIn> */}
 
-              {authUser && (
+              {user && (
                 <DropdownMenu
                   open={openDropDown}
                   onOpenChange={setOpenDropDown}
@@ -108,7 +108,7 @@ const Navbar = () => {
                   <DropdownMenuTrigger>
                     <img
                       className="h-10 rounded-full"
-                      src={authUser.image || "user.png"}
+                      src={authUser?.image || "user.png"}
                     />
                   </DropdownMenuTrigger>
                   <DropdownMenuContent className="w-20">
@@ -120,7 +120,7 @@ const Navbar = () => {
                     <Link to="/profile">
                       <DropdownMenuItem>Profile</DropdownMenuItem>
                     </Link>
-                    {authUser.role === "ADMIN" && (
+                    {authUser?.role === "ADMIN" && (
                       <Link to="/addproblem">
                         <DropdownMenuItem>Add Problem</DropdownMenuItem>
                       </Link>
