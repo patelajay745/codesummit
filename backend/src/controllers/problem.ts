@@ -58,6 +58,8 @@ export const getAllProblem = asyncHandler(async (req: Request, res: Response) =>
 
     const { userId } = getAuth(req)
 
+    console.log(userId)
+
     const problems = await db.problem.findMany({
         include: {
             ProblemSolved: {
