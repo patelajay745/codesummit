@@ -1,7 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import Logo from "./Logo";
 import ModeToggle from "./ModeToggle";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Menu, User, X } from "lucide-react";
 import { useAuthStore } from "@/stores/useAuthStore";
 
@@ -13,23 +13,17 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
-import CircularLoader from "./ui/snappy-loader";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   const [openDropDown, setOpenDropDown] = useState(false);
 
-  const { authUser, checkAuth, isCheckingAuth } = useAuthStore();
+  const { authUser } = useAuthStore();
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
   };
-
-  useEffect(() => {
-    checkAuth();
-    console.log(authUser);
-  }, [checkAuth]);
 
   const activeLinkProps = {
     className: "text-brand font-semibold",
@@ -58,16 +52,6 @@ const Navbar = () => {
           },
         ]),
   ];
-
-  if (isCheckingAuth && !authUser) {
-    return (
-      <div className="flex items-center justify-center h-screen">
-        <CircularLoader />
-      </div>
-    );
-  }
-
-  console.log(authUser);
 
   return (
     <>
