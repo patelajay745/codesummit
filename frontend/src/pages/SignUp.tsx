@@ -1,14 +1,12 @@
 import { useAuthStore } from "@/stores/useAuthStore";
 import { useNavigate } from "@tanstack/react-router";
 import { useEffect } from "react";
-import { SignUp as SignUpForm } from "@clerk/clerk-react";
-import useThemeStore from "@/stores/useThemeStore";
-import { dark } from "@clerk/themes";
+
+import SignUpForm from "@/sections/SignUpForm";
 
 const SignUp = () => {
   const { authUser } = useAuthStore();
   const navigate = useNavigate({ from: "/signup" });
-  const { theme } = useThemeStore();
 
   useEffect(() => {
     if (authUser) navigate({ to: "/dashboard" });
@@ -40,7 +38,8 @@ const SignUp = () => {
 
         {/* Form Section */}
         <div className="w-full lg:w-1/2 flex items-center justify-center   px-4 sm:px-6 lg:px-20 h-full min-h-1/2">
-          <SignUpForm
+          <SignUpForm />
+          {/* <SignUpForm
             fallbackRedirectUrl="/dashboard"
             signInFallbackRedirectUrl="/signin"
             signInUrl="/signin"
@@ -61,7 +60,7 @@ const SignUp = () => {
                 headerTitle: "text-2xl font-bold text-red-500",
               },
             }}
-          />
+          /> */}
         </div>
       </div>
     </div>

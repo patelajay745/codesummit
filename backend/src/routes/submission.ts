@@ -5,7 +5,7 @@ import { Router } from "express";
 
 export const router = Router()
 
-router.use(requireAuth())
+router.use(isAuth)
 
 router.get("/", getAllSubmission)
 router.get("/:problemId", getSubmissionById)

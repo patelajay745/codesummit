@@ -1,4 +1,3 @@
-import { clerkClient, getAuth } from "@clerk/express";
 import { db } from "../libs/db";
 import { getJudge0LanguageId, poolBatchResults, Submissions, submitBatch, TestcasesTypes } from "../libs/helper";
 import { ApiError } from "../utils/apiError";
@@ -56,7 +55,7 @@ export const createProblem = asyncHandler(async (req: Request, res: Response) =>
 
 export const getAllProblem = asyncHandler(async (req: Request, res: Response) => {
 
-    const { userId } = getAuth(req)
+    const userId = req.user?.id
 
     console.log(userId)
 
@@ -64,12 +63,14 @@ export const getAllProblem = asyncHandler(async (req: Request, res: Response) =>
         include: {
             ProblemSolved: {
                 where: {
-                    userId: userId!,
+                    userId: userId,
                 },
             },
         },
         orderBy: { createdAt: 'desc', }
     })
+
+    console.log(problems)
 
     if (!problems) throw new ApiError(404, "No problem found")
 

@@ -1,12 +1,10 @@
 import { Link } from "@tanstack/react-router";
 import Logo from "./Logo";
 import ModeToggle from "./ModeToggle";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Menu, User, X } from "lucide-react";
 import { useAuthStore } from "@/stores/useAuthStore";
 
-import { useUser } from "@clerk/clerk-react";
-import { useClerk } from "@clerk/clerk-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -15,20 +13,23 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
+import CircularLoader from "./ui/snappy-loader";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   const [openDropDown, setOpenDropDown] = useState(false);
 
-  const { openUserProfile } = useClerk();
-  const { authUser } = useAuthStore();
-  const { user } = useUser();
-  const { signOut } = useClerk();
+  const { authUser, checkAuth, isCheckingAuth } = useAuthStore();
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
   };
+
+  useEffect(() => {
+    checkAuth();
+    console.log(authUser);
+  }, [checkAuth]);
 
   const activeLinkProps = {
     className: "text-brand font-semibold",
@@ -43,7 +44,7 @@ const Navbar = () => {
       name: "Home",
       link: "/",
     },
-    ...(user
+    ...(authUser
       ? [
           {
             name: "Dashboard",
@@ -57,6 +58,16 @@ const Navbar = () => {
           },
         ]),
   ];
+
+  if (isCheckingAuth && !authUser) {
+    return (
+      <div className="flex items-center justify-center h-screen">
+        <CircularLoader />
+      </div>
+    );
+  }
+
+  console.log(authUser);
 
   return (
     <>
@@ -100,7 +111,7 @@ const Navbar = () => {
                 />
               </SignedIn> */}
 
-              {user && (
+              {authUser && (
                 <DropdownMenu
                   open={openDropDown}
                   onOpenChange={setOpenDropDown}
@@ -113,8 +124,8 @@ const Navbar = () => {
                   </DropdownMenuTrigger>
                   <DropdownMenuContent className="w-20">
                     <DropdownMenuHeader
-                      title={user?.firstName || "" + user?.lastName}
-                      description={user?.emailAddresses[0].emailAddress || ""}
+                      title={authUser.name}
+                      description={authUser.email}
                       icon={<User />}
                     />
                     <Link to="/profile">
@@ -130,15 +141,10 @@ const Navbar = () => {
                       <DropdownMenuItem>My Sheet</DropdownMenuItem>
                     </Link>
 
-                    <DropdownMenuItem onClick={() => openUserProfile()}>
-                      Manage Account
-                    </DropdownMenuItem>
-
                     <DropdownMenuSeparator />
-
-                    <DropdownMenuItem onClick={() => signOut()}>
-                      Logout
-                    </DropdownMenuItem>
+                    <Link to={"/logout"}>
+                      <DropdownMenuItem>Logout</DropdownMenuItem>
+                    </Link>
                   </DropdownMenuContent>
                 </DropdownMenu>
               )}

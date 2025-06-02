@@ -7,7 +7,7 @@ import { Router } from "express";
 
 export const router = Router()
 
-router.use(requireAuth())
+router.use(isAuth)
 
 router.post("/", validate(createPlaylistSchema), createPlaylist)
 router.get("/", getAllPlaylist)

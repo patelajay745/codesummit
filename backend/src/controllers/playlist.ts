@@ -1,4 +1,3 @@
-import { getAuth } from "@clerk/express";
 import { db } from "../libs/db";
 import { ApiError } from "../utils/apiError";
 import { ApiResponse } from "../utils/apiResponse";
@@ -7,7 +6,7 @@ import { Request, Response } from "express";
 
 export const createPlaylist = asyncHandler(async (req: Request, res: Response) => {
 
-    const { userId } = getAuth(req)
+    const userId = req.user?.id
 
     const { name, description } = req.body
 
@@ -30,7 +29,7 @@ export const createPlaylist = asyncHandler(async (req: Request, res: Response) =
 })
 
 export const updatePlaylist = asyncHandler(async (req: Request, res: Response) => {
-    const { userId } = getAuth(req)
+    const userId = req.user?.id
     const { name, description } = req.body
     const { playlistId } = req.params
 
@@ -66,7 +65,7 @@ export const updatePlaylist = asyncHandler(async (req: Request, res: Response) =
 export const deletePlaylist = asyncHandler(async (req: Request, res: Response) => {
 
     const { playlistId } = req.params
-    const { userId } = getAuth(req)
+    const userId = req.user?.id
 
     const playlist = await db.playlist.findUnique({
         where: {
@@ -89,7 +88,7 @@ export const deletePlaylist = asyncHandler(async (req: Request, res: Response) =
 
 export const getAllPlaylist = asyncHandler(async (req: Request, res: Response) => {
 
-    const { userId } = getAuth(req)
+    const userId = req.user?.id
 
     const playlists = await db.playlist.findMany({
         where: {
@@ -108,7 +107,7 @@ export const getAllPlaylist = asyncHandler(async (req: Request, res: Response) =
 
 export const getAPlaylist = asyncHandler(async (req: Request, res: Response) => {
 
-    const { userId } = getAuth(req)
+    const userId = req.user?.id
     const { playlistId } = req.params
 
     const playlist = await db.playlist.findMany({
@@ -146,7 +145,7 @@ export const AddToPlaylist = asyncHandler(async (req: Request, res: Response) =>
 
     if (!problem) throw new ApiError(404, "invalid problemId")
 
-    const { userId } = getAuth(req)
+    const userId = req.user?.id
 
     const playlist = await db.playlist.update({
         where: {
@@ -188,7 +187,7 @@ export const deleteProblemFromPlaylist = asyncHandler(async (req: Request, res: 
 
     if (!problem) throw new ApiError(404, "invalid problemId")
 
-    const { userId } = getAuth(req)
+    const userId = req.user?.id
 
     const playlist = await db.playlist.update({
         where: {

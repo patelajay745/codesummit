@@ -141,7 +141,7 @@ const SignUpForm = () => {
       <div className="flex w-full space-x-1  justify-center items-center text-muted-foreground ">
         <div> Have an account?</div>
 
-        <Link to="/singin" className="text-brand underline">
+        <Link to="/signin" className="text-brand underline">
           Login
         </Link>
       </div>

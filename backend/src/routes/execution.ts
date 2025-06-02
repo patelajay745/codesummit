@@ -7,5 +7,7 @@ import { Router } from "express";
 
 export const router = Router()
 
-router.post("/", requireAuth(), validate(executeCodeSchema), submitCode)
-router.post("/run-code", requireAuth(), validate(runCodeSchema), runCode)
+router.use(isAuth)
+
+router.post("/", validate(executeCodeSchema), submitCode)
+router.post("/run-code", validate(runCodeSchema), runCode)

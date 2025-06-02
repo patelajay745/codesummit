@@ -105,33 +105,27 @@ export const getLogout = asyncHandler(async (req: Request, res: Response) => {
 
 export const getUser = asyncHandler(async (req: Request, res: Response) => {
 
-    const { userId } = getAuth(req)
+    const userId = req.user?.id
 
-    const clerkuser = await clerkClient.users.getUser(userId!)
-
-    let user = await db.user.findUnique({ where: { id: userId! } });
-
-    if (!user) {
-        user = await db.user.create({
-            data: {
-                id: clerkuser.id,
-                email: clerkuser.emailAddresses[0]?.emailAddress,
-                name: `${clerkuser.firstName || ""} ${clerkuser.lastName || ""}`.trim(),
-                image: clerkuser.imageUrl,
-                role: "USER",
-                password: ""
-            },
-        });
-    }
+    let user = await db.user.findUnique({
+        where: { id: userId! },
+        select: {
+            id: true,
+            name: true,
+            email: true,
+            image: true,
+            role: true
+        },
+    });
 
     res.status(200).json(new ApiResponse(200, "user is fetched", {
-        ...user, role: user?.role
+        user
     }))
 })
 
 export const userProgress = asyncHandler(async (req: Request, res: Response) => {
 
-    const { userId } = getAuth(req)
+    const userId = req.user?.id
 
     const problemSolved = await db.problemSolved.findMany({
         where: {

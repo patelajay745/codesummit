@@ -15,5 +15,5 @@ router.post("/", loginlimiter, validate(newUserSchema), registerUser)
 router.post("/login", validate(loginSchema), getLogin)
 router.post("/logout", isAuth, getLogout)
 
-router.get("/", requireAuth(), getUser)
-router.get("/user-progress", requireAuth(), userProgress)
+router.get("/", isAuth, getUser)
+router.get("/user-progress", isAuth, userProgress)

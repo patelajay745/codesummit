@@ -20,7 +20,6 @@ function RouteComponent() {
   useEffect(() => {
     try {
       logOut();
-
       navigate({ to: "/" });
     } catch (error) {}
   }, []);

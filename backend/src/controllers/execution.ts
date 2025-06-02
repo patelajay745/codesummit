@@ -9,7 +9,7 @@ import { Request, Response } from "express";
 export const submitCode = asyncHandler(async (req: Request, res: Response) => {
     let { source_code, language_id, stdin, expected_outputs, problemId } = req.body
 
-    const { userId } = getAuth(req)
+    const userId = req.user?.id
 
     if (stdin.length === 0 || expected_outputs.length !== stdin.length) {
         throw new ApiError(400, "Invalid or missing test cases")
