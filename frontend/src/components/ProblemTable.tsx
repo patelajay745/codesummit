@@ -40,7 +40,7 @@ const ProblemTabel = () => {
   const [currentPage, setCurrentPage] = useState(1);
 
   const { authUser } = useAuthStore();
-  const { data, isLoading: problemsLoading } = useAllProblems();
+  const { data } = useAllProblems();
 
   const navigate = useNavigate();
 
@@ -110,15 +110,6 @@ const ProblemTabel = () => {
     setSelectedProblemId(problemId);
     setIsAddToPlaylistModal(true);
   };
-
-  if (
-    filteredProblems.length === 0 &&
-    !problemsLoading &&
-    data &&
-    data.length > 0
-  ) {
-    return <div>Loading filtered data...</div>;
-  }
 
   return (
     <div className="container flex flex-col  mx-auto pb-8">

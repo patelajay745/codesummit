@@ -543,7 +543,7 @@ function AddProblem() {
 
   return (
     <>
-      <div className="hidden md:block container mx-auto py-8 ">
+      <div className="hidden md:block container mx-auto py-8 2xl:px-0 lg:px-5">
         <div className="card bg-background/50 shadow-xl">
           <div className="card-body p-6 md:p-8">
             <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 md:mb-8 pb-4 border-b">

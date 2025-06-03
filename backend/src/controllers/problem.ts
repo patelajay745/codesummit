@@ -57,8 +57,6 @@ export const getAllProblem = asyncHandler(async (req: Request, res: Response) =>
 
     const userId = req.user?.id
 
-    console.log(userId)
-
     const problems = await db.problem.findMany({
         include: {
             ProblemSolved: {
@@ -69,8 +67,6 @@ export const getAllProblem = asyncHandler(async (req: Request, res: Response) =>
         },
         orderBy: { createdAt: 'desc', }
     })
-
-    console.log(problems)
 
     if (!problems) throw new ApiError(404, "No problem found")
 

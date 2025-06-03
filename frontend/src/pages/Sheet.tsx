@@ -19,7 +19,7 @@ const Sheet = () => {
   };
 
   return (
-    <div className="mx-auto container my-5">
+    <div className="mx-auto container my-5 2xl:px-0 lg:px-5">
       <PlaylistProfile createPlaylistfn={openCreatePlaylist} />
       <CreatePlaylistModal
         isOpen={isCreateModalOpen}

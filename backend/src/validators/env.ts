@@ -9,6 +9,7 @@ const envSchema = yup.object({
     JWT_SECRET: yup.string().min(1, { message: "JWT_SECRET is required" }),
     JUDGE0_API_URL: yup.string().min(1, { message: "JUDGE0_API_URL is required" }),
     JUDGE0_AUTH: yup.string().min(1, { message: "JUDGE0_AUTH is required" }),
+    RESEND_API_KEY: yup.string().min(1, { message: "RESEND_API_KEY is required" }),
 })
 
 function createENV(env: NodeJS.ProcessEnv) {

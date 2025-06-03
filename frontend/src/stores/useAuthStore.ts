@@ -10,6 +10,7 @@ export interface User {
     email: string
     image?: string
     role?: string
+    verified?: boolean
 }
 
 export interface AuthStore {
@@ -19,8 +20,9 @@ export interface AuthStore {
     isCheckingAuth: boolean
     checkAuth: () => Promise<void>
     signUp: (data: FormDataTypes) => Promise<void>
-    signIn: (data: loginFormDataTypes) => Promise<void>
+    signIn: (data: loginFormDataTypes) => Promise<User | undefined>
     logOut: () => Promise<void>
+    verify: (id: string) => Promise<void>
 }
 
 export const useAuthStore = create<AuthStore>()(
@@ -49,8 +51,8 @@ export const useAuthStore = create<AuthStore>()(
             let res
             try {
                 res = await api.post("/auth/", data)
-                set({ authUser: res.data.data.user })
-                toast.success('Account has been created successFully')
+                // set({ authUser: res.data.data.user })
+                toast.success(res.data.message)
             } catch (error) {
                 console.log(error)
                 console.log(typeof error)
@@ -65,8 +67,14 @@ export const useAuthStore = create<AuthStore>()(
             set({ isLoggingIn: true })
             try {
                 const res = await api.post("/auth/login", data)
-                set({ authUser: res.data.data.user })
-                toast.success('Login successful.')
+                if (res.data.data.user.verified) {
+                    set({ authUser: res.data.data.user })
+                    toast.success('Login successful.')
+                    return res.data.data.user
+                } else {
+                    toast.success('Please verify your email first.')
+                    return res.data.data.user
+                }
 
             } catch (error) {
                 toast.error('Error while login')
@@ -79,6 +87,8 @@ export const useAuthStore = create<AuthStore>()(
         logOut: async () => {
             set({ isLoggingIn: true })
             try {
+
+                await api.post("/auth/logout")
                 set({ authUser: null })
                 localStorage.removeItem("auth")
             } catch (error) {
@@ -87,6 +97,19 @@ export const useAuthStore = create<AuthStore>()(
                 set({ isLoggingIn: false })
             }
         },
+        verify: async (id: string) => {
+            set({ isLoggingIn: true })
+            try {
+                const res = await api.get(`/auth/verify/${id}`)
+                console.log(res)
+                toast.success(res.data.message)
+            } catch (error) {
+                console.log(error)
+                toast.error('Error while verify')
+            } finally {
+                set({ isLoggingIn: false })
+            }
+        }
     }),
 
 )

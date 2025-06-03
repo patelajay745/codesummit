@@ -9,7 +9,7 @@ import { ArrowLeft, Image, Mail, Shield, User } from "lucide-react";
 const Profile = () => {
   const { authUser } = useAuthStore();
   return (
-    <div className="mx-auto container py-5 flex flex-col gap-5 ">
+    <div className="mx-auto container py-5 flex flex-col gap-5  2xl:px-0 lg:px-5">
       <div className="flex flex-row justify-between items-center w-full ">
         <div className="flex items-center gap-3">
           <Link to={"/"} className="btn btn-circle btn-ghost">

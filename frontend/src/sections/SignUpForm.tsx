@@ -29,6 +29,7 @@ const SignUpForm = () => {
 
   const onSubmit = async (data: FormDataTypes) => {
     await signUp(data);
+    
   };
 
   return (

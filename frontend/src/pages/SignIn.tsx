@@ -1,17 +1,6 @@
-import { useAuthStore } from "@/stores/useAuthStore";
-import { useNavigate } from "@tanstack/react-router";
-import { useEffect } from "react";
-
 import { SignInForm } from "@/sections/SignInForm";
 
 const SignIn = () => {
-  const { authUser } = useAuthStore();
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    if (authUser) navigate({ to: "/dashboard" });
-  }, [authUser]);
-
   return (
     <div className="flex h-screen justify-center items-center px-4 sm:px-6 lg:px-8">
       <div className="container flex flex-col lg:flex-row justify-between items-center max-w-7xl h-full">

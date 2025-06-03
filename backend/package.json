@@ -32,6 +32,7 @@
     "express-rate-limit": "^7.5.0",
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.13.2",
+    "resend": "^4.5.1",
     "swagger-ui-express": "^5.0.1",
     "yup": "^1.6.1"
   },
