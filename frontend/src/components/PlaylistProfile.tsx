@@ -63,7 +63,7 @@ const PlaylistProfile: FC<props> = ({ createPlaylistfn }) => {
             {playlists?.map((playlist) => (
               <div
                 key={playlist.id}
-                className="card bg-text-secondary/50 shadow-xl"
+                className="card dark:bg-vs-dark bg-white/90 shadow-lg border-1 rounded-box"
               >
                 <div className=" p-4 ">
                   {/* Playlist Header */}
@@ -88,7 +88,7 @@ const PlaylistProfile: FC<props> = ({ createPlaylistfn }) => {
                   </div>
 
                   {/* Description */}
-                  <p className="text-base-content/80 mt-1">
+                  <p className="text-muted-foreground mt-1">
                     {playlist.description}
                   </p>
 
@@ -107,7 +107,7 @@ const PlaylistProfile: FC<props> = ({ createPlaylistfn }) => {
                         <div className="overflow-x-auto">
                           <table className="table table-zebra w-full">
                             <thead>
-                              <tr>
+                              <tr className="text-muted-foreground">
                                 <th>Problem</th>
                                 <th>Difficulty</th>
                                 <th>Tags</th>

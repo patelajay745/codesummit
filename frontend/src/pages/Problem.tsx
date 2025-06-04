@@ -7,6 +7,15 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
+import {
+  Table,
+  TableBody,
+  TableHead,
+  TableHeader,
+  TableRow,
+  TableCell,
+} from "@/components/ui/table";
+
 import CircularLoader from "@/components/ui/snappy-loader";
 import { Link, useParams } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
@@ -194,10 +203,8 @@ const Problem = () => {
             {problem?.constraints && (
               <>
                 <h3 className="text-xl font-bold mb-4">Constraints:</h3>
-                <div className=" p-6 rounded-xl mb-6 dark:bg-vs-dark bg-white/90 shadow-md">
-                  <span className="px-4 py-1 rounded-lg font-semibold text-white text-lg dark:bg-background bg-foreground/80">
-                    {problem?.constraints}
-                  </span>
+                <div className="p-6 rounded-xl mb-6 dark:bg-vs-dark bg-white/90 shadow-md text-muted-foreground text-lg">
+                  {problem?.constraints}
                 </div>
               </>
             )}
@@ -465,24 +472,30 @@ const Problem = () => {
                 <div className="flex items-center justify-between mb-6">
                   <h3 className="text-xl font-bold">Test Cases</h3>
                 </div>
-                <div className="overflow-x-auto">
-                  <table className="table table-zebra w-full">
-                    <thead>
-                      <tr>
-                        <th>Input</th>
-                        <th>Expected Output</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {testCases.map((testCase, index) => (
-                        <tr key={index}>
-                          <td className="font-mono">{testCase.input}</td>
-                          <td className="font-mono">{testCase.output}</td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
+
+                <Table className="rounded-xl  border  overflow-hidden text-start  ">
+                  <TableHeader className="text-lg font-bold tracking-wider  py-4  bg-background/80">
+                    <TableRow className="py-4 ">
+                      <TableHead className=" ">Input</TableHead>
+                      <TableHead className="">Expected Output</TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody className="bg-background/50 text-muted-foreground">
+                    {testCases.map((testCase, index) => (
+                      <TableRow key={index}>
+                        <TableCell className="font-medium ">
+                          {testCase.input}
+                        </TableCell>
+                        <TableCell className="font-medium ">
+                          {testCase.output}
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                    <TableRow>
+                      <TableCell className="font-medium text-center "></TableCell>
+                    </TableRow>
+                  </TableBody>
+                </Table>
               </>
             )}
           </div>

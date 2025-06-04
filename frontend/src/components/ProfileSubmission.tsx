@@ -125,7 +125,7 @@ const ProfileSubmission = () => {
             {filteredSubmissions?.map((submission) => (
               <div
                 key={submission.id}
-                className="card bg-text-secondary/50 shadow-xl overflow-hidden transition-all duration-300 "
+                className="card dark:bg-vs-dark bg-white/90 shadow-lg border-1 rounded-box  overflow-hidden transition-all duration-300 "
               >
                 <div
                   className="card-body p-0"

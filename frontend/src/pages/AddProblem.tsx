@@ -539,7 +539,7 @@ function AddProblem() {
 
   const mainBackgroundColor = "bg-gray-300 dark:bg-zinc-800";
   const submainBackgroundColor = "bg-gray-200 dark:bg-zinc-700";
-  const textviewBackgroundColor = "dark:bg-[#1e1e1e] text-white";
+  const textviewBackgroundColor = "bg-vs-dark text-white border-1";
 
   return (
     <>

@@ -9,7 +9,7 @@ const ModeToggle = () => {
       variant={"ghost"}
       type="button"
       size={"icon"}
-      className="px-2 hidden"
+      className="px-2 "
       onClick={toogleTheme}
     >
       <SunIcon className="h-[1.5rem] w-[1.5rem] text-neutral-800 dark:hidden dark:text-neutral-200" />
