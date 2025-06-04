@@ -10,7 +10,7 @@ import { requireAuth } from "@clerk/express";
 export const router = Router()
 
 const loginlimiter = limitter(5, 15)
-const emaillimiter = limitter(5, 15)
+const emaillimiter = limitter(2, 15)
 
 router.post("/", loginlimiter, validate(newUserSchema), registerUser)
 router.post("/login", validate(loginSchema), getLogin)
