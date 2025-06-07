@@ -95,6 +95,14 @@ const Navbar = () => {
                 />
               </SignedIn> */}
 
+              {/* <Link
+                to={"/premium"}
+                activeProps={activeLinkProps}
+                inactiveProps={inactiveLinkProps}
+              >
+                Premium
+              </Link> */}
+
               {authUser && (
                 <DropdownMenu
                   open={openDropDown}

@@ -1,9 +1,11 @@
 
+import { date } from "yup";
 import { db } from "../libs/db";
 import { ApiError } from "../utils/apiError";
 import { ApiResponse } from "../utils/apiResponse";
 import { asyncHandler } from "../utils/asyncHandler";
 import { Response, Request } from "express";
+import { transformSubmissionData } from "@/libs/helper";
 
 export const getAllSubmission = asyncHandler(async (req: Request, res: Response) => {
     const userId = req.user?.id
@@ -71,4 +73,22 @@ export const getSuccessRateForProblem = asyncHandler(async (req: Request, res: R
     const percentage = (successSubmission.length * 100) / (submission.length)
 
     res.status(200).json(new ApiResponse(200, "Submission is fetched", percentage.toFixed(2)))
+})
+
+export const getStreakData = asyncHandler(async (req: Request, res: Response) => {
+
+    const submission = await db.submission.findMany({
+        where: {
+            userId: req.user?.id
+        }
+    })
+
+    console.log("submission", submission)
+    const dailySummary = transformSubmissionData(submission);
+    console.log(dailySummary);
+    console.log("submission", dailySummary)
+
+    if (!submission) throw new ApiError(404, "No submission found")
+
+    res.status(200).json(new ApiResponse(200, "Submission is fetched", dailySummary))
 })

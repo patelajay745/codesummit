@@ -23,6 +23,8 @@ model User {
   Problem                 Problem[]
   ProblemSolved           ProblemSolved[]
   Submission              Submission[]
+  Purchase                Purchase[]
+  paid                    Boolean         @default(false)
 }
 
 model Problem {
@@ -105,6 +107,27 @@ model Playlist {
   description String
   user        User      @relation(fields: [userId], references: [id])
   problems    Problem[]
+}
+
+model Purchase {
+  id             String   @id @unique @default(uuid())
+  userId         String
+  productName    String
+  price          Int
+  currency       String
+  quantity       String
+  totalAmount    Int
+  paymentStatus  String
+  customerEmail  String
+  customerName   String
+  billingAddress Json
+  sessionId      String   @unique
+  paymentIntent  String
+  purchaseDate   String
+  nextMonthDate  String
+  user           User     @relation(fields: [userId], references: [id])
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
 }
 
 enum UserRole {

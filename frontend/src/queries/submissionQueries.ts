@@ -74,3 +74,19 @@ export const useGetSuccessRate = (id: string) => useQuery({
     queryKey: ["submissions-success", id],
     queryFn: () => getSuccessRate(id)
 })
+
+export type StreakEntry = {
+    date: string;
+    count: number;
+    level: number;
+};
+
+const getStreakData = async (): Promise<StreakEntry[]> => {
+    const res = await api.get("/submission/streak-calendar/")
+    return res.data.data
+}
+
+export const useGetStreakData = () => useQuery({
+    queryKey: ["streak-data"],
+    queryFn: getStreakData
+})

@@ -12,11 +12,13 @@
 
 import { Route as rootRoute } from './routes/__root'
 import { Route as SyncImport } from './routes/sync'
+import { Route as SuccessImport } from './routes/success'
 import { Route as SignupImport } from './routes/signup'
 import { Route as SigninImport } from './routes/signin'
 import { Route as SheetImport } from './routes/sheet'
 import { Route as SampleImport } from './routes/sample'
 import { Route as ProfileImport } from './routes/profile'
+import { Route as PremiumImport } from './routes/premium'
 import { Route as LogoutImport } from './routes/logout'
 import { Route as DashboardImport } from './routes/dashboard'
 import { Route as AddproblemImport } from './routes/addproblem'
@@ -30,6 +32,12 @@ import { Route as ProblemIdImport } from './routes/problem.$Id'
 const SyncRoute = SyncImport.update({
   id: '/sync',
   path: '/sync',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const SuccessRoute = SuccessImport.update({
+  id: '/success',
+  path: '/success',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -60,6 +68,12 @@ const SampleRoute = SampleImport.update({
 const ProfileRoute = ProfileImport.update({
   id: '/profile',
   path: '/profile',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const PremiumRoute = PremiumImport.update({
+  id: '/premium',
+  path: '/premium',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -137,6 +151,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LogoutImport
       parentRoute: typeof rootRoute
     }
+    '/premium': {
+      id: '/premium'
+      path: '/premium'
+      fullPath: '/premium'
+      preLoaderRoute: typeof PremiumImport
+      parentRoute: typeof rootRoute
+    }
     '/profile': {
       id: '/profile'
       path: '/profile'
@@ -170,6 +191,13 @@ declare module '@tanstack/react-router' {
       path: '/signup'
       fullPath: '/signup'
       preLoaderRoute: typeof SignupImport
+      parentRoute: typeof rootRoute
+    }
+    '/success': {
+      id: '/success'
+      path: '/success'
+      fullPath: '/success'
+      preLoaderRoute: typeof SuccessImport
       parentRoute: typeof rootRoute
     }
     '/sync': {
@@ -210,11 +238,13 @@ export interface FileRoutesByFullPath {
   '/addproblem': typeof AddproblemRoute
   '/dashboard': typeof DashboardRoute
   '/logout': typeof LogoutRoute
+  '/premium': typeof PremiumRoute
   '/profile': typeof ProfileRoute
   '/sample': typeof SampleRoute
   '/sheet': typeof SheetRoute
   '/signin': typeof SigninRoute
   '/signup': typeof SignupRoute
+  '/success': typeof SuccessRoute
   '/sync': typeof SyncRoute
   '/problem/$Id': typeof ProblemIdRoute
   '/updateproblem/$Id': typeof UpdateproblemIdRoute
@@ -226,11 +256,13 @@ export interface FileRoutesByTo {
   '/addproblem': typeof AddproblemRoute
   '/dashboard': typeof DashboardRoute
   '/logout': typeof LogoutRoute
+  '/premium': typeof PremiumRoute
   '/profile': typeof ProfileRoute
   '/sample': typeof SampleRoute
   '/sheet': typeof SheetRoute
   '/signin': typeof SigninRoute
   '/signup': typeof SignupRoute
+  '/success': typeof SuccessRoute
   '/sync': typeof SyncRoute
   '/problem/$Id': typeof ProblemIdRoute
   '/updateproblem/$Id': typeof UpdateproblemIdRoute
@@ -243,11 +275,13 @@ export interface FileRoutesById {
   '/addproblem': typeof AddproblemRoute
   '/dashboard': typeof DashboardRoute
   '/logout': typeof LogoutRoute
+  '/premium': typeof PremiumRoute
   '/profile': typeof ProfileRoute
   '/sample': typeof SampleRoute
   '/sheet': typeof SheetRoute
   '/signin': typeof SigninRoute
   '/signup': typeof SignupRoute
+  '/success': typeof SuccessRoute
   '/sync': typeof SyncRoute
   '/problem/$Id': typeof ProblemIdRoute
   '/updateproblem/$Id': typeof UpdateproblemIdRoute
@@ -261,11 +295,13 @@ export interface FileRouteTypes {
     | '/addproblem'
     | '/dashboard'
     | '/logout'
+    | '/premium'
     | '/profile'
     | '/sample'
     | '/sheet'
     | '/signin'
     | '/signup'
+    | '/success'
     | '/sync'
     | '/problem/$Id'
     | '/updateproblem/$Id'
@@ -276,11 +312,13 @@ export interface FileRouteTypes {
     | '/addproblem'
     | '/dashboard'
     | '/logout'
+    | '/premium'
     | '/profile'
     | '/sample'
     | '/sheet'
     | '/signin'
     | '/signup'
+    | '/success'
     | '/sync'
     | '/problem/$Id'
     | '/updateproblem/$Id'
@@ -291,11 +329,13 @@ export interface FileRouteTypes {
     | '/addproblem'
     | '/dashboard'
     | '/logout'
+    | '/premium'
     | '/profile'
     | '/sample'
     | '/sheet'
     | '/signin'
     | '/signup'
+    | '/success'
     | '/sync'
     | '/problem/$Id'
     | '/updateproblem/$Id'
@@ -308,11 +348,13 @@ export interface RootRouteChildren {
   AddproblemRoute: typeof AddproblemRoute
   DashboardRoute: typeof DashboardRoute
   LogoutRoute: typeof LogoutRoute
+  PremiumRoute: typeof PremiumRoute
   ProfileRoute: typeof ProfileRoute
   SampleRoute: typeof SampleRoute
   SheetRoute: typeof SheetRoute
   SigninRoute: typeof SigninRoute
   SignupRoute: typeof SignupRoute
+  SuccessRoute: typeof SuccessRoute
   SyncRoute: typeof SyncRoute
   ProblemIdRoute: typeof ProblemIdRoute
   UpdateproblemIdRoute: typeof UpdateproblemIdRoute
@@ -324,11 +366,13 @@ const rootRouteChildren: RootRouteChildren = {
   AddproblemRoute: AddproblemRoute,
   DashboardRoute: DashboardRoute,
   LogoutRoute: LogoutRoute,
+  PremiumRoute: PremiumRoute,
   ProfileRoute: ProfileRoute,
   SampleRoute: SampleRoute,
   SheetRoute: SheetRoute,
   SigninRoute: SigninRoute,
   SignupRoute: SignupRoute,
+  SuccessRoute: SuccessRoute,
   SyncRoute: SyncRoute,
   ProblemIdRoute: ProblemIdRoute,
   UpdateproblemIdRoute: UpdateproblemIdRoute,
@@ -349,11 +393,13 @@ export const routeTree = rootRoute
         "/addproblem",
         "/dashboard",
         "/logout",
+        "/premium",
         "/profile",
         "/sample",
         "/sheet",
         "/signin",
         "/signup",
+        "/success",
         "/sync",
         "/problem/$Id",
         "/updateproblem/$Id",
@@ -372,6 +418,9 @@ export const routeTree = rootRoute
     "/logout": {
       "filePath": "logout.tsx"
     },
+    "/premium": {
+      "filePath": "premium.tsx"
+    },
     "/profile": {
       "filePath": "profile.tsx"
     },
@@ -386,6 +435,9 @@ export const routeTree = rootRoute
     },
     "/signup": {
       "filePath": "signup.tsx"
+    },
+    "/success": {
+      "filePath": "success.tsx"
     },
     "/sync": {
       "filePath": "sync.tsx"

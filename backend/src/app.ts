@@ -37,6 +37,7 @@ import { router as problemRoutes } from "./routes/problem";
 import { router as executionRoutes } from "./routes/execution";
 import { router as submissionRoutes } from "./routes/submission";
 import { router as playlistRoutes } from "./routes/playlist";
+import { router as paymentRoutes } from "./routes/purchase";
 import { errorHandler } from "./middlewares/errorhandler";
 
 app.use("/api/v1/auth", authRoutes)
@@ -44,6 +45,7 @@ app.use("/api/v1/problems", problemRoutes)
 app.use("/api/v1/execute-code", executionRoutes)
 app.use("/api/v1/submission", submissionRoutes)
 app.use("/api/v1/playlist", playlistRoutes)
+app.use("/api/v1/payment", paymentRoutes)
 
 app.use(errorHandler)
 

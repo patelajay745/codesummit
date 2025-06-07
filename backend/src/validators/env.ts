@@ -10,6 +10,8 @@ const envSchema = yup.object({
     JUDGE0_API_URL: yup.string().min(1, { message: "JUDGE0_API_URL is required" }),
     JUDGE0_AUTH: yup.string().min(1, { message: "JUDGE0_AUTH is required" }),
     RESEND_API_KEY: yup.string().min(1, { message: "RESEND_API_KEY is required" }),
+    STRIPE_PUBLIC_KEY: yup.string().min(1, { message: "STRIPE_PUBLIC_KEY is required" }),
+    STRIPE_SECRET_KEY: yup.string().min(1, { message: "STRIPE_SECRET_KEY is required" }),
 })
 
 function createENV(env: NodeJS.ProcessEnv) {

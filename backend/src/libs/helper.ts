@@ -1,5 +1,7 @@
+import { JsonArray } from "@prisma/client/runtime/library"
 import { env } from "../validators/env"
 import axios from "axios"
+import { Submission } from "@prisma/client"
 
 export interface TestcasesTypes {
     input: string,
@@ -113,4 +115,44 @@ export const getLanguageName = (language_id: number) => {
     type LanguageId = keyof typeof LanguageName;
 
     return LanguageName[language_id as LanguageId] || "Unknown"
+}
+
+type StreakEntry = {
+    date: string;
+    count: number;
+    level: number;
+};
+
+export function transformSubmissionData(data: Submission[]): StreakEntry[] {
+
+    const dateCountMap = new Map<string, number>();
+
+    for (const item of data) {
+        const dateStr = new Date(item.createAt).toISOString().split('T')[0];
+        dateCountMap.set(dateStr, (dateCountMap.get(dateStr) || 0) + 1);
+    }
+
+    const allDates = Array.from(dateCountMap.keys()).sort();
+    const startDate = new Date(allDates[0]);
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    const result: StreakEntry[] = [];
+    let level = 0;
+    const current = new Date(startDate);
+
+    while (current <= today) {
+        const dateStr = current.toISOString().split('T')[0];
+        const count = dateCountMap.get(dateStr) || 0;
+
+        if (count > 0) {
+            level++;
+        }
+
+        result.push({ date: dateStr, count, level });
+
+        current.setDate(current.getDate() + 1);
+    }
+
+    return result;
 }
