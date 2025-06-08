@@ -12,7 +12,6 @@ const Sheet = () => {
   const handleCreatePlaylist = async (data: createPlaylistFormData) => {
     addPlaylist(data);
   };
-  const [] = useState(false);
 
   const openCreatePlaylist = () => {
     setIsCreateModalOpen(true);

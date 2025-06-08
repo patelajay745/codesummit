@@ -1,13 +1,28 @@
+import CreatePlaylistModal from "@/components/createPlaylistModal";
 import PlaylistProfile from "@/components/PlaylistProfile";
 import ProfileSubmission from "@/components/ProfileSubmission";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import {
+  createPlaylistFormData,
+  useAddPlaylist,
+} from "@/queries/playlistQueries";
 import { useAuthStore } from "@/stores/useAuthStore";
 import { Link } from "@tanstack/react-router";
 import { ArrowLeft, Image, Mail, Shield, User } from "lucide-react";
+import { useState } from "react";
 
 const Profile = () => {
   const { authUser } = useAuthStore();
+
+  const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
+  const { mutate: addPlaylist } = useAddPlaylist();
+  const handleCreatePlaylist = async (data: createPlaylistFormData) => {
+    addPlaylist(data);
+  };
+  const openCreatePlaylist = () => {
+    setIsCreateModalOpen(true);
+  };
   return (
     <div className="mx-auto container py-5 flex flex-col gap-5  2xl:px-0 lg:px-5">
       <div className="flex flex-row justify-between items-center w-full ">
@@ -109,7 +124,7 @@ const Profile = () => {
 
             {/* Action Buttons */}
             <div className="card-actions justify-end mt-6">
-              <Button className="bg-brand text-white hover:bg-brand/80 cursor-pointer">
+              <Button className="bg-brand text-white hover:bg-brand/80 cursor-pointer hidden">
                 Edit Profile
               </Button>
               {/* <Button className="text-white cursor-pointer bg-text-secondary ">
@@ -122,7 +137,13 @@ const Profile = () => {
 
       <ProfileSubmission />
 
-      <PlaylistProfile />
+      <PlaylistProfile createPlaylistfn={openCreatePlaylist} />
+
+      <CreatePlaylistModal
+        isOpen={isCreateModalOpen}
+        onClose={() => setIsCreateModalOpen(false)}
+        onSubmit={handleCreatePlaylist}
+      />
     </div>
   );
 };

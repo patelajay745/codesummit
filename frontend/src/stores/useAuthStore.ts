@@ -36,9 +36,7 @@ export const useAuthStore = create<AuthStore>()(
             set({ isCheckingAuth: true })
             try {
                 const res = await api.get("/auth/")
-                console.log("auth api called ")
                 set({ authUser: res.data.data.user })
-                console.log("auth api called ", res.data.data)
             } catch (error) {
                 set({ authUser: null })
             } finally {
