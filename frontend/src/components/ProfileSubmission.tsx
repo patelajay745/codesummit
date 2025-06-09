@@ -18,6 +18,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "./ui/select";
+import { CodeBlock } from "./ui/code-block";
 
 const ProfileSubmission = () => {
   const { data: submissions } = useGetAllSubmission();
@@ -179,11 +180,12 @@ const ProfileSubmission = () => {
                           <Code size={18} />
                           Solution Code
                         </h3>
-                        <div className="mockup-code bg-neutral/50 text-neutral-content overflow-x-auto">
-                          <pre className="p-4">
-                            <code>{submission.sourceCode}</code>
-                          </pre>
-                        </div>
+
+                        <CodeBlock
+                          className="mockup-code bg-neutral/50 text-neutral-content overflow-x-auto"
+                          language={submission.language.toLowerCase()}
+                          code={submission.sourceCode}
+                        />
                       </div>
 
                       {/* Input/Output Section */}

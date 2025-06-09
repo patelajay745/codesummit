@@ -15,6 +15,7 @@ import {
   AccordionTrigger,
 } from "./ui/accordion";
 import { Submission } from "@/queries/submissionQueries";
+import { CodeBlock } from "./ui/code-block";
 
 interface props {
   isLoading: boolean;
@@ -73,6 +74,8 @@ const AllSubmission: FC<props> = ({ isLoading, submissions }) => {
     );
   }
 
+  console.log(submissions[0].language);
+
   return (
     <div className="space-y-4">
       <Accordion type="single" collapsible className="w-full">
@@ -130,9 +133,10 @@ const AllSubmission: FC<props> = ({ isLoading, submissions }) => {
                   </div>
                 </AccordionTrigger>
                 <AccordionContent>
-                  <pre className="dark:bg-vs-dark shadow-md hover:shadow-xl transition-shadow bg-white/90 p-4 text-muted-foreground rounded-lg">
-                    {submission.sourceCode}
-                  </pre>
+                  <CodeBlock
+                    language={submission.language.toLowerCase()}
+                    code={submission.sourceCode}
+                  />
                 </AccordionContent>
               </AccordionItem>
             </>
