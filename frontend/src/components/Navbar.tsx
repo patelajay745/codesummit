@@ -55,13 +55,13 @@ const Navbar = () => {
 
   return (
     <>
-      <div className="sticky top-0 z-50 w-full flex items-center flex-col !bg-none px-5 backdrop-blur 2xl:px-0">
-        <div className="container pt-6 flex items-center justify-between tracking-wider font-['Inter']">
+      <div className="z-50 w-full flex items-center flex-col !bg-none px-5 backdrop-blur 2xl:px-0 max-w-7xl mx-auto font-sans">
+        <div className=" w-full pt-6 flex items-center justify-between tracking-wider ">
           <Link to="/">
             <Logo />
           </Link>
           <div className="flex items-center gap-4">
-            <nav className="hidden md:flex flex-rowflex flex-wrap items-center justify-between gap-4 sm:text-2xl">
+            <nav className="hidden md:flex flex-rowflex flex-wrap items-center justify-between gap-4 sm:text-2xl font-sans text-lg font-medium tracking-wide">
               {MenuItems.map((menu) => (
                 <Link
                   key={menu.name}
@@ -114,28 +114,36 @@ const Navbar = () => {
                       src={authUser?.image || "user.png"}
                     />
                   </DropdownMenuTrigger>
-                  <DropdownMenuContent className="w-20">
+                  <DropdownMenuContent className="w-20 font-sans text-base font-medium tracking-wide">
                     <DropdownMenuHeader
                       title={authUser.name}
                       description={authUser.email}
                       icon={<User />}
                     />
                     <Link to="/profile">
-                      <DropdownMenuItem>Profile</DropdownMenuItem>
+                      <DropdownMenuItem className="font-sans text-base font-medium tracking-wide">
+                        Profile
+                      </DropdownMenuItem>
                     </Link>
                     {authUser?.role === "ADMIN" && (
                       <Link to="/addproblem">
-                        <DropdownMenuItem>Add Problem</DropdownMenuItem>
+                        <DropdownMenuItem className="font-sans text-base font-medium tracking-wide">
+                          Add Problem
+                        </DropdownMenuItem>
                       </Link>
                     )}
 
                     <Link to="/sheet">
-                      <DropdownMenuItem>My Sheet</DropdownMenuItem>
+                      <DropdownMenuItem className="font-sans text-base font-medium tracking-wide">
+                        My Sheet
+                      </DropdownMenuItem>
                     </Link>
 
                     <DropdownMenuSeparator />
                     <Link to={"/logout"}>
-                      <DropdownMenuItem>Logout</DropdownMenuItem>
+                      <DropdownMenuItem className="font-sans text-base font-medium tracking-wide">
+                        Logout
+                      </DropdownMenuItem>
                     </Link>
                   </DropdownMenuContent>
                 </DropdownMenu>
@@ -166,12 +174,12 @@ const Navbar = () => {
           className="container border-b-2 border-myblue/40 mt-2 
                 bg-gradient-to-r from-myblue/10 to-myblue/5 
                 shadow-[0_0_20px_4px_rgba(0,123,255,0.5)] 
-                animate-pulse rounded-full "
+                animate-pulse rounded-full font-sans "
         ></div>
       </div>
 
       {isOpen && (
-        <div className="md:hidden mx-5 mt-1">
+        <div className="md:hidden mx-5 mt-1 font-sans">
           <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3 dark:bg-gray-800 bg-mygray/20">
             {MenuItems.map((menu) => (
               <Link
@@ -180,7 +188,7 @@ const Navbar = () => {
                 activeProps={activeLinkProps}
                 inactiveProps={inactiveLinkProps}
               >
-                <div className="block px-3 py-2 rounded-md text-base font-medium hover:bg-gray-700">
+                <div className="block px-3 py-2 rounded-md text-base font-medium tracking-wide hover:bg-gray-700 font-sans">
                   {menu.name}
                 </div>
               </Link>
@@ -188,7 +196,7 @@ const Navbar = () => {
 
             {authUser && (
               <Link to="/logout">
-                <div className="block px-3 py-2 rounded-md text-base font-medium hover:bg-gray-700">
+                <div className="block px-3 py-2 rounded-md text-base font-medium tracking-wide hover:bg-gray-700 font-sans">
                   Logout
                 </div>
               </Link>

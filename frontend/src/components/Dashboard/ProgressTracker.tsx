@@ -36,7 +36,7 @@ const ProgressIndicator: React.FC<ProgressIndicatorProps> = ({
   return (
     <div
       className={cn(
-        "rounded-xl p-6 flex w-full gap-6  border border-muted-foreground/20 ",
+        "rounded-xl p-6 flex w-full gap-6  border border-muted-foreground/20  max-w-7xl mx-auto",
         className
       )}
     >

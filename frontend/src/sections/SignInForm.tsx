@@ -54,7 +54,7 @@ export function SignInForm() {
     } catch (error) {}
   };
   return (
-    <div className="flex flex-col w-full space-y-5 dark:bg-text-secondary/20 bg-background/50 p-4 rounded-2xl shadow-xl border-1 border-muted-foreground/40 dark:border-muted-foreground/20">
+    <div className="flex flex-col w-full space-y-5 dark:bg-text-secondary/20 bg-background/50 p-4 rounded-2xl shadow-xl border-1 border-muted-foreground/40 dark:border-muted-foreground/20 ">
       <div className="flex w-full flex-col justify-center items-center ">
         <img src="./logo.png" alt="Logo" width={50} height={50} />
         <div className="sm:text-2xl font-extrabold tracking-wider font-['Inter']">

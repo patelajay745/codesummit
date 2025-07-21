@@ -5,6 +5,7 @@ import { ApiError } from "../utils/apiError";
 import { ApiResponse } from "../utils/apiResponse";
 import { asyncHandler } from "../utils/asyncHandler";
 import { Request, Response } from "express";
+import { broadcastLeaderboard } from "..";
 
 export const submitCode = asyncHandler(async (req: Request, res: Response) => {
     let { source_code, language_id, stdin, expected_outputs, problemId } = req.body
@@ -102,6 +103,8 @@ export const submitCode = asyncHandler(async (req: Request, res: Response) => {
     })
 
     if (!submissionWithTestCase) throw new ApiError(500, "Something went wrong")
+
+    await broadcastLeaderboard();
 
     res.status(200).json(new ApiResponse(200, "Code is executed", submissionWithTestCase))
 })

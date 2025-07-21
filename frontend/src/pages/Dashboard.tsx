@@ -1,5 +1,6 @@
+import Leaderboard from "@/components/Dashboard/Leaderboard";
 import ProgressTracker from "@/components/Dashboard/ProgressTracker";
-import Slogan from "@/components/Dashboard/Slogan";
+
 import ProblemTabel from "@/components/ProblemTable";
 import { useUserProgress } from "@/queries/problemQueries";
 
@@ -8,8 +9,8 @@ const Dashboard = () => {
 
   return (
     <>
-      <div className="flex flex-col 2xl:px-0 lg:px-5">
-        <Slogan />
+      <div className="flex flex-col 2xl:px-0 lg:px-5 py-2 mx-auto">
+        {/* <Slogan /> */}
 
         {progressData && (
           <ProgressTracker
@@ -22,7 +23,11 @@ const Dashboard = () => {
           />
         )}
 
-        <ProblemTabel />
+        <div className="container mx-auto grid grid-cols-4  gap-4 max-w-7xl">
+          <ProblemTabel />
+
+          <Leaderboard />
+        </div>
       </div>
     </>
   );

@@ -73,10 +73,6 @@ const ProblemTabel = () => {
 
   const tagCounts = getTagCounts(data!);
 
-  const uniqueTags = Array.from(
-    new Set(data?.flatMap((problem) => problem.tags))
-  ).sort((a, b) => a.localeCompare(b));
-
   const uniqueDifficulty = Array.from(
     new Set(data?.flatMap((problem) => problem.difficulty))
   );
@@ -112,10 +108,10 @@ const ProblemTabel = () => {
   };
 
   return (
-    <div className="container flex flex-col  mx-auto pb-8">
+    <div className="flex flex-col col-span-3 pb-8 ">
       {/* search div */}
 
-      <div className="gap-2 flex overflow-hidden justify-evenly  pr-20">
+      <div className="gap-2 flex overflow-hidden justify-start  pr-20 flex-wrap">
         <Badge
           className="capitalize cursor-pointer"
           variant={"outline"}
@@ -123,13 +119,7 @@ const ProblemTabel = () => {
         >
           All
         </Badge>
-        <Badge
-          className="capitalize cursor-pointer"
-          variant={"outline"}
-          onClick={() => setSelectedTag("demo")}
-        >
-          Demo
-        </Badge>
+
         {Object.entries(tagCounts).map(([tag, count]) =>
           tag !== "demo" ? (
             <Badge
@@ -205,27 +195,6 @@ const ProblemTabel = () => {
             </SelectContent>
           </Select>
 
-          <Select
-            onValueChange={(value) => {
-              setSelectedTag(value);
-            }}
-          >
-            <SelectTrigger className="w-[180px]">
-              <SelectValue placeholder="All Tags" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectGroup>
-                <SelectItem value="All" defaultChecked={true}>
-                  All Tags
-                </SelectItem>
-                {uniqueTags.map((tag) => (
-                  <SelectItem key={tag} value={tag} className="capitalize">
-                    {tag}
-                  </SelectItem>
-                ))}
-              </SelectGroup>
-            </SelectContent>
-          </Select>
           <Button
             className="bg-text-secondary text-white gap-2 hover:bg-brand/80 cursor-pointer"
             onClick={() => {
@@ -244,7 +213,7 @@ const ProblemTabel = () => {
           <TableRow className="py-4 ">
             <TableHead className=" text-white text-center">Solved</TableHead>
             <TableHead className=" text-white">Title</TableHead>
-            <TableHead className=" text-white">Tags</TableHead>
+
             <TableHead className=" text-white">Company</TableHead>
             <TableHead className="text-white">Dificulty</TableHead>
 
@@ -278,18 +247,6 @@ const ProblemTabel = () => {
                     </Link>
                   </TableCell>
 
-                  <TableCell>
-                    <div className="flex flex-row gap-2">
-                      {problem.tags.map((tag) => (
-                        <Badge
-                          key={tag}
-                          className="bg-transparent border-1 border-foreground/20 text-foreground capitalize"
-                        >
-                          {tag}
-                        </Badge>
-                      ))}
-                    </div>
-                  </TableCell>
                   <TableCell>
                     <div className="flex flex-row gap-2">
                       {problem.company ? (

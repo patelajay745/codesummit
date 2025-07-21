@@ -12,6 +12,10 @@ const envSchema = yup.object({
     RESEND_API_KEY: yup.string().min(1, { message: "RESEND_API_KEY is required" }),
     STRIPE_PUBLIC_KEY: yup.string().min(1, { message: "STRIPE_PUBLIC_KEY is required" }),
     STRIPE_SECRET_KEY: yup.string().min(1, { message: "STRIPE_SECRET_KEY is required" }),
+    REDIS_URL: yup.string().min(1, { message: "REDIS_URL is required" }),
+    REDIS_USERNAME: yup.string().min(1, { message: "REDIS_USERNAME is required" }),
+    REDIS_PASSWORD: yup.string().min(1, { message: "REDIS_PASSWORD is required" }),
+    REDIS_PORT: yup.number().min(1, { message: "REDIS_PORT is required" }),
 })
 
 function createENV(env: NodeJS.ProcessEnv) {

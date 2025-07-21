@@ -2,8 +2,8 @@ import { SignInForm } from "@/sections/SignInForm";
 
 const SignIn = () => {
   return (
-    <div className="flex h-screen justify-center items-center px-4 sm:px-6 lg:px-8">
-      <div className="container flex flex-col lg:flex-row justify-between items-center max-w-7xl h-full">
+    <div className="flex h-screen justify-center items-center px-4 sm:px-6 lg:px-8 ">
+      <div className="container flex flex-col lg:flex-row justify-between items-center max-w-6xl h-full">
         {/* Left Image Section */}
         <div className="bg-bg-accent/50 w-full lg:w-1/2 sm:flex flex-col justify-center items-center gap-5  hidden  h-full ">
           <div className="h-fit flex flex-col items-center justify-center w-full gap-5 min-h-1/2 ">

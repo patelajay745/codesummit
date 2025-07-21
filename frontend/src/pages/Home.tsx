@@ -8,10 +8,10 @@ import { Link } from "@tanstack/react-router";
 const Home = () => {
   return (
     <>
-      <div className="flex min-h-screen w-full px-4 pb-5">
+      <div className="flex min-h-screen w-full px-4 pb-5 max-w-7xl mx-auto">
         <div className="flex flex-col 2xl:container mx-auto">
           <div className="flex flex-col space-y-6 items-center justify-center text-center py-16">
-            <h1 className="2xl:text-7xl lg:text-5xl text-3xl font-extrabold text-brand 2xl:max-w-4xl max-w-3xl mx-auto">
+            <h1 className="2xl:text-6xl lg:text-5xl text-3xl font-bold text-brand 2xl:max-w-2xl max-w-xl mx-auto">
               Master Data Structure & Algorithms
             </h1>
             <h3 className="2xl:text-2xl text-xl text-foreground/60 tracking-wide 2xl:max-w-5xl max-w-2xl mx-auto">
